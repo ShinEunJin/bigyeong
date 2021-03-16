@@ -1,0 +1,22 @@
+{
+  "name": "kibitz",
+  "version": "1.0.0",
+  "description": "side project of react and node.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node index.js --delay 2",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ShinEunJin",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/node": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
