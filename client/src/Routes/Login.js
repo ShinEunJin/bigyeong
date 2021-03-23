@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import styled from "styled-components"
+import { useDispatch } from "react-redux"
+import { loginUser } from "../_actions/user_action"
+import { withRouter } from "react-router-dom"
 
 const Div = styled.div`
     width: 100%;
@@ -42,7 +45,9 @@ const Button = styled.button`
     outline: none;
 `
 
-function Login() {
+function Login(props) {
+
+    const dispatch = useDispatch()
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -55,9 +60,22 @@ function Login() {
         setPassword(e.target.value)
     }
 
+    const onSumbitHandler = e => {
+        e.preventDefault()
+        let body = { email, password }
+        dispatch(loginUser(body))
+            .then(res => {
+                if (res.payload.success) {
+                    props.history.push("/")
+                } else {
+                    alert(res.payload.message)
+                }
+            })
+    }
+
     return (
         <Div>
-            <Form>
+            <Form onSubmit={onSumbitHandler}>
                 <Label>이메일</Label>
                 <Input type="email" placeholder="Email" value={email} onChange={onChangeEmail} />
                 <Label>비밀번호</Label>
@@ -68,4 +86,4 @@ function Login() {
     )
 }
 
-export default Login
+export default withRouter(Login)
