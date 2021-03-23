@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node index.js --delay 2",
+    "dev": "concurrently \"npm run start\" \"npm run start --prefix client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "ShinEunJin",
