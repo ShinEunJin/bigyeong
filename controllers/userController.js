@@ -9,9 +9,9 @@ export const register = async (req, res) => {
     try {
         const user = new User({ name, email, password })
         await user.save()
-        res.status(200).json({ success: true })
+        return res.status(200).json({ success: true })
     } catch (error) {
-        res.json({ success: false, error })
+        return res.json({ success: false, error })
     }
 }
 
@@ -30,9 +30,20 @@ export const login = async (req, res) => {
     try {
         const token = jwt.sign(user._id.toHexString(), "secret")
         user.token = token
-        user.save()
+        await user.save()
         res.cookie("x_auth", user.token).status(200).json({ success: true, userId: user._id })
     } catch (error) {
         return res.json({ success: false, error })
     }
+}
+
+export const auth = (req, res) => {
+    res.status(200).json({
+        _id: req.user._id,
+        isAuth: true,
+        isAdmin: req.user.role === 0 ? false : true,
+        email: req.user.email,
+        role: req.user.role,
+        image: req.user.image
+    })
 }
