@@ -8,6 +8,7 @@ import Header from "./Header"
 import Home from "../Routes/Home";
 import Login from "../Routes/Login"
 import Register from "../Routes/Register"
+import Auth from "../hoc/auth"
 
 function App() {
   return (
@@ -15,9 +16,9 @@ function App() {
       <Router>
         <Header />
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
+          <Route exact path="/" component={Auth(Home, null)} />
+          <Route exact path="/login" component={Auth(Login, false)} />
+          <Route exact path="/register" component={Auth(Register, false)} />
         </Switch>
       </Router>
       <GlobalStyle />

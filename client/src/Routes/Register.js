@@ -73,13 +73,13 @@ function Login(props) {
     const onSubmitHandler = e => {
         e.preventDefault()
         if (password === confirmPassword) {
-            let body = { email, name, password, confirmPassword }
+            let body = { email, name, password }
             dispatch(registerUser(body))
                 .then(res => {
                     if (res.payload.success) {
                         props.history.push("/login")
                     } else {
-                        alert("")
+                        alert("이미 존재하는 아이디(email) 입니다.")
                     }
                 })
         } else {
