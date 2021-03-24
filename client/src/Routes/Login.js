@@ -77,9 +77,9 @@ function Login(props) {
         <Div>
             <Form onSubmit={onSumbitHandler}>
                 <Label>이메일</Label>
-                <Input type="email" placeholder="Email" value={email} onChange={onChangeEmail} />
+                <Input type="email" required placeholder="Email" value={email} onChange={onChangeEmail} />
                 <Label>비밀번호</Label>
-                <Input type="password" placeholder="Password" value={password} onChange={onChangePassword} />
+                <Input type="password" required placeholder="Password" value={password} onChange={onChangePassword} />
                 <Button type="submit">로그인</Button>
             </Form>
         </Div>

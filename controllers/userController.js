@@ -50,7 +50,7 @@ export const auth = (req, res) => {
 
 export const logout = async (req, res) => {
     try {
-        await User.findOneAndUpdate({ _id: req.user._id }, { token: "" })
+        await User.findOneAndUpdate({ _id: req.user._id }, { token: "", isAuth: false })
         return res.status(200).json({ success: true })
     } catch (error) {
         return res.json({ success: false, error })

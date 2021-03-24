@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import styled from "styled-components"
+import { logout } from "../_actions/user_action"
 
-const Header = styled.header`
+const HeaderBar = styled.header`
     position: fixed;
     top: 0;
     width: 100%;
@@ -30,20 +32,57 @@ const OnPage = styled.div`
     transition: border-bottom 0.1s linear;
 `
 
-export default withRouter(props => (
-    <Header>
-        <div>
-            <OnPage current={props.location.pathname === "/"}>
-                <SLink to="/">Home</SLink>
-            </OnPage>
-        </div>
-        <div style={{ display: "flex" }}>
-            <OnPage current={props.location.pathname === "/login"}>
-                <SLink to="/login">로그인</SLink>
-            </OnPage>
-            <OnPage current={props.location.pathname === "/register"}>
-                <SLink to="/register">회원가입</SLink>
-            </OnPage>
-        </div>
-    </Header>
-))
+function Header(props) {
+
+    const user = useSelector(state => state.user)
+
+    const dispatch = useDispatch()
+
+    const onLogoutHandler = () => {
+        dispatch(logout())
+            .then(res => {
+                if(res.payload.success){
+                    props.history.push(`${props.location.pathname}`)
+                } else {
+                    alert("로그아웃 실패했습니다.")
+                }
+            })
+    }
+
+    if (user.userData && !user.userData.isAuth) {
+        return (
+            <HeaderBar>
+                <div>
+                    <OnPage current={props.location.pathname === "/"}>
+                        <SLink to="/">Home</SLink>
+                    </OnPage>
+                </div>
+                <div style={{ display: "flex" }}>
+                    <OnPage current={props.location.pathname === "/login"}>
+                        <SLink to="/login">로그인</SLink>
+                    </OnPage>
+                    <OnPage current={props.location.pathname === "/register"}>
+                        <SLink to="/register">회원가입</SLink>
+                    </OnPage>
+                </div>
+            </HeaderBar>
+        )
+    } else {
+        return (
+            <HeaderBar>
+                <div>
+                    <OnPage current={props.location.pathname === "/"}>
+                        <SLink to="/">Home</SLink>
+                    </OnPage>
+                </div>
+                <div style={{ display: "flex" }}>
+                    <OnPage>
+                        <div style={{ fontSize: "16px", cursor: "pointer" }} onClick={onLogoutHandler}>로그아웃</div>
+                    </OnPage>
+                </div>
+            </HeaderBar >
+        )
+    }
+}
+
+export default withRouter(Header)

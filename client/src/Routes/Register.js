@@ -91,13 +91,13 @@ function Login(props) {
         <Div>
             <Form onSubmit={onSubmitHandler}>
                 <Label>이메일</Label>
-                <Input type="email" placeholder="Email" value={email} onChange={onChangeEmail} />
+                <Input type="email" required placeholder="Email" value={email} onChange={onChangeEmail} />
                 <Label>이름</Label>
-                <Input type="text" placeholder="Name" value={name} onChange={onChangeName} />
+                <Input type="text" required placeholder="Name" value={name} onChange={onChangeName} />
                 <Label>비밀번호</Label>
-                <Input type="password" placeholder="Password" value={password} onChange={onChangePassword} />
+                <Input type="password" required placeholder="Password" value={password} onChange={onChangePassword} />
                 <Label>비밀번호 확인</Label>
-                <Input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={onChangeConfirmPassword} />
+                <Input type="password" required placeholder="Confirm Password" value={confirmPassword} onChange={onChangeConfirmPassword} />
                 <Button type="submit">회원 가입</Button>
             </Form>
         </Div>

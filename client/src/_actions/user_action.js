@@ -1,5 +1,5 @@
 import axios from "axios"
-import { AUTH_USER, LOGIN_USER, REGISTER_USER } from "./types"
+import { AUTH_USER, LOGIN_USER, REGISTER_USER, LOGOUT_USER } from "./types"
 
 export const loginUser = async (dataToSubmit) => {
     const request = await axios.post("/api/users/login", dataToSubmit).then(res => res.data)
@@ -13,6 +13,14 @@ export const registerUser = async (dataToSubmit) => {
     const request = await axios.post("/api/users/register", dataToSubmit).then(res => res.data)
     return {
         type: REGISTER_USER,
+        payload: request
+    }
+}
+
+export const logout = async () => {
+    const request = await axios.get("/api/users/logout").then(res => res.data)
+    return {
+        type: LOGOUT_USER,
         payload: request
     }
 }
