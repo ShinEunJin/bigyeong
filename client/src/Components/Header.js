@@ -41,7 +41,7 @@ function Header(props) {
     const onLogoutHandler = () => {
         dispatch(logout())
             .then(res => {
-                if(res.payload.success){
+                if (res.payload.success) {
                     props.history.push(`${props.location.pathname}`)
                 } else {
                     alert("로그아웃 실패했습니다.")
@@ -76,6 +76,9 @@ function Header(props) {
                     </OnPage>
                 </div>
                 <div style={{ display: "flex" }}>
+                    <OnPage current={props.location.pathname === "/record"}>
+                        <SLink to="/record">Play</SLink>
+                    </OnPage>
                     <OnPage>
                         <div style={{ fontSize: "16px", cursor: "pointer" }} onClick={onLogoutHandler}>로그아웃</div>
                     </OnPage>
