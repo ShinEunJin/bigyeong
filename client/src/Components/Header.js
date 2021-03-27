@@ -9,7 +9,6 @@ const HeaderBar = styled.header`
     top: 0;
     width: 100%;
     height: 3rem;
-    background-color: rgba(10, 10, 10, 0.6);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -76,8 +75,8 @@ function Header(props) {
                     </OnPage>
                 </div>
                 <div style={{ display: "flex" }}>
-                    <OnPage current={props.location.pathname === "/record"}>
-                        <SLink to="/record">Play</SLink>
+                    <OnPage current={props.location.pathname === "/upload"}>
+                        <SLink to="/upload">업로드</SLink>
                     </OnPage>
                     <OnPage>
                         <div style={{ fontSize: "16px", cursor: "pointer" }} onClick={onLogoutHandler}>로그아웃</div>
