@@ -40,6 +40,7 @@ function FileUpload(props) {
         } = await axios.post("/api/product/image", formData, config)
         if (filePath) {
             setImages([...images, filePath])
+            props.refreshFunction([...images, filePath])
         } else {
             alert("이미지를 저장하는데 실패했습니다.")
         }
@@ -57,10 +58,10 @@ function FileUpload(props) {
                     </section>
                 )}
             </Dropzone>
-            <div>
+            <div style={{ display: "flex", width: "350px", height: "240px", overflowX: "scroll" }}>
                 {images.map((image, index) => (
                     <div key={index}>
-                        <img src={`http://localhost:6000/${image}`} />
+                        <img src={`/${image}`} style={{ minWidth: "300px", width: "300px", height: "240px" }} />
                     </div>
                 ))}
             </div>

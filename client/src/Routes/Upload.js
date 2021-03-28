@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from "styled-components"
 import FileUpload from "../Components/FileUpload"
 
@@ -10,10 +10,17 @@ const Container = styled.div`
     align-items: center;
 `
 
-function Upload() {
+function Upload(props) {
+
+    const [Images, setImages] = useState([])
+
+    const uploadImages = (newImages) => {
+        setImages(newImages)
+    }
+
     return (
         <Container>
-            <FileUpload />
+            <FileUpload refreshFunction={uploadImages} />
             <form>
                 <input type="text" placeholder="name" />
                 <br />
