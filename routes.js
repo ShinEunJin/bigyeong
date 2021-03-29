@@ -5,6 +5,7 @@ const LOGOUT = "/api/users/logout"
 const AUTH = "/api/users/auth"
 
 //Product
+const PRODUCT = "/api/product"
 const PRODUCT_IMAGE = "/api/product/image"
 
 const routes = {
@@ -12,6 +13,7 @@ const routes = {
     login: LOGIN,
     logout: LOGOUT,
     auth: AUTH,
+    product: PRODUCT,
     productImage: PRODUCT_IMAGE
 }
 

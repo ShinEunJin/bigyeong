@@ -11,6 +11,7 @@ const globalStyle = createGlobalStyle`
 
     *{
         box-sizing: border-box;
+        outline: none;
     }
 
     body{
