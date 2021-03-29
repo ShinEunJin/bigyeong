@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser"
 import routes from "./routes"
 import { auth, login, logout, register } from "./controllers/userController"
 import middleAuth from "./middlewares/middleAuth"
-import { uploadImages, uploadProduct } from "./controllers/productController"
+import { deployProduct, uploadImages, uploadProduct } from "./controllers/productController"
 import { uploadImage } from "./middlewares/multer"
 
 const app = express()
@@ -23,6 +23,7 @@ app.get(routes.logout, middleAuth, logout)
 
 //Product
 app.post(routes.product, uploadProduct)
+app.post(routes.productAll, deployProduct)
 app.post(routes.productImage, uploadImage, uploadImages)
 
 export default app
