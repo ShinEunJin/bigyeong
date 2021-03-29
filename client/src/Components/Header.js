@@ -14,6 +14,8 @@ const HeaderBar = styled.header`
     align-items: center;
     padding: 0px 15px;
     box-shadow: 2px 2px 5px black;
+    z-index: 5;
+    background-color: white;
 `
 
 const SLink = styled(Link)`

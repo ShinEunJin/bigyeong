@@ -7,12 +7,13 @@ import axios from "axios"
 const Container = styled.div`
     width: 80%;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: space-around;
 `
 
 const StyleDropZone = styled.div`
-    width: 300px;
-    height: 200px;
+    width: 150px;
+    height: 100px;
     border: 1px solid rgba(20, 20, 20, 0.6);
     display: flex;
     justify-content: center;
@@ -23,6 +24,19 @@ const StyleDropZone = styled.div`
 const SFaPlus = styled(FaPlus)`
     font-size: 3em;
     color: rgba(30, 30, 30, 0.4);
+`
+
+const ImageZone = styled.div`
+    display: flex;
+    width: 600px;
+    overflow-x: scroll;
+`
+
+const Img = styled.img`
+    min-width: 550px;
+    height: 450px;
+    width: 550px;
+    object-position: center;
 `
 
 function FileUpload(props) {
@@ -46,6 +60,14 @@ function FileUpload(props) {
         }
     }
 
+    const deleteHandler = image => {
+        const currentIndex = images.indexOf(image)
+        let newImages = [...images]
+        newImages.splice(currentIndex, 1)
+        setImages(newImages)
+        props.refreshFunction(newImages)
+    }
+
     return (
         <Container>
             <Dropzone onDrop={onDropHandler}>
@@ -58,13 +80,13 @@ function FileUpload(props) {
                     </section>
                 )}
             </Dropzone>
-            <div style={{ display: "flex", width: "350px", height: "240px", overflowX: "scroll" }}>
+            <ImageZone>
                 {images.map((image, index) => (
-                    <div key={index}>
-                        <img src={`/${image}`} style={{ minWidth: "300px", width: "300px", height: "240px" }} />
+                    <div onClick={() => deleteHandler(image)} key={index}>
+                        <Img src={`http://localhost:5000/${image}`} />
                     </div>
                 ))}
-            </div>
+            </ImageZone>
         </Container>
     )
 }

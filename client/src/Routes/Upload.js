@@ -12,17 +12,25 @@ const Container = styled.div`
 
 function Upload(props) {
 
-    const [Images, setImages] = useState([])
+    const [name, setName] = useState("")
+    const [place, setPlace] = useState("")
+    const [place2, setPlace2] = useState("")
+    const [description, setDescription] = useState("")
+    const [images, setImages] = useState([])
 
-    const uploadImages = (newImages) => {
+    const nameChangeHandler = e => {
+        setName(e.target.value)
+    }
+
+    const updateImages = newImages => {
         setImages(newImages)
     }
 
     return (
         <Container>
-            <FileUpload refreshFunction={uploadImages} />
+            <FileUpload refreshFunction={updateImages} />
             <form>
-                <input type="text" placeholder="name" />
+                <input type="text" placeholder="name" value={name} onChange={nameChangeHandler} />
                 <br />
                 <br />
                 <input type="text" placeholder="place1" />
