@@ -34,6 +34,7 @@ const Input = styled.input`
     border-radius: 5px;
     border: 1px solid gray;
     font-size: 1em;
+    height: 2em;
 `
 
 const TEXTAREA = styled.textarea`
@@ -53,15 +54,29 @@ const Button = styled.button`
     cursor: pointer;
 `
 
+const Select = styled.select`
+    border-radius: 5px;
+    border: 1px solid gray;
+    font-size: 1em;
+    height: 2em;
+`
+
 function Upload(props) {
 
+    const city = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "경기도", "강원도", "충청북도", "충청남도", "전라북도", "전라남도", "경상북도", "경상남도", "제주도"]
+
     const [name, setName] = useState("")
+    const [region, setRegion] = useState("")
     const [location, setLocation] = useState("")
     const [description, setDescription] = useState("")
     const [images, setImages] = useState([])
 
     const nameChangeHandler = e => {
         setName(e.target.value)
+    }
+
+    const regionChangeHandler = e => {
+        setRegion(e.target.value)
     }
 
     const locationChangeHandler = e => {
@@ -80,10 +95,10 @@ function Upload(props) {
 
     const submitHandler = async e => {
         e.preventDefault()
-        if (!name || !location || !description || !images) {
+        if (!name || !region || !location || !description || !images || region === "지역 선택") {
             return alert("빈 칸을 확인해 주시기 바랍니다.")
         }
-        let body = { name, location, description, images, writer: user.userData._id }
+        let body = { name, region, location, description, images, writer: user.userData._id }
         const {
             data: { success }
         } = await axios.post("/api/product", body)
@@ -104,13 +119,21 @@ function Upload(props) {
                 <Label>제목</Label>
                 <Input type="text" value={name} onChange={nameChangeHandler} />
                 <br />
+                <Label>지역</Label>
+                <Select value={region} onChange={regionChangeHandler}>
+                    <option value="지역 선택">지역 선택</option>
+                    {city.map(item => (
+                        <option value={item} key={item + "1"}>{item}</option>
+                    ))}
+                </Select>
+                <br />
                 <Label>위치</Label>
                 <Input type="text" value={location} onChange={locationChangeHandler} />
                 <br />
                 <Label>설명</Label>
                 <TEXTAREA value={description} onChange={descriptionChangeHandler}></TEXTAREA>
                 <br />
-                <Button type="submit">업로드</Button>
+                <Button type="submit">확인</Button>
             </Form>
         </Container>
     )

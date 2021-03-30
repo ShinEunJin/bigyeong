@@ -9,6 +9,7 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-around;
+    margin-bottom: 50px;
 `
 
 const StyleDropZone = styled.div`

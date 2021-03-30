@@ -6,11 +6,16 @@ const ProductSchema = new mongoose.Schema({
         maxLength: 70,
         required: true
     },
+    region: String,
     location: {
         type: String,
         required: true
     },
     description: String,
+    images: {
+        type: Array,
+        required: true
+    },
     views: {
         type: Number,
         default: 0
