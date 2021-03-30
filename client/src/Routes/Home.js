@@ -3,6 +3,7 @@ import axios from "axios"
 import styled from "styled-components"
 import { Card, Col, Row } from "antd"
 import Meta from "antd/lib/card/Meta"
+import ImageSlider from '../Components/utils/ImageSlider'
 
 const Container = styled.div`
     width: 80%;
@@ -26,16 +27,15 @@ function Home() {
 
     return (
         <Container>
-            <Col lg={6} md={8} s={12} xs={24}>
+            <Row gutter={16}>
                 {product.map((item, index) => (
-                    <Card
-                        key={index} cover={<img style={{ maxHeight: '250px' }}
-                            src={`http://localhost:5000/${item.images[0]}`} />}
-                    >
-                        <Meta title={item.name} />
-                    </Card>
+                    <Col key={index} lg={6} md={8} xs={24}>
+                        <Card cover={<ImageSlider images={item.images} />}>
+                            <Meta title={item.name} description={item.region} />
+                        </Card>
+                    </Col>
                 ))}
-            </Col>
+            </Row>
         </Container>
     )
 }

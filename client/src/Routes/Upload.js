@@ -11,7 +11,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 100px;
+    padding-bottom: 100px;
 `
 
 const Form = styled.form`
