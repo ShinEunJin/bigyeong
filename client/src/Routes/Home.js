@@ -10,25 +10,54 @@ const Container = styled.div`
     margin: 0 auto;
 `
 
+const Button = styled.button`
+    border-radius: 10px;
+    border: 1px solid gray;
+    font-size: 14px;
+    width: 4rem;
+    height: 2rem;
+    cursor: pointer;
+`
+
 function Home() {
 
-    const [product, setProduct] = useState([])
+    const [products, setProducts] = useState([])
+    const [skip, setSkip] = useState(0)
+    const [limit, setLimit] = useState(2)
+    const [postSize, setPostSize] = useState(0)
 
-    useEffect(async () => {
+    useEffect(() => {
+        let body = { skip, limit }
+        getProducts(body)
+    }, [])
+
+    const getProducts = async (body) => {
         const {
-            data: { success, products }
-        } = await axios.post("/api/product/products")
+            data: { success, productInfo, productLen }
+        } = await axios.post("/api/product/products", body)
         if (success) {
-            setProduct(products)
+            if (body.loadMore) {
+                setProducts([...products, ...productInfo])
+            } else {
+                setProducts(productInfo)
+            }
+            setPostSize(productLen)
         } else {
             alert("상품을 가져오는데 실패 했습니다.")
         }
-    })
+    }
+
+    const loadMoreHandler = () => {
+        let changedSkip = skip + limit
+        let body = { skip: changedSkip, limit, loadMore: true }
+        getProducts(body)
+        setSkip(changedSkip)
+    }
 
     return (
         <Container>
             <Row gutter={16}>
-                {product.map((item, index) => (
+                {products.map((item, index) => (
                     <Col key={index} lg={6} md={8} xs={24}>
                         <Card cover={<ImageSlider images={item.images} />}>
                             <Meta title={item.name} description={item.region} />
@@ -36,6 +65,10 @@ function Home() {
                     </Col>
                 ))}
             </Row>
+            {postSize >= limit &&
+                <Button onClick={loadMoreHandler}>더보기</Button>
+            }
+
         </Container>
     )
 }

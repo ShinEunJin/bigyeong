@@ -25,9 +25,14 @@ export const uploadProduct = async (req, res) => {
 }
 
 export const deployProduct = async (req, res) => {
+    let {
+        body: { skip, limit }
+    } = req
+    skip = parseInt(skip) || 0
+    limit = parseInt(limit) || 8
     try {
-        const products = await Product.find().populate("writer")
-        return res.status(200).json({ success: true, products })
+        const productInfo = await Product.find().skip(skip).limit(limit).populate("writer")
+        return res.status(200).json({ success: true, productInfo, productLen: productInfo.length })
     } catch (error) {
         return res.status(400).json({ success: false, error })
     }
