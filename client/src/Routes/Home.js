@@ -2,12 +2,34 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import styled from "styled-components"
 import { Card, Col, Row } from "antd"
-import Meta from "antd/lib/card/Meta"
 import ImageSlider from '../Components/utils/ImageSlider'
+import CheckBox from "../Components/utils/CheckBox"
+
+const { Meta } = Card
+
+const region = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "경기도", "강원도", "충청북도", "충청남도", "전라북도", "전라남도", "경상북도", "경상남도", "제주도"]
 
 const Container = styled.div`
     width: 80%;
     margin: 0 auto;
+`
+
+const SogoImg = styled.img`
+    height: 100px;
+    width: 100px;
+`
+
+const Column = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+    font-size: 40px;
+    font-weight: 700;
+`
+
+const CheckBoxSection = styled.div`
+    height: 200px;
 `
 
 const Button = styled.button`
@@ -25,6 +47,9 @@ function Home() {
     const [skip, setSkip] = useState(0)
     const [limit, setLimit] = useState(2)
     const [postSize, setPostSize] = useState(0)
+    const [filterState, setFilterState] = useState({
+        region: []
+    })
 
     useEffect(() => {
         let body = { skip, limit }
@@ -54,8 +79,31 @@ function Home() {
         setSkip(changedSkip)
     }
 
+    const showFilteredResults = filters => {
+        let body = {
+            skip: 0,
+            limit,
+            filters
+        }
+        getProducts(body)
+        setSkip(0)
+    }
+
+    const handleCheckFilter = (filters, category) => {
+        const newFilters = { ...filterState }
+        newFilters[category] = filters
+        showFilteredResults(newFilters)
+    }
+
     return (
         <Container>
+            <Column>
+                <SogoImg src={"http://localhost:5000/uploads/images/sogo.jpg"} />
+                한국의 坊坊曲曲
+            </Column>
+            <CheckBoxSection>
+                <CheckBox list={region} handleCheckFilter={filters => handleCheckFilter(filters, "region")} />
+            </CheckBoxSection>
             <Row gutter={16}>
                 {products.map((item, index) => (
                     <Col key={index} lg={6} md={8} xs={24}>
