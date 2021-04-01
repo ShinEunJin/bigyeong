@@ -26,7 +26,7 @@ export const uploadProduct = async (req, res) => {
 
 export const deployProduct = async (req, res) => {
     let {
-        body: { skip, limit, filters }
+        body: { skip, limit, filters, searchTerm }
     } = req
     let findArgs = {}
 
@@ -39,10 +39,20 @@ export const deployProduct = async (req, res) => {
         }
     }
 
-    try {
-        const productInfo = await Product.find(findArgs).skip(skip).limit(limit).populate("writer")
-        return res.status(200).json({ success: true, productInfo, productLen: productInfo.length })
-    } catch (error) {
-        return res.status(400).json({ success: false, error })
+    if (searchTerm) {
+        try {
+            const productInfo = await Product.find(findArgs).find({ name: { $regex: searchTerm, $options: "i" } }).populate("writer").skip(skip).limit(limit)
+            return res.status(200).json({ success: true, productInfo, productLen: productInfo.length })
+        } catch (error) {
+            return res.status(400).json({ success: false, error })
+        }
+    } else {
+        try {
+            const productInfo = await Product.find(findArgs).populate("writer").skip(skip).limit(limit)
+            return res.status(200).json({ success: true, productInfo, productLen: productInfo.length })
+        } catch (error) {
+            return res.status(400).json({ success: false, error })
+        }
     }
+
 }

@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { Card, Col, Row } from "antd"
 import ImageSlider from '../Components/utils/ImageSlider'
 import CheckBox from "../Components/utils/CheckBox"
+import SearchProduct from '../Components/utils/SearchProduct'
 
 const { Meta } = Card
 
@@ -29,7 +30,14 @@ const Column = styled.div`
 `
 
 const CheckBoxSection = styled.div`
-    height: 200px;
+    height: 150px;
+`
+
+const ButtonSection = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
 `
 
 const Button = styled.button`
@@ -50,6 +58,7 @@ function Home() {
     const [filterState, setFilterState] = useState({
         region: []
     })
+    const [searchTerm, setSearchTerm] = useState("")
 
     useEffect(() => {
         let body = { skip, limit }
@@ -86,7 +95,7 @@ function Home() {
             filters
         }
         getProducts(body)
-        setSkip(0)
+        setSkip(0) //이전 스테이트로 변경 하게 해야 보기좋다.
     }
 
     const handleCheckFilter = (filters, category) => {
@@ -95,16 +104,33 @@ function Home() {
         showFilteredResults(newFilters)
     }
 
+    const updateSearchTerm = (newSearchTerm) => {
+        let body = {
+            skip: 0,
+            limit,
+            filters: filterState,
+            searchTerm: newSearchTerm
+        }
+        setSkip(0)
+        setSearchTerm(newSearchTerm)
+        getProducts(body)
+    }
+
     return (
         <Container>
             <Column>
                 <SogoImg src={"http://localhost:5000/uploads/images/sogo.jpg"} />
                 한국의 坊坊曲曲
             </Column>
-            <CheckBoxSection>
-                <CheckBox list={region} handleCheckFilter={filters => handleCheckFilter(filters, "region")} />
-            </CheckBoxSection>
-            <Row gutter={16}>
+            <Col span={8}>
+                <CheckBoxSection>
+                    <CheckBox list={region} handleCheckFilter={filters => handleCheckFilter(filters, "region")} />
+                </CheckBoxSection>
+            </Col>
+            <Col span={8}>
+                <SearchProduct refreshFunction={updateSearchTerm} />
+            </Col>
+            <Row gutter={[16, 16]}>
                 {products.map((item, index) => (
                     <Col key={index} lg={6} md={8} xs={24}>
                         <Card cover={<ImageSlider images={item.images} />}>
@@ -113,9 +139,11 @@ function Home() {
                     </Col>
                 ))}
             </Row>
-            {postSize >= limit &&
-                <Button onClick={loadMoreHandler}>더보기</Button>
-            }
+            <ButtonSection>
+                {postSize >= limit &&
+                    <Button onClick={loadMoreHandler}>더보기</Button>
+                }
+            </ButtonSection>
 
         </Container>
     )
