@@ -1,8 +1,14 @@
 import React, { useState } from 'react'
-import { Input } from 'antd';
 import styled from "styled-components"
 
-const { Search } = Input;
+const Search = styled.input`
+    height: 48px;
+    width: 100%;
+    border: 1px solid rgba(100, 100, 100, 0.3);
+    &::placeholder{
+        opacity: 0.7;
+    }
+`
 
 function SearchProduct(props) {
 
@@ -15,7 +21,7 @@ function SearchProduct(props) {
 
     return (
         <div>
-            <Search placeholder="input search text" onChange={handleSearch} />
+            <Search placeholder="상품 검색하기" onChange={handleSearch} />
         </div>
     )
 }

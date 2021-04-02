@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from "react-router-dom"
 import axios from "axios"
 import styled from "styled-components"
 import { Card, Col, Row } from "antd"
@@ -27,6 +28,10 @@ const Column = styled.div`
     margin-bottom: 50px;
     font-size: 40px;
     font-weight: 700;
+`
+
+const CategoryColumn = styled.div`
+    display: flex;
 `
 
 const CheckBoxSection = styled.div`
@@ -122,20 +127,24 @@ function Home() {
                 <SogoImg src={"http://localhost:5000/uploads/images/sogo.jpg"} />
                 한국의 坊坊曲曲
             </Column>
-            <Col span={8}>
-                <CheckBoxSection>
-                    <CheckBox list={region} handleCheckFilter={filters => handleCheckFilter(filters, "region")} />
-                </CheckBoxSection>
-            </Col>
-            <Col span={8}>
-                <SearchProduct refreshFunction={updateSearchTerm} />
-            </Col>
+            <CategoryColumn>
+                <Col span={8}>
+                    <CheckBoxSection>
+                        <CheckBox list={region} handleCheckFilter={filters => handleCheckFilter(filters, "region")} />
+                    </CheckBoxSection>
+                </Col>
+                <Col span={8}>
+                    <SearchProduct refreshFunction={updateSearchTerm} />
+                </Col>
+            </CategoryColumn>
             <Row gutter={[16, 16]}>
                 {products.map((item, index) => (
                     <Col key={index} lg={6} md={8} xs={24}>
-                        <Card cover={<ImageSlider images={item.images} />}>
-                            <Meta title={item.name} description={item.region} />
-                        </Card>
+                        <Link to={`/product/${item._id}`}>
+                            <Card cover={<ImageSlider images={item.images} />}>
+                                <Meta title={item.name} description={item.region} />
+                            </Card>
+                        </Link>
                     </Col>
                 ))}
             </Row>

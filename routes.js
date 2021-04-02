@@ -7,6 +7,7 @@ const AUTH = "/api/users/auth"
 //Product
 const PRODUCT = "/api/product"
 const PRODUCT_ALL = "/api/product/products"
+const PRODUCT_DETAIL = "/api/product/detail"
 const PRODUCT_IMAGE = "/api/product/image"
 
 const routes = {
@@ -16,6 +17,7 @@ const routes = {
     auth: AUTH,
     product: PRODUCT,
     productAll: PRODUCT_ALL,
+    productDetail: PRODUCT_DETAIL,
     productImage: PRODUCT_IMAGE
 }
 
