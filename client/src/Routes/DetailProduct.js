@@ -4,6 +4,7 @@ import { withRouter } from 'react-router'
 import { Col, Row } from "antd"
 import styled from "styled-components"
 import DetailImage from "./DetailProduct/DetailImage"
+import DetailInfo from './DetailProduct/DetailInfo'
 
 const Container = styled.div`
     width: 80%;
@@ -32,6 +33,9 @@ function DetailProduct(props) {
                 <Row gutter={[16, 16]}>
                     <Col lg={12} xs={24}>
                         <DetailImage product={productState} />
+                    </Col>
+                    <Col lg={12} xs={24}>
+                        <DetailInfo product={productState} />
                     </Col>
                 </Row>
             </Container>

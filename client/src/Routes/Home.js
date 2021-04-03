@@ -58,7 +58,7 @@ function Home() {
 
     const [products, setProducts] = useState([])
     const [skip, setSkip] = useState(0)
-    const [limit, setLimit] = useState(2)
+    const [limit, setLimit] = useState(8)
     const [postSize, setPostSize] = useState(0)
     const [filterState, setFilterState] = useState({
         region: []
