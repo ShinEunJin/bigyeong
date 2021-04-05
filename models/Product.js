@@ -20,6 +20,10 @@ const ProductSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    likes: {
+        type: Number,
+        default: 0
+    },
     writer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"

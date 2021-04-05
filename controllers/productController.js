@@ -67,3 +67,21 @@ export const detailProduct = async (req, res) => {
         return res.status(400).json({ success: false, error })
     }
 }
+
+export const likeProduct = async (req, res) => {
+    const {
+        body: { productId }
+    } = req
+    try {
+        const product = await Product.findOneAndUpdate(
+            { _id: productId },
+            {
+                $inc: { likes: 1 }
+            },
+            { new: true }
+        )
+        return res.status(200).json({ success: true, likes: product.likes })
+    } catch (error) {
+        return res.status(400).json({ success: false, error })
+    }
+}

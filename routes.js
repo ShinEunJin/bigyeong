@@ -10,6 +10,7 @@ const PRODUCT = "/api/product"
 const PRODUCT_ALL = "/api/product/products"
 const PRODUCT_DETAIL = "/api/product/detail"
 const PRODUCT_IMAGE = "/api/product/image"
+const PRODUCT_LIKE = "/api/product/like"
 
 const routes = {
     register: REGISTER,
@@ -20,7 +21,8 @@ const routes = {
     product: PRODUCT,
     productAll: PRODUCT_ALL,
     productDetail: PRODUCT_DETAIL,
-    productImage: PRODUCT_IMAGE
+    productImage: PRODUCT_IMAGE,
+    productLike: PRODUCT_LIKE
 }
 
 export default routes
