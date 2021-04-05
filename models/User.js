@@ -23,7 +23,15 @@ const UserSchema = new mongoose.Schema({
         default: 0
     },
     image: String,
-    token: String
+    token: String,
+    take: {
+        type: Array,
+        default: []
+    },
+    history: {
+        type: Array,
+        default: []
+    },
 })
 
 UserSchema.pre("save", function (next) {

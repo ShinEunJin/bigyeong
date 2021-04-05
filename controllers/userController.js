@@ -44,7 +44,8 @@ export const auth = (req, res) => {
         isAdmin: req.user.role === 0 ? false : true,
         email: req.user.email,
         role: req.user.role,
-        image: req.user.image
+        image: req.user.image,
+        take: req.user.take
     })
 }
 
@@ -54,5 +55,36 @@ export const logout = async (req, res) => {
         return res.status(200).json({ success: true })
     } catch (error) {
         return res.json({ success: false, error })
+    }
+}
+
+export const addTake = async (req, res) => {
+    try {
+        const user = await User.findOne({ _id: req.user._id })
+        let isExisted = false
+        user.take.forEach(item => {
+            if (item.id === req.body.productId) {
+                isExisted = true
+            }
+        })
+        if (isExisted) {
+            return res.status(200).json({ success: true, isExisted })
+        } else {
+            const userTake = await User.findOneAndUpdate(
+                { _id: req.user._id },
+                {
+                    $push: {
+                        take: {
+                            id: req.body.productId,
+                            date: Date.now()
+                        }
+                    }
+                },
+                { new: true }
+            )
+            return res.status(200).json({ success: true, userTake: userTake.take })
+        }
+    } catch (error) {
+        return res.status(400).json({ success: false, error })
     }
 }

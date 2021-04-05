@@ -11,7 +11,7 @@ import Home from "../Routes/Home";
 import Login from "../Routes/Login"
 import Register from "../Routes/Register"
 import Upload from "../Routes/Upload"
-import DetailProduct from "../Routes/DetailProduct"
+import DetailProduct from "../Routes/DetailProduct/DetailProduct"
 
 function App() {
   return (

@@ -1,8 +1,8 @@
 import axios from "axios"
-import { AUTH_USER, LOGIN_USER, REGISTER_USER, LOGOUT_USER } from "./types"
+import { AUTH_USER, ADD_TAKE, LOGIN_USER, REGISTER_USER, LOGOUT_USER } from "./types"
 
 export const loginUser = async (dataToSubmit) => {
-    const request = await axios.post("/api/users/login", dataToSubmit).then(res => res.data)
+    const { data: request } = await axios.post("/api/users/login", dataToSubmit)
     return {
         type: LOGIN_USER,
         payload: request
@@ -10,7 +10,7 @@ export const loginUser = async (dataToSubmit) => {
 }
 
 export const registerUser = async (dataToSubmit) => {
-    const request = await axios.post("/api/users/register", dataToSubmit).then(res => res.data)
+    const { data: request } = await axios.post("/api/users/register", dataToSubmit)
     return {
         type: REGISTER_USER,
         payload: request
@@ -18,7 +18,7 @@ export const registerUser = async (dataToSubmit) => {
 }
 
 export const logout = async () => {
-    const request = await axios.get("/api/users/logout").then(res => res.data)
+    const { data: request } = await axios.get("/api/users/logout")
     return {
         type: LOGOUT_USER,
         payload: request
@@ -26,9 +26,18 @@ export const logout = async () => {
 }
 
 export const auth = async () => {
-    const request = await axios.get("/api/users/auth").then(res => res.data)
+    const { data: request } = await axios.get("/api/users/auth")
     return {
         type: AUTH_USER,
+        payload: request
+    }
+}
+
+export const addTake = async (productId) => {
+    let body = { productId }
+    const { data: request } = await axios.post("/api/users/addTake", body)
+    return {
+        type: ADD_TAKE,
         payload: request
     }
 }

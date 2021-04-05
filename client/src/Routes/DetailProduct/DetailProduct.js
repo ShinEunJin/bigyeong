@@ -3,8 +3,8 @@ import axios from 'axios'
 import { withRouter } from 'react-router'
 import { Col, Row } from "antd"
 import styled from "styled-components"
-import DetailImage from "./DetailProduct/DetailImage"
-import DetailInfo from './DetailProduct/DetailInfo'
+import DetailImage from "./DetailImage"
+import DetailInfo from './DetailInfo'
 
 const Container = styled.div`
     width: 80%;

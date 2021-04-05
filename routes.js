@@ -3,6 +3,7 @@ const REGISTER = "/api/users/register"
 const LOGIN = "/api/users/login"
 const LOGOUT = "/api/users/logout"
 const AUTH = "/api/users/auth"
+const ADD_TAKE = "/api/users/addTake"
 
 //Product
 const PRODUCT = "/api/product"
@@ -15,6 +16,7 @@ const routes = {
     login: LOGIN,
     logout: LOGOUT,
     auth: AUTH,
+    addTake: ADD_TAKE,
     product: PRODUCT,
     productAll: PRODUCT_ALL,
     productDetail: PRODUCT_DETAIL,
