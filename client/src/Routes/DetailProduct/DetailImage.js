@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import ImageGallery from 'react-image-gallery';
-import styled from "styled-components"
 
 function DetailImage(props) {
 
     const [imageState, setImageState] = useState([])
 
     useEffect(() => {
-        if (props.product[0] && props.product[0].images.length > 0) {
+        if (props.product && props.product.images && props.product.images.length > 0) {
             let newImages = []
-            props.product[0].images.map(item => (
+            props.product.images.map(item => (
                 newImages.push({
                     original: `http://localhost:5000/${item}`,
                     thumbnail: `http://localhost:5000/${item}`
@@ -17,7 +16,7 @@ function DetailImage(props) {
             ))
             setImageState(newImages)
         }
-    }, [props.product[0]])
+    }, [props.product])
 
     return (
         <div>

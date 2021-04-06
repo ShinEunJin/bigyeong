@@ -5,7 +5,6 @@ import { HeartFilled, CaretUpOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from "react-redux"
 import { addTake, addLike } from '../../_actions/user_action';
 import axios from 'axios';
-import { set } from 'mongoose';
 
 const ButtonColumn = styled.div`
     display: grid;
@@ -25,30 +24,30 @@ function DetailInfo(props) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (props.product[0]) {
-            setProduct(props.product[0])
-            setLikeState(props.product[0].likes)
+        if (props.product) {
+            setProduct(props.product)
+            setLikeState(props.product.likes)
             if (user.userData.likes) {
                 user.userData.likes.forEach(item => {
-                    if (item.id === props.product[0]._id) {
+                    if (item.id === props.product._id) {
                         setLikeBool(true)
                     }
                 })
             }
             if (user.userData.take) {
                 user.userData.take.forEach(item => {
-                    if (item.id === props.product[0]._id) {
+                    if (item.id === props.product._id) {
                         setTakeBool(true)
                     }
                 })
             }
         }
-    }, [props.product[0]])
+    }, [props.product])
 
     const handleTakeBtn = async () => {
         if (user.userData.isAuth) {
             try {
-                const { payload } = await dispatch(addTake(props.product[0]._id))
+                const { payload } = await dispatch(addTake(props.product._id))
                 if (payload.isExisted) {
                     setTakeBool(true)
                     alert("해당 상품을 이미 찜 했습니다.")
@@ -68,9 +67,9 @@ function DetailInfo(props) {
     const handleLikeBtn = async () => {
         if (user.userData.isAuth) {
             try {
-                let body = { productId: props.product[0]._id, userId: user.userData._id }
+                let body = { productId: props.product._id, userId: user.userData._id }
                 const { data: { likes } } = await axios.post("/api/product/like", body)
-                const { payload } = await dispatch(addLike(props.product[0]._id))
+                const { payload } = await dispatch(addLike(props.product._id))
                 setLikeState(likes)
                 if (payload.alreadyLike) {
                     setLikeBool(false)

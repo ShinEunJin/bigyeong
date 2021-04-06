@@ -62,7 +62,13 @@ export const detailProduct = async (req, res) => {
         query: { id }
     } = req
     try {
-        const product = await Product.find({ _id: id })
+        const product = await Product.findOneAndUpdate(
+            { _id: id },
+            {
+                $inc: { views: 1 }
+            },
+            { new: true }
+        )
         return res.status(200).json({ success: true, product })
     } catch (error) {
         return res.status(400).json({ success: false, error })
