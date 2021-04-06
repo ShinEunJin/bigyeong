@@ -45,7 +45,8 @@ export const auth = (req, res) => {
         email: req.user.email,
         role: req.user.role,
         image: req.user.image,
-        take: req.user.take
+        take: req.user.take,
+        likes: req.user.likes
     })
 }
 
@@ -83,6 +84,52 @@ export const addTake = async (req, res) => {
                 { new: true }
             )
             return res.status(200).json({ success: true, userTake: userTake.take })
+        }
+    } catch (error) {
+        return res.status(400).json({ success: false, error })
+    }
+}
+
+export const addLike = async (req, res) => {
+    const {
+        body: { productId },
+        user: { _id }
+    } = req
+    try {
+        const user = await User.findOne({ _id })
+        let alreadyLike = false
+        user.likes.forEach(item => {
+            if (item.id === productId) {
+                alreadyLike = true
+            }
+        })
+        if (alreadyLike) {
+            const userLike = await User.findOneAndUpdate(
+                { _id },
+                {
+                    $pull: {
+                        likes: {
+                            id: productId
+                        }
+                    }
+                },
+                { new: true }
+            )
+            return res.status(200).json({ success: true, userLike: userLike.likes, alreadyLike })
+        } else {
+            const userLike = await User.findOneAndUpdate(
+                { _id },
+                {
+                    $push: {
+                        likes: {
+                            id: productId,
+                            date: Date.now()
+                        }
+                    }
+                },
+                { new: true }
+            )
+            return res.status(200).json({ success: true, userLike: userLike.likes, alreadyLike })
         }
     } catch (error) {
         return res.status(400).json({ success: false, error })

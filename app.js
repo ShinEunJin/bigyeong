@@ -2,7 +2,7 @@ import express from "express"
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import routes from "./routes"
-import { addTake, auth, login, logout, register } from "./controllers/userController"
+import { addLike, addTake, auth, login, logout, register } from "./controllers/userController"
 import middleAuth from "./middlewares/middleAuth"
 import { deployProduct, detailProduct, likeProduct, uploadImages, uploadProduct } from "./controllers/productController"
 import { uploadImage } from "./middlewares/multer"
@@ -21,6 +21,7 @@ app.post(routes.login, login)
 app.get(routes.auth, middleAuth, auth)
 app.get(routes.logout, middleAuth, logout)
 app.post(routes.addTake, middleAuth, addTake)
+app.post(routes.addLike, middleAuth, addLike)
 
 //Product
 app.post(routes.product, uploadProduct)

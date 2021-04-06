@@ -4,6 +4,7 @@ const LOGIN = "/api/users/login"
 const LOGOUT = "/api/users/logout"
 const AUTH = "/api/users/auth"
 const ADD_TAKE = "/api/users/addTake"
+const ADD_LIKE = "/api/users/addLike"
 
 //Product
 const PRODUCT = "/api/product"
@@ -18,6 +19,7 @@ const routes = {
     logout: LOGOUT,
     auth: AUTH,
     addTake: ADD_TAKE,
+    addLike: ADD_LIKE,
     product: PRODUCT,
     productAll: PRODUCT_ALL,
     productDetail: PRODUCT_DETAIL,

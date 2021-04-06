@@ -1,5 +1,5 @@
 import axios from "axios"
-import { AUTH_USER, ADD_TAKE, LOGIN_USER, REGISTER_USER, LOGOUT_USER } from "./types"
+import { AUTH_USER, ADD_TAKE, ADD_LIKE, LOGIN_USER, REGISTER_USER, LOGOUT_USER } from "./types"
 
 export const loginUser = async (dataToSubmit) => {
     const { data: request } = await axios.post("/api/users/login", dataToSubmit)
@@ -36,6 +36,15 @@ export const auth = async () => {
 export const addTake = async (productId) => {
     let body = { productId }
     const { data: request } = await axios.post("/api/users/addTake", body)
+    return {
+        type: ADD_TAKE,
+        payload: request
+    }
+}
+
+export const addLike = async (productId) => {
+    let body = { productId }
+    const { data: request } = await axios.post("/api/users/addLike", body)
     return {
         type: ADD_TAKE,
         payload: request

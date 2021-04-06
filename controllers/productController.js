@@ -1,4 +1,5 @@
 import Product from "../models/Product"
+import User from "../models/User"
 
 export const uploadImages = (req, res) => {
     const { file } = req
@@ -70,17 +71,35 @@ export const detailProduct = async (req, res) => {
 
 export const likeProduct = async (req, res) => {
     const {
-        body: { productId }
+        body: { productId, userId }
     } = req
     try {
-        const product = await Product.findOneAndUpdate(
-            { _id: productId },
-            {
-                $inc: { likes: 1 }
-            },
-            { new: true }
-        )
-        return res.status(200).json({ success: true, likes: product.likes })
+        const user = await User.findOne({ _id: userId })
+        let alreadyLike = false
+        user.likes.forEach(item => {
+            if (item.id === productId) {
+                alreadyLike = true
+            }
+        })
+        if (alreadyLike) {
+            const product = await Product.findOneAndUpdate(
+                { _id: productId },
+                {
+                    $inc: { likes: -1 }
+                },
+                { new: true }
+            )
+            return res.status(200).json({ success: true, likes: product.likes })
+        } else {
+            const product = await Product.findOneAndUpdate(
+                { _id: productId },
+                {
+                    $inc: { likes: 1 }
+                },
+                { new: true }
+            )
+            return res.status(200).json({ success: true, likes: product.likes })
+        }
     } catch (error) {
         return res.status(400).json({ success: false, error })
     }

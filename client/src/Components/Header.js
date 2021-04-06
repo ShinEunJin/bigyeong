@@ -43,7 +43,8 @@ function Header(props) {
         dispatch(logout())
             .then(res => {
                 if (res.payload.success) {
-                    props.history.push(`${props.location.pathname}`)
+                    props.history.push("/")
+
                 } else {
                     alert("로그아웃 실패했습니다.")
                 }
