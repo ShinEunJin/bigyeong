@@ -24,28 +24,33 @@ function DetailInfo(props) {
     const dispatch = useDispatch()
 
     useEffect(() => {
+        console.log(props)
         if (props.product) {
             setProduct(props.product)
             setLikeState(props.product.likes)
-            if (user.userData.likes) {
-                user.userData.likes.forEach(item => {
-                    if (item.id === props.product._id) {
-                        setLikeBool(true)
-                    }
-                })
+            if (user.userData && user.userData.likes) {
+                if (user.userData.likes.length > 0) {
+                    user.userData.likes.forEach(item => {
+                        if (item.id === props.product._id) {
+                            setLikeBool(true)
+                        }
+                    })
+                }
             }
-            if (user.userData.take) {
-                user.userData.take.forEach(item => {
-                    if (item.id === props.product._id) {
-                        setTakeBool(true)
-                    }
-                })
+            if (user.userData && user.userData.take) {
+                if (user.userData.take.length > 0) {
+                    user.userData.take.forEach(item => {
+                        if (item.id === props.product._id) {
+                            setTakeBool(true)
+                        }
+                    })
+                }
             }
         }
     }, [props.product])
 
     const handleTakeBtn = async () => {
-        if (user.userData.isAuth) {
+        if (user.userData && user.userData.isAuth) {
             try {
                 const { payload } = await dispatch(addTake(props.product._id))
                 if (payload.isExisted) {
@@ -65,7 +70,7 @@ function DetailInfo(props) {
     }
 
     const handleLikeBtn = async () => {
-        if (user.userData.isAuth) {
+        if (user.userData && user.userData.isAuth) {
             try {
                 let body = { productId: props.product._id, userId: user.userData._id }
                 const { data: { likes } } = await axios.post("/api/product/like", body)

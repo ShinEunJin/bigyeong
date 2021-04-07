@@ -12,6 +12,7 @@ import Login from "../Routes/Login"
 import Register from "../Routes/Register"
 import Upload from "../Routes/Upload"
 import DetailProduct from "../Routes/DetailProduct/DetailProduct"
+import CartPage from "../Routes/Cart/CartPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route exact path="/register" component={Auth(Register, false)} />
           <Route exact path="/upload" component={Auth(Upload, true)} />
           <Route exact path="/product/:id" component={Auth(DetailProduct, null)} />
+          <Route exact path="/user/cart" component={Auth(CartPage, true)} />
           <Redirect from="*" to="/" />
         </Switch>
       </Router>

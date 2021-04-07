@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import styled from "styled-components"
@@ -78,6 +78,9 @@ function Header(props) {
                     </OnPage>
                 </div>
                 <div style={{ display: "flex" }}>
+                    <OnPage current={props.location.pathname === "/user/cart"}>
+                        <SLink to="/user/cart">찜목록</SLink>
+                    </OnPage>
                     <OnPage current={props.location.pathname === "/upload"}>
                         <SLink to="/upload">업로드</SLink>
                     </OnPage>

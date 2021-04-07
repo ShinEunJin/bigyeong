@@ -46,7 +46,7 @@ export const addLike = async (productId) => {
     let body = { productId }
     const { data: request } = await axios.post("/api/users/addLike", body)
     return {
-        type: ADD_TAKE,
+        type: ADD_LIKE,
         payload: request
     }
 }
