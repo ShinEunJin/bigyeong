@@ -8,7 +8,7 @@ express.js
 
 ### 작업 상황
 
-cart page 지연 문제
+logout state로 바로바로 header 변경하게 만들기
 
 #### 기록
 

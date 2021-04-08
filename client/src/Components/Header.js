@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import styled from "styled-components"
@@ -43,8 +43,7 @@ function Header(props) {
         dispatch(logout())
             .then(res => {
                 if (res.payload.success) {
-                    props.history.push("/")
-
+                    props.history.push("/login")
                 } else {
                     alert("로그아웃 실패했습니다.")
                 }

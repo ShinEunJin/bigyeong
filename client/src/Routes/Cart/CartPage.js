@@ -3,26 +3,54 @@ import styled from "styled-components"
 import axios from 'axios'
 import { useDispatch } from "react-redux"
 import { removeTake } from '../../_actions/user_action'
+import { FiShoppingBag } from "react-icons/fi"
+import { FaTrashAlt } from "react-icons/fa"
 
 const Container = styled.div`
     width: 80%;
     margin: 0 auto;
 `
 
+const Title = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 2.2em;
+    font-weight: bold;
+`
+
 const Table = styled.table`
     width:  100%;
-    border: 1px solid black;
+    border: 1px solid #dddddd;
     border-collapse: collapse;
 `
 
 const Tr = styled.tr`
-    border: 1px solid black;
+    border: 1px solid #dddddd;
+`
+
+const Th = styled.th`
+    border: 1px solid #dddddd;
+    background-color: #FFEBCD;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    font-size: 1.2em;
 `
 
 const Td = styled.td`
-    border: 1px solid black;
-    width: 20%;
-    padding: 10px 5px;
+    border: 1px solid #dddddd;
+    font-size: 1.1em;
+    padding: 10px;
+    text-align: left;
+    vertical-align: middle;
+    font-weight: 600;
+`
+
+const SFaTrashAlt = styled(FaTrashAlt)`
+    font-size: 2em;
+    cursor: pointer;
 `
 
 function CartPage(props) {
@@ -43,7 +71,7 @@ function CartPage(props) {
                     const { data: { product } } = await axios.get(`/api/product/take?id=${takeList}`)
                     setProductState(product)
                 } catch (error) {
-                    alert("찜목록을 불러오는데 실패했습니다.")
+                    console.log(error)
                 }
             }
         }
@@ -56,24 +84,27 @@ function CartPage(props) {
 
     return (
         <Container>
+            <Title>
+                <FiShoppingBag style={{ marginRight: 5 }} />찜목록
+            </Title>
             <Table>
                 <thead>
                     <Tr>
-                        <Td>이미지</Td>
-                        <Td>상품</Td>
-                        <Td>가격</Td>
-                        <Td>판매자</Td>
-                        <Td>지우기</Td>
+                        <Th>이미지</Th>
+                        <Th>상품</Th>
+                        <Th>가격</Th>
+                        <Th>판매자</Th>
+                        <Th>삭제</Th>
                     </Tr>
                 </thead>
                 <tbody>
                     {productState && productState.length > 0 && productState.map((item, index) => (
                         <Tr key={index}>
-                            <Td><img style={{ width: 50, height: 50 }} src={`http://localhost:5000/${item.images[0]}`} /></Td>
-                            <Td>{item.name}</Td>
-                            <Td>{item.location}</Td>
-                            <Td>{item.writer.name}</Td>
-                            <Td><button onClick={() => handleRemoveTake(item._id)}>❌</button></Td>
+                            <Td style={{ width: '15%', textAlign: 'center' }}><img style={{ width: 100, height: 100 }} src={`http://localhost:5000/${item.images[0]}`} /></Td>
+                            <Td style={{ width: '30%' }}>{item.name}</Td>
+                            <Td style={{ width: '30%' }}>{item.location}</Td>
+                            <Td style={{ width: '20%' }}>{item.writer.name}</Td>
+                            <Td style={{ width: '5%', textAlign: 'center' }}><SFaTrashAlt onClick={() => handleRemoveTake(item._id)} /></Td>
                         </Tr>
                     ))}
                 </tbody>
