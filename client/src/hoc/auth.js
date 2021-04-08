@@ -1,10 +1,11 @@
 import { useEffect } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { auth } from "../_actions/user_action"
 
 export default (SpecificComponent, option, adminRoute = null) => {
     function AuthenticationCheck(props) {
 
+        const user = useSelector(state => state.user)
         const dispatch = useDispatch()
 
         useEffect(() => {
@@ -32,10 +33,10 @@ export default (SpecificComponent, option, adminRoute = null) => {
                         }
                     }
                 })
-        })
+        }, [])
 
         return (
-            <SpecificComponent />
+            <SpecificComponent {...props} user={user} />
         )
     }
     return AuthenticationCheck

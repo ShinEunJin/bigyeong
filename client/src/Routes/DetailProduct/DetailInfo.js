@@ -24,7 +24,6 @@ function DetailInfo(props) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        console.log(props)
         if (props.product) {
             setProduct(props.product)
             setLikeState(props.product.likes)

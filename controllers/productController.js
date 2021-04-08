@@ -110,3 +110,16 @@ export const likeProduct = async (req, res) => {
         return res.status(400).json({ success: false, error })
     }
 }
+
+export const takeProduct = async (req, res) => {
+    const {
+        query: { id }
+    } = req
+    let takeList = id.split(",")
+    try {
+        const product = await Product.find({ _id: { $in: takeList } }).populate("writer")
+        return res.status(200).json({ success: true, product })
+    } catch (error) {
+        return res.status(400).json({ success: false, error })
+    }
+}

@@ -1,6 +1,7 @@
 import User from "../models/User"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import Product from "../models/Product"
 
 export const register = async (req, res) => {
     const {
@@ -130,6 +131,35 @@ export const addLike = async (req, res) => {
                 { new: true }
             )
             return res.status(200).json({ success: true, userLike: userLike.likes, alreadyLike })
+        }
+    } catch (error) {
+        return res.status(400).json({ success: false, error })
+    }
+}
+
+export const removeTake = async (req, res) => {
+    const {
+        body: { productId },
+        user: { _id }
+    } = req
+    try {
+        const user = await User.findOneAndUpdate(
+            { _id },
+            {
+                $pull: {
+                    take: { id: productId }
+                }
+            },
+            { new: true }
+        )
+        try {
+            let productList = user.take.map(item => {
+                return item.id
+            })
+            const product = await Product.find({ _id: { $in: productList } })
+            return res.status(200).json({ success: true, product })
+        } catch (error) {
+            return res.status(400).json({ success: false, error })
         }
     } catch (error) {
         return res.status(400).json({ success: false, error })
