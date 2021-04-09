@@ -16,16 +16,24 @@ function DetailProduct(props) {
 
     const [productState, setProductState] = useState({})
 
-    useEffect(async () => {
+    const getProductDetail = async () => {
         const {
             data: { success, product }
         } = await axios.get(`/api/product/detail?id=${productId}`)
+        setProductState(product)
         if (success) {
-            setProductState(product)
         } else {
             alert("해당 상품을 찾을 수 없습니다.")
         }
-    }, [])
+    }
+
+    useEffect(async () => {
+        try {
+            getProductDetail()
+        } catch (error) {
+            alert("해당 상품을 찾을 수 없습니다.")
+        }
+    }, [productId])
 
     return (
         <>

@@ -65,11 +65,6 @@ function Home() {
     })
     const [searchTerm, setSearchTerm] = useState("")
 
-    useEffect(() => {
-        let body = { skip, limit }
-        getProducts(body)
-    }, [])
-
     const getProducts = async (body) => {
         const {
             data: { success, productInfo, productLen }
@@ -85,6 +80,12 @@ function Home() {
             alert("상품을 가져오는데 실패 했습니다.")
         }
     }
+
+    useEffect(() => {
+        let body = { skip, limit }
+        getProducts(body)
+    }, [])
+
 
     const loadMoreHandler = () => {
         let changedSkip = skip + limit

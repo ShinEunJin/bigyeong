@@ -61,15 +61,18 @@ function CartPage(props) {
 
     let takeList = []
 
-    useEffect(async () => {
+    useEffect(() => {
         if (props.user.userData && props.user.userData.take) {
             if (props.user.userData.take.length > 0) {
                 props.user.userData.take.forEach(item => {
                     takeList.push(item.id)
                 })
                 try {
-                    const { data: { product } } = await axios.get(`/api/product/take?id=${takeList}`)
-                    setProductState(product)
+                    const getTakeList = async () => {
+                        const { data: { product } } = await axios.get(`/api/product/take?id=${takeList}`)
+                        setProductState(product)
+                    }
+                    getTakeList()
                 } catch (error) {
                     console.log(error)
                 }
