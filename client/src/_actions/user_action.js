@@ -45,9 +45,15 @@ export const addTake = async (productId) => {
 export const addLike = async (productId) => {
     let body = { productId }
     const { data: request } = await axios.post("/api/users/addLike", body)
-    return {
-        type: ADD_LIKE,
-        payload: request
+    if (request.myProduct) {
+        return {
+            type: null
+        }
+    } else {
+        return {
+            type: ADD_LIKE,
+            payload: request
+        }
     }
 }
 

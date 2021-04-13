@@ -19,6 +19,18 @@ export const uploadProduct = async (req, res) => {
     try {
         const product = new Product(body)
         await product.save()
+        await User.findOneAndUpdate(
+            { _id: body.writer },
+            {
+                $push: {
+                    products: {
+                        id: product._id,
+                        date: Date.now()
+                    }
+                }
+            },
+            { new: true }
+        )
         return res.status(200).json({ success: true, product })
     } catch (error) {
         return res.status(400).json({ success: false, error })
@@ -81,30 +93,40 @@ export const likeProduct = async (req, res) => {
     } = req
     try {
         const user = await User.findOne({ _id: userId })
-        let alreadyLike = false
-        user.likes.forEach(item => {
-            if (item.id === productId) {
-                alreadyLike = true
+        let myProduct = false
+        user.products.forEach(item => {
+            if (item.id.toString() === productId) {
+                myProduct = true
             }
         })
-        if (alreadyLike) {
-            const product = await Product.findOneAndUpdate(
-                { _id: productId },
-                {
-                    $inc: { likes: -1 }
-                },
-                { new: true }
-            )
-            return res.status(200).json({ success: true, likes: product.likes })
+        if (myProduct) {
+            return res.json({ myProduct })
         } else {
-            const product = await Product.findOneAndUpdate(
-                { _id: productId },
-                {
-                    $inc: { likes: 1 }
-                },
-                { new: true }
-            )
-            return res.status(200).json({ success: true, likes: product.likes })
+            let alreadyLike = false
+            user.likes.forEach(item => {
+                if (item.id === productId) {
+                    alreadyLike = true
+                }
+            })
+            if (alreadyLike) {
+                const product = await Product.findOneAndUpdate(
+                    { _id: productId },
+                    {
+                        $inc: { likes: -1 }
+                    },
+                    { new: true }
+                )
+                return res.status(200).json({ success: true, likes: product.likes })
+            } else {
+                const product = await Product.findOneAndUpdate(
+                    { _id: productId },
+                    {
+                        $inc: { likes: 1 }
+                    },
+                    { new: true }
+                )
+                return res.status(200).json({ success: true, likes: product.likes })
+            }
         }
     } catch (error) {
         return res.status(400).json({ success: false, error })

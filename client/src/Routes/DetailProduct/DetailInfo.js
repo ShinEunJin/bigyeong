@@ -72,13 +72,18 @@ function DetailInfo(props) {
         if (user.userData && user.userData.isAuth) {
             try {
                 let body = { productId: props.product._id, userId: user.userData._id }
-                const { data: { likes } } = await axios.post("/api/product/like", body)
+                const { data } = await axios.post("/api/product/like", body)
                 const { payload } = await dispatch(addLike(props.product._id))
-                setLikeState(likes)
-                if (payload.alreadyLike) {
-                    setLikeBool(false)
+                console.log(data)
+                if (data.myProduct) {
+                    alert("자신의 상품에는 좋아요를 누를 수 없습니다.")
                 } else {
-                    setLikeBool(true)
+                    setLikeState(data.likes)
+                    if (payload.alreadyLike) {
+                        setLikeBool(false)
+                    } else {
+                        setLikeBool(true)
+                    }
                 }
             } catch (error) {
                 console.log(error)
@@ -96,6 +101,7 @@ function DetailInfo(props) {
                 <Descriptions.Item label="위치">{product.location}</Descriptions.Item>
                 <Descriptions.Item label="조회수">{product.views}</Descriptions.Item>
                 <Descriptions.Item label="좋아요"><HeartFilled style={{ color: "red" }} /> {likeState}</Descriptions.Item>
+                <Descriptions.Item label="판매자">{product.writer.name}</Descriptions.Item>
                 <Descriptions.Item label="설명">{product.description}</Descriptions.Item>
             </Descriptions>
             <br />

@@ -36,6 +36,10 @@ const UserSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
+    products: {
+        type: Array,
+        default: []
+    }
 })
 
 UserSchema.pre("save", function (next) {
