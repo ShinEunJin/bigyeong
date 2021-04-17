@@ -27,6 +27,10 @@ const ProductSchema = new mongoose.Schema({
     writer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
+    },
+    comments: {
+        type: Array,
+        default: []
     }
 }, { timestamps: true })
 

@@ -44,6 +44,7 @@ export const auth = (req, res) => {
         isAuth: true,
         isAdmin: req.user.role === 0 ? false : true,
         email: req.user.email,
+        name: req.user.name,
         role: req.user.role,
         image: req.user.image,
         take: req.user.take,
@@ -174,5 +175,21 @@ export const removeTake = async (req, res) => {
         }
     } catch (error) {
         return res.status(400).json({ success: false, error })
+    }
+}
+
+export const uploadAvatar = async (req, res) => {
+    const {
+        file,
+        user: { _id }
+    } = req
+    try {
+        const filePath = file.path
+        const user = await User.findOne({ _id })
+        user.avatar = filePath
+        await user.save()
+        return res.json({ success, user })
+    } catch (error) {
+        return res.json({ success: false, error })
     }
 }

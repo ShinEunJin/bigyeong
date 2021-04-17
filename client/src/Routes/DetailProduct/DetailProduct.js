@@ -9,6 +9,18 @@ import DetailInfo from './DetailInfo'
 const Container = styled.div`
     width: 80%;
     margin: 0 auto;
+    padding-bottom: 100px;
+`
+
+const CommentsColumn = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid black;
+`
+
+const CommentsList = styled.div`
+    padding: 10px;
 `
 
 function DetailProduct(props) {
@@ -27,7 +39,7 @@ function DetailProduct(props) {
         }
     }
 
-    useEffect(async () => {
+    useEffect(() => {
         try {
             getProductDetail()
         } catch (error) {
@@ -38,7 +50,7 @@ function DetailProduct(props) {
     return (
         <>
             <Container>
-                <Row gutter={[16, 16]}>
+                <Row gutter={[16, 16]} style={{ marginBottom: '50px' }}>
                     <Col lg={12} xs={24}>
                         <DetailImage product={productState} />
                     </Col>
@@ -46,6 +58,23 @@ function DetailProduct(props) {
                         <DetailInfo product={productState} />
                     </Col>
                 </Row>
+                <CommentsColumn>
+                    <CommentsList>
+                        <span>안녕하세요</span>
+                    </CommentsList>
+                    <CommentsList>
+                        <span>안녕하세요</span>
+                    </CommentsList>
+                    <CommentsList>
+                        <span>안녕하세요</span>
+                    </CommentsList>
+                    <CommentsList>
+                        <span>안녕하세요</span>
+                    </CommentsList>
+                    <CommentsList>
+                        <span>안녕하세요</span>
+                    </CommentsList>
+                </CommentsColumn>
             </Container>
         </>
     )

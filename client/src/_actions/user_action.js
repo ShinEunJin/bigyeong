@@ -1,67 +1,81 @@
 import axios from "axios"
-import { AUTH_USER, ADD_TAKE, ADD_LIKE, LOGIN_USER, REGISTER_USER, LOGOUT_USER, GET_TAKE, REMOVE_TAKE } from "./types"
+import { AUTH_USER, ADD_TAKE, ADD_LIKE, LOGIN_USER, REGISTER_USER, LOGOUT_USER, GET_TAKE, REMOVE_TAKE, UPLOAD_AVATAR } from "./types"
 
 export const loginUser = async (dataToSubmit) => {
-    const { data: request } = await axios.post("/api/users/login", dataToSubmit)
+    const { data } = await axios.post("/api/users/login", dataToSubmit)
     return {
         type: LOGIN_USER,
-        payload: request
+        payload: data
     }
 }
 
 export const registerUser = async (dataToSubmit) => {
-    const { data: request } = await axios.post("/api/users/register", dataToSubmit)
+    const { data } = await axios.post("/api/users/register", dataToSubmit)
     return {
         type: REGISTER_USER,
-        payload: request
+        payload: data
     }
 }
 
 export const logout = async () => {
-    const { data: request } = await axios.get("/api/users/logout")
+    const { data } = await axios.get("/api/users/logout")
     return {
         type: LOGOUT_USER,
-        payload: request
+        payload: data
     }
 }
 
 export const auth = async () => {
-    const { data: request } = await axios.get("/api/users/auth")
+    const { data } = await axios.get("/api/users/auth")
     return {
         type: AUTH_USER,
-        payload: request
+        payload: data
     }
 }
 
 export const addTake = async (productId) => {
     let body = { productId }
-    const { data: request } = await axios.post("/api/users/addTake", body)
+    const { data } = await axios.post("/api/users/addTake", body)
     return {
         type: ADD_TAKE,
-        payload: request
+        payload: data
     }
 }
 
 export const addLike = async (productId) => {
     let body = { productId }
-    const { data: request } = await axios.post("/api/users/addLike", body)
-    if (request.myProduct) {
+    const { data } = await axios.post("/api/users/addLike", body)
+    if (data.myProduct) {
         return {
             type: null
         }
     } else {
         return {
             type: ADD_LIKE,
-            payload: request
+            payload: data
         }
     }
 }
 
 export const removeTake = async (productId) => {
     let body = { productId }
-    const { data: request } = await axios.post("/api/users/removeTake", body)
+    const { data } = await axios.post("/api/users/removeTake", body)
     return {
         type: REMOVE_TAKE,
-        payload: request
+        payload: data
+    }
+}
+
+export const uploadAvatar = async (imageFile) => {
+    let formData = new FormData
+    const config = {
+        header: { "content-type": "multipart/form-data" }
+    }
+    formData.append("imageFile", imageFile[0])
+    const { data } = await axios.post("/api/users/uploadAvatar", formData, config)
+    console.log(request)
+    return {
+        type: UPLOAD_AVATAR,
+        payload: data
     }
 }

@@ -6,6 +6,7 @@ const AUTH = "/api/users/auth"
 const ADD_TAKE = "/api/users/addTake"
 const ADD_LIKE = "/api/users/addLike"
 const REMOVE_TAKE = "/api/users/removeTake"
+const UPLOAD_AVATAR = "/api/users/uploadAvatar"
 
 //Product
 const PRODUCT = "/api/product"
@@ -23,6 +24,7 @@ const routes = {
     addTake: ADD_TAKE,
     addLike: ADD_LIKE,
     removeTake: REMOVE_TAKE,
+    uploadAvatar: UPLOAD_AVATAR,
     product: PRODUCT,
     productAll: PRODUCT_ALL,
     productDetail: PRODUCT_DETAIL,

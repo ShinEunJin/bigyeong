@@ -10,6 +10,7 @@ const ButtonColumn = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 40px;
+    margin-bottom: 50px;
 `
 
 function DetailInfo(props) {
@@ -74,7 +75,6 @@ function DetailInfo(props) {
                 let body = { productId: props.product._id, userId: user.userData._id }
                 const { data } = await axios.post("/api/product/like", body)
                 const { payload } = await dispatch(addLike(props.product._id))
-                console.log(data)
                 if (data.myProduct) {
                     alert("자신의 상품에는 좋아요를 누를 수 없습니다.")
                 } else {
@@ -101,7 +101,7 @@ function DetailInfo(props) {
                 <Descriptions.Item label="위치">{product.location}</Descriptions.Item>
                 <Descriptions.Item label="조회수">{product.views}</Descriptions.Item>
                 <Descriptions.Item label="좋아요"><HeartFilled style={{ color: "red" }} /> {likeState}</Descriptions.Item>
-                <Descriptions.Item label="판매자">{product.writer.name}</Descriptions.Item>
+                <Descriptions.Item label="판매자">{product.writer && product.writer.name}</Descriptions.Item>
                 <Descriptions.Item label="설명">{product.description}</Descriptions.Item>
             </Descriptions>
             <br />

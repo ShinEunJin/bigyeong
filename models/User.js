@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    image: String,
+    avatar: String,
     token: String,
     take: {
         type: Array,
@@ -37,6 +37,10 @@ const UserSchema = new mongoose.Schema({
         default: []
     },
     products: {
+        type: Array,
+        default: []
+    },
+    comments: {
         type: Array,
         default: []
     }

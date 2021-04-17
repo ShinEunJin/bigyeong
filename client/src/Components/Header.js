@@ -13,9 +13,9 @@ const HeaderBar = styled.header`
     justify-content: space-between;
     align-items: center;
     padding: 0px 15px;
-    box-shadow: 2px 2px 5px black;
+    box-shadow: 2px 2px 5px #a2b29f;
     z-index: 5;
-    background-color: white;
+    background-color: #f8ede3;
 `
 
 const SLink = styled(Link)`
@@ -82,6 +82,9 @@ function Header(props) {
                     </OnPage>
                     <OnPage current={props.location.pathname === "/upload"}>
                         <SLink to="/upload">업로드</SLink>
+                    </OnPage>
+                    <OnPage current={props.location.pathname === "/user/my-profile"}>
+                        <SLink to="/user/my-profile">내 프로필</SLink>
                     </OnPage>
                     <OnPage>
                         <div style={{ fontSize: "16px", cursor: "pointer" }} onClick={onLogoutHandler}>로그아웃</div>
