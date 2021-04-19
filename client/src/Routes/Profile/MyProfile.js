@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
 import { Avatar } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
-import { useDispatch } from 'react-redux'
-import { uploadAvatar } from '../../_actions/user_action'
+import { useSelector } from "react-redux"
+
 
 const Container = styled.div`
     width: 70%;
@@ -28,44 +28,25 @@ const Profile = styled.div`
     padding: 20px;
 `
 
-const PhotoColumn = styled.div``
-
-const DescriptionColumn = styled.div`
-    display: flex;
-    flex-direction: column;
-`
-
 function MyProfile(props) {
 
-    const [user, setUser] = useState({})
-    const [name, setName] = useState("")
+    const { userData: user } = useSelector(state => state.user)
 
-    const dispatch = useDispatch()
-
-    const onNameChange = e => {
-        setName(e.target.value)
-    }
-
-    const onUploadHandler = async () => {
-        const result = await dispatch(uploadAvatar(imageFile))
-        console.log("result", result)
-    }
+    /* const [user, setUser] = useState({})
 
     useEffect(() => {
         if (props.user && props.user.userData) {
             setUser(props.user.userData)
         }
-    }, [props.user, props.user.userData])
+    }, [props.user, props.user.userData]) */
 
     return (
         <Container>
             <ProfleColumn>
                 <Profile>
-                    <form>
-                        <input type="file" accept="image/*" />
-                        <input type="text" value={name} onChange={onNameChange} />
-                    </form>
-                    {/* <Avatar onClick={onUploadHandler} size={64} draggable icon={<UserOutlined />} style={{ cursor: 'pointer' }} /> */}
+                    <Avatar size={64} draggable icon={<UserOutlined />} />
+                    {user.name}
+                    {user.email}
                 </Profile>
             </ProfleColumn>
         </Container>

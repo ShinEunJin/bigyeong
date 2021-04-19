@@ -2,6 +2,7 @@ import express from "express"
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import routes from "./routes"
+import cors from "cors"
 import { addLike, addTake, auth, login, logout, register, removeTake, uploadAvatar } from "./controllers/userController"
 import middleAuth from "./middlewares/middleAuth"
 import { deployProduct, detailProduct, likeProduct, takeProduct, uploadImages, uploadProduct } from "./controllers/productController"
@@ -9,6 +10,7 @@ import { uploadImage } from "./middlewares/multer"
 
 const app = express()
 
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cookieParser())
