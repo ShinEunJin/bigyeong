@@ -3,7 +3,7 @@ import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import routes from "./routes"
 import cors from "cors"
-import { addLike, addTake, auth, login, logout, register, removeTake, uploadAvatar } from "./controllers/userController"
+import { addLike, addTake, auth, getLike, login, logout, register, removeTake, uploadAvatar } from "./controllers/userController"
 import middleAuth from "./middlewares/middleAuth"
 import { deployProduct, detailProduct, likeProduct, takeProduct, uploadImages, uploadProduct } from "./controllers/productController"
 import { uploadImage } from "./middlewares/multer"
@@ -25,6 +25,7 @@ app.get(routes.logout, middleAuth, logout)
 app.post(routes.addTake, middleAuth, addTake)
 app.post(routes.addLike, middleAuth, addLike)
 app.post(routes.removeTake, middleAuth, removeTake)
+app.get(routes.getLike, middleAuth, getLike)
 app.post(routes.uploadAvatar, uploadImage, middleAuth, uploadAvatar)
 
 //Product

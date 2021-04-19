@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
 import { Avatar } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { getLike } from '../../_actions/user_action'
+import { Row, Card, Col } from "antd"
+import { Link } from "react-router-dom"
 
+const { Meta } = Card
 
 const Container = styled.div`
     width: 70%;
@@ -14,9 +18,11 @@ const ProfleColumn = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-bottom: 50px;
 `
 
 const Profile = styled.div`
+    position: relative;
     width: 40%;
     max-width: 400px;
     height: 400px;
@@ -28,27 +34,77 @@ const Profile = styled.div`
     padding: 20px;
 `
 
-function MyProfile(props) {
+const NameColumn = styled.div`
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+`
+
+const EmailColumn = styled.div`
+    font-weight: 600;
+    font-size: 1.5rem;
+`
+
+const Button = styled.button`
+    position: absolute;
+    bottom: 20px;
+    width: 90%;
+    height: 50px;
+    background-color: #98ddca;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    font-weight: 600;
+`
+
+function MyProfile() {
 
     const { userData: user } = useSelector(state => state.user)
 
-    /* const [user, setUser] = useState({})
+    const [products, setProducts] = useState([])
+
+    const dispatch = useDispatch()
+
+    const getLikeProducts = async () => {
+        let newProducts = []
+        const { payload: { product } } = await dispatch(getLike())
+        if (product && product.length > 0) {
+            product.forEach(item => (
+                newProducts.push(item)
+            ))
+            setProducts(newProducts)
+        }
+    }
 
     useEffect(() => {
-        if (props.user && props.user.userData) {
-            setUser(props.user.userData)
-        }
-    }, [props.user, props.user.userData]) */
+        getLikeProducts()
+    }, [])
 
     return (
         <Container>
             <ProfleColumn>
                 <Profile>
-                    <Avatar size={64} draggable icon={<UserOutlined />} />
-                    {user.name}
-                    {user.email}
+                    <Avatar style={{ marginBottom: 70 }} size={64} draggable icon={<UserOutlined />} />
+                    <NameColumn>
+                        {user.name}
+                    </NameColumn>
+                    <EmailColumn>
+                        {user.email}
+                    </EmailColumn>
+                    <Button>프로필 수정</Button>
                 </Profile>
             </ProfleColumn>
+            <Row gutter={[16, 16]}>
+                {products.map((item, index) => (
+                    <Col key={index} lg={6} md={8} xs={24}>
+                        <Link to={`/product/${item._id}`}>
+                            <Card cover={<img style={{ height: 250 }} src={`http://localhost:5000/${item.images[0]}`} />}>
+                                <Meta title={item.name} description={item.region} />
+                            </Card>
+                        </Link>
+                    </Col>
+                ))}
+            </Row>
         </Container>
     )
 }

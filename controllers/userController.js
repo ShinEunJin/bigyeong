@@ -178,6 +178,22 @@ export const removeTake = async (req, res) => {
     }
 }
 
+export const getLike = async (req, res) => {
+    const {
+        user: { _id }
+    } = req
+    try {
+        const user = await User.findOne({ _id })
+        let productList = user.likes.map(item => {
+            return item.id
+        })
+        const product = await Product.find({ _id: { $in: productList } })
+        return res.status(200).json({ success: true, product })
+    } catch (error) {
+        return res.status(400).json({ success: false, error })
+    }
+}
+
 export const uploadAvatar = async (req, res) => {
     const {
         file,

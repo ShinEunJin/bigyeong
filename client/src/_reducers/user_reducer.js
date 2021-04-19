@@ -1,4 +1,4 @@
-import { AUTH_USER, LOGIN_USER, REGISTER_USER, LOGOUT_USER, ADD_TAKE, ADD_LIKE, GET_TAKE, REMOVE_TAKE, UPLOAD_AVATAR } from "../_actions/types";
+import { AUTH_USER, LOGIN_USER, REGISTER_USER, LOGOUT_USER, ADD_TAKE, ADD_LIKE, GET_TAKE, REMOVE_TAKE, UPLOAD_AVATAR, GET_LIKE } from "../_actions/types";
 
 export default (state = {}, action) => {
     switch (action.type) {
@@ -24,6 +24,11 @@ export default (state = {}, action) => {
             return {
                 ...state,
                 userData: { ...state.userData, take: action.payload }
+            }
+        case GET_LIKE:
+            return {
+                ...state,
+                userData: { ...state.userData, likes: action.payload }
             }
         case UPLOAD_AVATAR:
             return { ...state, avatar: action.payload }
