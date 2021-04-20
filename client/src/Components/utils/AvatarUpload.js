@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from "styled-components"
 import Dropzone from "react-dropzone"
 import { Avatar } from 'antd'
@@ -31,7 +31,7 @@ const RealAvatar = styled.img`
 
 function AvatarUpload(props) {
 
-    const { userData } = useSelector(state => state.user)
+    const { userData: user } = useSelector(state => state.user)
 
     const [avatar, setAvatar] = useState("")
 
@@ -50,8 +50,17 @@ function AvatarUpload(props) {
         }
     }
 
+    useEffect(() => {
+        if (user && user.avatar) {
+            setAvatar(user.avatar)
+            props.refreshFunction(user.avatar)
+        } else {
+            setAvatar("")
+        }
+    }, [])
+
     return (
-        <>
+        <div style={{ marginBottom: 70 }}>
             <Dropzone onDrop={onDropHandler}>
                 {({ getRootProps, getInputProps }) => (
                     <section>
@@ -64,7 +73,7 @@ function AvatarUpload(props) {
                     </section>
                 )}
             </Dropzone>
-        </>
+        </div>
     )
 }
 

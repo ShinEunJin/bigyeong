@@ -49,7 +49,8 @@ export const auth = (req, res) => {
         image: req.user.image,
         take: req.user.take,
         likes: req.user.likes,
-        avatar: req.user.avatar
+        avatar: req.user.avatar,
+        products: req.user.products
     })
 }
 
@@ -195,19 +196,19 @@ export const getLike = async (req, res) => {
     }
 }
 
-export const uploadAvatar = async (req, res) => {
+export const getMyProduct = async (req, res) => {
     const {
-        file,
         user: { _id }
     } = req
     try {
-        const filePath = file.path
         const user = await User.findOne({ _id })
-        user.avatar = filePath
-        await user.save()
-        return res.json({ success, user })
+        let productList = user.products.map(item => {
+            return item.id
+        })
+        const product = await Product.find({ _id: { $in: productList } })
+        return res.status(200).json({ success: true, product })
     } catch (error) {
-        return res.json({ success: false, error })
+        return res.status(400).json({ success: false, error })
     }
 }
 
@@ -219,6 +220,25 @@ export const uploadAvatars = (req, res) => {
             filePath: file.path,
             fileName: file.filename
         })
+    } catch (error) {
+        return res.json({ success: false, error })
+    }
+}
+
+export const updateProfile = async (req, res) => {
+    const {
+        user: { _id },
+        body: {
+            avatar
+        }
+    } = req
+    try {
+        const user = await User.findOneAndUpdate(
+            { _id },
+            { avatar },
+        )
+        await user.save()
+        return res.status(200).json({ success: true, user })
     } catch (error) {
         return res.json({ success: false, error })
     }

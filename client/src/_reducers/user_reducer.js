@@ -1,4 +1,4 @@
-import { AUTH_USER, LOGIN_USER, REGISTER_USER, LOGOUT_USER, ADD_TAKE, ADD_LIKE, GET_TAKE, REMOVE_TAKE, UPLOAD_AVATAR, GET_LIKE } from "../_actions/types";
+import { AUTH_USER, LOGIN_USER, REGISTER_USER, LOGOUT_USER, ADD_TAKE, ADD_LIKE, GET_TAKE, REMOVE_TAKE, UPLOAD_AVATAR, GET_LIKE, GET_MY_PRODUCTS, UPDATE_PROFILE } from "../_actions/types";
 
 export default (state = {}, action) => {
     switch (action.type) {
@@ -30,8 +30,13 @@ export default (state = {}, action) => {
                 ...state,
                 userData: { ...state.userData, likes: action.payload }
             }
-        case UPLOAD_AVATAR:
-            return { ...state, avatar: action.payload }
+        case GET_MY_PRODUCTS:
+            return {
+                ...state,
+                userData: { ...state.userData, products: action.payload }
+            }
+        case UPDATE_PROFILE:
+            return { ...state, userData: action.payload }
         default:
             return state
     }

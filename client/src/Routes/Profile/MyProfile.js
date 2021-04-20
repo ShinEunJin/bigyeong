@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { Avatar } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from "react-redux"
-import { getLike } from '../../_actions/user_action'
+import { getMyProducts } from '../../_actions/user_action'
 import { Row, Card, Col } from "antd"
 import { Link } from "react-router-dom"
 
@@ -65,6 +65,15 @@ const Span = styled.span`
     height: 100%;
 `
 
+const RealAvatar = styled.img`
+    height: 96px;
+    width: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    margin-bottom: 70px;
+`
+
 function MyProfile() {
 
     const { userData: user } = useSelector(state => state.user)
@@ -73,9 +82,9 @@ function MyProfile() {
 
     const dispatch = useDispatch()
 
-    const getLikeProducts = async () => {
+    const myProducts = async () => {
         let newProducts = []
-        const { payload: { product } } = await dispatch(getLike())
+        const { payload: { product } } = await dispatch(getMyProducts())
         if (product && product.length > 0) {
             product.forEach(item => (
                 newProducts.push(item)
@@ -85,14 +94,14 @@ function MyProfile() {
     }
 
     useEffect(() => {
-        getLikeProducts()
+        myProducts()
     }, [])
 
     return (
         <Container>
             <ProfleColumn>
                 <Profile>
-                    <Avatar style={{ marginBottom: 70 }} size={96} icon={<UserOutlined />} />
+                    {user && user.avatar ? <RealAvatar src={`http://localhost:5000/${user.avatar}`} /> : <Avatar style={{ marginBottom: 70 }} size={96} icon={<UserOutlined />} />}
                     <NameColumn>
                         {user.name}
                     </NameColumn>
@@ -106,7 +115,7 @@ function MyProfile() {
                     </Button>
                 </Profile>
             </ProfleColumn>
-            {/* <Row gutter={[16, 16]}>
+            <Row gutter={[16, 16]}>
                 {products.map((item, index) => (
                     <Col key={index} lg={6} md={8} xs={24}>
                         <Link to={`/product/${item._id}`}>
@@ -116,7 +125,7 @@ function MyProfile() {
                         </Link>
                     </Col>
                 ))}
-            </Row> */}
+            </Row>
         </Container>
     )
 }

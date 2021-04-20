@@ -1,5 +1,5 @@
 import axios from "axios"
-import { AUTH_USER, ADD_TAKE, ADD_LIKE, LOGIN_USER, REGISTER_USER, LOGOUT_USER, GET_TAKE, REMOVE_TAKE, UPLOAD_AVATAR, GET_LIKE } from "./types"
+import { AUTH_USER, ADD_TAKE, ADD_LIKE, LOGIN_USER, REGISTER_USER, LOGOUT_USER, REMOVE_TAKE, GET_LIKE, GET_MY_PRODUCTS, UPDATE_PROFILE } from "./types"
 
 export const loginUser = async (dataToSubmit) => {
     const { data } = await axios.post("/api/users/login", dataToSubmit)
@@ -74,16 +74,18 @@ export const getLike = async () => {
     }
 }
 
-export const uploadAvatar = async (imageFile) => {
-    let formData = new FormData
-    const config = {
-        header: { "content-type": "multipart/form-data" }
-    }
-    formData.append("imageFile", imageFile[0])
-    const { data } = await axios.post("/api/users/uploadAvatar", formData, config)
-    console.log(request)
+export const getMyProducts = async () => {
+    const { data } = await axios.get("/api/users/getMyProducts")
     return {
-        type: UPLOAD_AVATAR,
+        type: GET_MY_PRODUCTS,
+        payload: data
+    }
+}
+
+export const updateProfile = async (dataToSubmit) => {
+    const { data } = await axios.post("/api/users/updateProfile", dataToSubmit)
+    return {
+        type: UPDATE_PROFILE,
         payload: data
     }
 }

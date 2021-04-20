@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import styled from "styled-components"
 import AvatarUpload from '../../Components/utils/AvatarUpload'
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { withRouter } from "react-router-dom"
+import { updateProfile } from '../../_actions/user_action'
 
 const Container = styled.div`
     width: 70%;
@@ -61,26 +63,41 @@ const Span = styled.span`
 
 function UpdateProfile(props) {
 
+    const dispatch = useDispatch()
+
     const { userData: user } = useSelector(state => state.user)
 
-    const [image, setImage] = useState("")
+    const [avatar, setAvatar] = useState("")
 
-    const updateImage = newImage => {
-        setImage(newImage)
+    const updateAvatar = newAvatar => {
+        setAvatar(newAvatar)
+    }
+
+    const onClickHandler = async () => {
+        let body = { avatar }
+        const { payload: { success } } = await dispatch(updateProfile(body))
+        if (success) {
+            props.history.push("/user/my-profile")
+            setTimeout(() => {
+                alert("성공적으로 프로필을 수정하였습니다.")
+            }, 1000);
+        } else {
+            alert("프로필을 수정하는데 오류가 났습니다.")
+        }
     }
 
     return (
         <Container>
             <ProfleColumn>
                 <Profile>
-                    <AvatarUpload refreshFunction={updateImage} />
+                    <AvatarUpload refreshFunction={updateAvatar} />
                     <NameColumn>
                         {user.name}
                     </NameColumn>
                     <EmailColumn>
                         {user.email}
                     </EmailColumn>
-                    <Button>
+                    <Button onClick={onClickHandler}>
                         <Span>프로필 수정 완료</Span>
                     </Button>
                 </Profile>
@@ -89,4 +106,4 @@ function UpdateProfile(props) {
     )
 }
 
-export default UpdateProfile
+export default withRouter(UpdateProfile)
