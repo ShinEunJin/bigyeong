@@ -57,6 +57,14 @@ const Button = styled.button`
     font-weight: 600;
 `
 
+const Span = styled.span`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+`
+
 function MyProfile() {
 
     const { userData: user } = useSelector(state => state.user)
@@ -84,17 +92,21 @@ function MyProfile() {
         <Container>
             <ProfleColumn>
                 <Profile>
-                    <Avatar style={{ marginBottom: 70 }} size={64} draggable icon={<UserOutlined />} />
+                    <Avatar style={{ marginBottom: 70 }} size={96} icon={<UserOutlined />} />
                     <NameColumn>
                         {user.name}
                     </NameColumn>
                     <EmailColumn>
                         {user.email}
                     </EmailColumn>
-                    <Button>프로필 수정</Button>
+                    <Button>
+                        <Link to="/user/update-profile">
+                            <Span>프로필 수정</Span>
+                        </Link>
+                    </Button>
                 </Profile>
             </ProfleColumn>
-            <Row gutter={[16, 16]}>
+            {/* <Row gutter={[16, 16]}>
                 {products.map((item, index) => (
                     <Col key={index} lg={6} md={8} xs={24}>
                         <Link to={`/product/${item._id}`}>
@@ -104,7 +116,7 @@ function MyProfile() {
                         </Link>
                     </Col>
                 ))}
-            </Row>
+            </Row> */}
         </Container>
     )
 }

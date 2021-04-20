@@ -48,7 +48,8 @@ export const auth = (req, res) => {
         role: req.user.role,
         image: req.user.image,
         take: req.user.take,
-        likes: req.user.likes
+        likes: req.user.likes,
+        avatar: req.user.avatar
     })
 }
 
@@ -205,6 +206,19 @@ export const uploadAvatar = async (req, res) => {
         user.avatar = filePath
         await user.save()
         return res.json({ success, user })
+    } catch (error) {
+        return res.json({ success: false, error })
+    }
+}
+
+export const uploadAvatars = (req, res) => {
+    const { file } = req
+    try {
+        return res.json({
+            success: true,
+            filePath: file.path,
+            fileName: file.filename
+        })
     } catch (error) {
         return res.json({ success: false, error })
     }

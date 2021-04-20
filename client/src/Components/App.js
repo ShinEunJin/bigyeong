@@ -14,6 +14,7 @@ import Upload from "../Routes/Upload"
 import DetailProduct from "../Routes/DetailProduct/DetailProduct"
 import CartPage from "../Routes/Cart/CartPage";
 import MyProfile from "../Routes/Profile/MyProfile"
+import UpdateProfile from "../Routes/Profile/UpdateProfile"
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/product/:id" component={Auth(DetailProduct, null)} />
           <Route exact path="/user/cart" component={Auth(CartPage, true)} />
           <Route exact path="/user/my-profile" component={Auth(MyProfile, true)} />
+          <Route exact path="/user/update-profile" component={Auth(UpdateProfile, true)} />
           <Redirect from="*" to="/" />
         </Switch>
       </Router>
