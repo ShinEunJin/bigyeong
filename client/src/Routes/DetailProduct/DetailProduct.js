@@ -5,22 +5,12 @@ import { Col, Row } from "antd"
 import styled from "styled-components"
 import DetailImage from "./DetailImage"
 import DetailInfo from './DetailInfo'
+import Comments from '../../Components/utils/Comments'
 
 const Container = styled.div`
     width: 80%;
     margin: 0 auto;
     padding-bottom: 100px;
-`
-
-const CommentsColumn = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    border: 1px solid black;
-`
-
-const CommentsList = styled.div`
-    padding: 10px;
 `
 
 function DetailProduct(props) {
@@ -58,23 +48,7 @@ function DetailProduct(props) {
                         <DetailInfo product={productState} />
                     </Col>
                 </Row>
-                <CommentsColumn>
-                    <CommentsList>
-                        <span>안녕하세요</span>
-                    </CommentsList>
-                    <CommentsList>
-                        <span>안녕하세요</span>
-                    </CommentsList>
-                    <CommentsList>
-                        <span>안녕하세요</span>
-                    </CommentsList>
-                    <CommentsList>
-                        <span>안녕하세요</span>
-                    </CommentsList>
-                    <CommentsList>
-                        <span>안녕하세요</span>
-                    </CommentsList>
-                </CommentsColumn>
+                <Comments />
             </Container>
         </>
     )

@@ -28,10 +28,12 @@ const ProductSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    comments: {
-        type: Array,
-        default: []
-    }
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Comment"
+        }
+    ]
 }, { timestamps: true })
 
 const Product = mongoose.model("Product", ProductSchema)

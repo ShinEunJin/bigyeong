@@ -1,5 +1,6 @@
 import Product from "../models/Product"
 import User from "../models/User"
+import Comment from "../models/Comment"
 
 export const uploadImages = (req, res) => {
     const { file } = req
@@ -141,6 +142,50 @@ export const takeProduct = async (req, res) => {
     try {
         const product = await Product.find({ _id: { $in: takeList } }).populate("writer")
         return res.status(200).json({ success: true, product })
+    } catch (error) {
+        return res.status(400).json({ success: false, error })
+    }
+}
+
+export const writeComment = async (req, res) => {
+    const {
+        body: { text, productId },
+        user: writer
+    } = req
+    try {
+        const comment = new Comment({ text, writer, writer_name: writer.name, writer_avatar: writer.avatar, product: productId })
+        await comment.save()
+        await Product.findOneAndUpdate(
+            { _id: productId },
+            {
+                $push: {
+                    comments: comment
+                }
+            },
+            { new: true }
+        )
+        await User.findOneAndUpdate(
+            { _id: writer._id },
+            {
+                $push: {
+                    comments: comment
+                }
+            },
+            { new: true }
+        )
+        return res.status(200).json({ success: true, comment })
+    } catch (error) {
+        return res.status(400).json({ success: false, error })
+    }
+}
+
+export const getComments = async (req, res) => {
+    const {
+        query: { id }
+    } = req
+    try {
+        const product = await Product.findOne({ _id: id }).populate("comments")
+        return res.status(200).json({ success: true, comments: product.comments })
     } catch (error) {
         return res.status(400).json({ success: false, error })
     }

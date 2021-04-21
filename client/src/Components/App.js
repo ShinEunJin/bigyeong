@@ -15,6 +15,7 @@ import DetailProduct from "../Routes/DetailProduct/DetailProduct"
 import CartPage from "../Routes/Cart/CartPage";
 import MyProfile from "../Routes/Profile/MyProfile"
 import UpdateProfile from "../Routes/Profile/UpdateProfile"
+import Footer from "./Footer";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route exact path="/user/update-profile" component={Auth(UpdateProfile, true)} />
           <Redirect from="*" to="/" />
         </Switch>
+        <Footer />
       </Router>
       <GlobalStyle />
     </>
