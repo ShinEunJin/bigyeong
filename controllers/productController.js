@@ -184,8 +184,8 @@ export const getComments = async (req, res) => {
         query: { id }
     } = req
     try {
-        const product = await Product.findOne({ _id: id }).populate("comments")
-        return res.status(200).json({ success: true, comments: product.comments })
+        const comments = await Comment.find({ product: id })
+        return res.status(200).json({ success: true, comments })
     } catch (error) {
         return res.status(400).json({ success: false, error })
     }

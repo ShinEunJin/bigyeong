@@ -7,7 +7,10 @@ const CommentSchema = new mongoose.Schema({
     },
     writer_name: String,
     writer_avatar: String,
-    product: String,
+    product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product"
+    },
     likes: {
         type: Number,
         default: 0

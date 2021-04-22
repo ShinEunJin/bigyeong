@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import { FaTimes } from "react-icons/fa"
 import { Input } from 'antd';
 import axios from 'axios';
 import { withRouter } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 const { TextArea } = Input;
 
@@ -34,6 +36,7 @@ const CommentsList = styled.div`
     border-radius: 15px;
     display: flex;
     margin-bottom: 2rem;
+    justify-content: space-between;
 `
 
 const Form = styled.form`
@@ -55,12 +58,37 @@ const InputSubmit = styled.input`
     cursor: pointer;
 `
 
+const AvatarColumn = styled.div`
+    min-width: 10%;
+    max-width: 88px;
+`
+
+const TextColumn = styled.div`
+    display: flex;
+    width: 80%;
+    flex-direction: column;
+    align-self: flex-start;
+`
+
+const CommentName = styled.span`
+    font-weight: 600;
+    margin-bottom: 10px;
+`
+
+const DeleteColumn = styled.div`
+    min-width: 5%;
+    max-width: 44px;
+`
+
 function Comments(props) {
+
+    const { userData: user } = useSelector(state => state.user)
 
     const productId = props.match.params.id
 
     const [text, setText] = useState("")
     const [comments, setComments] = useState([])
+    const [commentNumber, setCommentNumber] = useState(0)
 
     const onTextChange = e => {
         setText(e.target.value)
@@ -69,20 +97,31 @@ function Comments(props) {
     const onSubmitHandler = async e => {
         e.preventDefault()
         let body = { text, productId }
-        try {
-            await axios.post("/api/product/comments", body)
-        } catch (error) {
-            alert("댓글을 등록하는데 실패하였습니다.")
+        if (user.isAuth) {
+            try {
+                const { data } = await axios.post("/api/product/comments", body)
+                setComments([...comments, data.comment].reverse())
+                setText("")
+            } catch (error) {
+                alert("댓글을 등록하는데 실패하였습니다.")
+            }
+        } else {
+            alert("댓글을 등록하기 위해서는 로그인을 해야합니다.")
         }
     }
 
     const getComments = async () => {
         try {
             const { data } = await axios.get(`/api/product/getComments?id=${productId}`)
-            setComments(data.comments)
+            setComments(data.comments.reverse())
+            setCommentNumber(data.comments.length)
         } catch (error) {
             alert("댓글을 불러오는데 실패하였습니다.")
         }
+    }
+
+    const onDeleteComment = async commentId => {
+        console.log(commentId)
     }
 
     useEffect(() => {
@@ -92,22 +131,27 @@ function Comments(props) {
     return (
         <CommentsColumn>
             <CommetsHead>
-                댓글
+                댓글 ({commentNumber})
             </CommetsHead>
             <FormColumn>
                 <Avatar style={{ marginRight: 20 }} size={40} icon={<UserOutlined />} />
                 <Form onSubmit={onSubmitHandler}>
-                    <InputText placeholder="댓글 작성하기" showCount maxLength={300} value={text} onChange={onTextChange} />
+                    <InputText placeholder="댓글 작성하기" showCount maxLength={500} value={text} onChange={onTextChange} />
                     <InputSubmit type="submit" value="확인" />
                 </Form>
             </FormColumn>
             {comments && comments.length > 0 && comments.map((item, index) => (
                 <CommentsList key={index}>
-                    <Avatar style={{ marginRight: 20, width: '10%' }} size={40} icon={<UserOutlined />} />
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                        <span style={{ fontWeight: 600, marginBottom: 10 }}>{item && item.writer_name ? item.writer_name : "못찾음"}</span>
-                        {/* <span>{item.text}</span> */}
-                    </div>
+                    <AvatarColumn>
+                        <Avatar style={{ marginRight: 20 }} size={40} icon={<UserOutlined />} />
+                    </AvatarColumn>
+                    <TextColumn>
+                        <CommentName>{item.writer_name}</CommentName>
+                        <span>{item.text}</span>
+                    </TextColumn>
+                    <DeleteColumn>
+                        {user._id === item.writer ? <FaTimes onClick={() => onDeleteComment(item._id)} style={{ cursor: 'pointer' }} /> : <div></div>}
+                    </DeleteColumn>
                 </CommentsList>
             ))}
         </CommentsColumn>
