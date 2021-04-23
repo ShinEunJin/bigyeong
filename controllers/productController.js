@@ -190,3 +190,14 @@ export const getComments = async (req, res) => {
         return res.status(400).json({ success: false, error })
     }
 }
+
+export const removeComment = async (req, res) => {
+    const {
+        body: { commentId }
+    } = req
+    try {
+        await Comment.findOneAndDelete({ _id: commentId })
+    } catch (error) {
+        return res.status(400).json({ success: false, error })
+    }
+}

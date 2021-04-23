@@ -20,6 +20,7 @@ const PRODUCT_LIKE = "/api/product/like"
 const PRODUCT_TAKE = "/api/product/take"
 const PRODUCT_COMMENT = "/api/product/comments"
 const PRODUCT_GET_COMMENT = "/api/product/getComments"
+const PRODUCT_REMOVE_COMMENT = "/api/product/removeComment"
 
 const routes = {
     register: REGISTER,
@@ -40,7 +41,8 @@ const routes = {
     productLike: PRODUCT_LIKE,
     productTake: PRODUCT_TAKE,
     productComment: PRODUCT_COMMENT,
-    productGetComment: PRODUCT_GET_COMMENT
+    productGetComment: PRODUCT_GET_COMMENT,
+    productRemoveComment: PRODUCT_REMOVE_COMMENT
 }
 
 export default routes

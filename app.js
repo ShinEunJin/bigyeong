@@ -5,7 +5,7 @@ import routes from "./routes"
 import cors from "cors"
 import { addLike, addTake, auth, getLike, getMyProduct, login, logout, register, removeTake, uploadAvatars, updateProfile } from "./controllers/userController"
 import middleAuth from "./middlewares/middleAuth"
-import { deployProduct, detailProduct, getComments, likeProduct, takeProduct, uploadImages, uploadProduct, writeComment } from "./controllers/productController"
+import { deployProduct, detailProduct, getComments, likeProduct, removeComment, takeProduct, uploadImages, uploadProduct, writeComment } from "./controllers/productController"
 import { uploadAvatarImage, uploadProductImage } from "./middlewares/multer"
 
 const app = express()
@@ -39,5 +39,6 @@ app.post(routes.productLike, middleAuth, likeProduct)
 app.get(routes.productTake, middleAuth, takeProduct)
 app.post(routes.productComment, middleAuth, writeComment)
 app.get(routes.productGetComment, getComments)
+app.post(routes.productRemoveComment, removeComment)
 
 export default app

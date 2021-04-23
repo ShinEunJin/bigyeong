@@ -8,7 +8,8 @@ express.js
 
 ### 작업 상황
 
-logout state로 바로바로 header 변경하게 만들기
+댓글 입력후 등록될때 x 표시가 없다, 그리고 삭제를 눌러도 바로 사라지지 않는다. useEffect에 deps에 onDelete 함수를
+넣으면 똑같이 무한반복 된다.
 
 #### 기록
 

@@ -121,7 +121,12 @@ function Comments(props) {
     }
 
     const onDeleteComment = async commentId => {
-        console.log(commentId)
+        let body = { commentId }
+        try {
+            await axios.post("/api/product/removeComment", body)
+        } catch (error) {
+            alert("댓글을 지우는데 실패하였습니다.")
+        }
     }
 
     useEffect(() => {
