@@ -1,98 +1,130 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
+import React, { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { Link, withRouter } from "react-router-dom"
 import styled from "styled-components"
+import { Avatar } from "antd"
 import { logout } from "../_actions/user_action"
 
 const HeaderBar = styled.header`
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0px 15px;
-    box-shadow: 2px 2px 5px #a2b29f;
-    z-index: 5;
-    background-color: #f8ede3;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10%;
+  box-shadow: 2px 2px 5px #a2b29f;
+  z-index: 5;
+  background-color: #f8ede3;
+  font-weight: 600;
 `
 
 const SLink = styled(Link)`
-    font-size: 16px;
+  font-size: 16px;
 `
 
 const OnPage = styled.div`
-    border-bottom: 2px solid ${props => props.current ? "aqua" : "transparent"};
-    margin: 0px 10px;
-    width: 70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 48px;
-    transition: border-bottom 0.1s linear;
+  border-bottom: 2px solid
+    ${(props) => (props.current ? "aqua" : "transparent")};
+  margin: 0px 10px;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+  transition: border-bottom 0.1s linear;
+`
+
+const RealAvatar = styled.img`
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
 `
 
 function Header(props) {
+  const user = useSelector((state) => state.user)
 
-    const user = useSelector(state => state.user)
+  const dispatch = useDispatch()
 
-    const dispatch = useDispatch()
+  const onLogoutHandler = () => {
+    dispatch(logout()).then((res) => {
+      if (res.payload.success) {
+        props.history.push("/login")
+      } else {
+        alert("로그아웃 실패했습니다.")
+      }
+    })
+  }
 
-    const onLogoutHandler = () => {
-        dispatch(logout())
-            .then(res => {
-                if (res.payload.success) {
-                    props.history.push("/login")
-                } else {
-                    alert("로그아웃 실패했습니다.")
-                }
-            })
-    }
-
-    if (user.userData && !user.userData.isAuth) {
-        return (
-            <HeaderBar>
-                <div>
-                    <OnPage current={props.location.pathname === "/"}>
-                        <SLink to="/">Home</SLink>
-                    </OnPage>
-                </div>
-                <div style={{ display: "flex" }}>
-                    <OnPage current={props.location.pathname === "/login"}>
-                        <SLink to="/login">로그인</SLink>
-                    </OnPage>
-                    <OnPage current={props.location.pathname === "/register"}>
-                        <SLink to="/register">회원가입</SLink>
-                    </OnPage>
-                </div>
-            </HeaderBar>
-        )
-    } else {
-        return (
-            <HeaderBar>
-                <div>
-                    <OnPage current={props.location.pathname === "/"}>
-                        <SLink to="/">Home</SLink>
-                    </OnPage>
-                </div>
-                <div style={{ display: "flex" }}>
-                    <OnPage current={props.location.pathname === "/user/cart"}>
-                        <SLink to="/user/cart">찜목록</SLink>
-                    </OnPage>
-                    <OnPage current={props.location.pathname === "/upload"}>
-                        <SLink to="/upload">업로드</SLink>
-                    </OnPage>
-                    <OnPage current={props.location.pathname === "/user/my-profile"}>
-                        <SLink to="/user/my-profile">내 프로필</SLink>
-                    </OnPage>
-                    <OnPage>
-                        <div style={{ fontSize: "16px", cursor: "pointer" }} onClick={onLogoutHandler}>로그아웃</div>
-                    </OnPage>
-                </div>
-            </HeaderBar >
-        )
-    }
+  if (user.userData && !user.userData.isAuth) {
+    return (
+      <HeaderBar>
+        <div>
+          <OnPage current={props.location.pathname === "/"}>
+            <SLink to="/">
+              <img
+                style={{ height: 40, width: 40 }}
+                src="http://localhost:5000/logo/logo1.png"
+              />
+            </SLink>
+          </OnPage>
+        </div>
+        <div style={{ display: "flex" }}>
+          <OnPage current={props.location.pathname === "/login"}>
+            <SLink to="/login">로그인</SLink>
+          </OnPage>
+          <OnPage current={props.location.pathname === "/register"}>
+            <SLink to="/register">회원가입</SLink>
+          </OnPage>
+        </div>
+      </HeaderBar>
+    )
+  } else {
+    return (
+      <HeaderBar>
+        <div>
+          <OnPage current={props.location.pathname === "/"}>
+            <SLink to="/">
+              <img
+                style={{ height: 50, width: 50 }}
+                src="http://localhost:5000/logo/logo1.png"
+              />
+            </SLink>
+          </OnPage>
+        </div>
+        <div style={{ display: "flex" }}>
+          <OnPage current={props.location.pathname === "/user/cart"}>
+            <SLink to="/user/cart">찜목록</SLink>
+          </OnPage>
+          <OnPage current={props.location.pathname === "/upload"}>
+            <SLink to="/upload">업로드</SLink>
+          </OnPage>
+          <OnPage current={props.location.pathname === "/user/my-profile"}>
+            <SLink to="/user/my-profile">
+              {user && user.userData.avatar ? (
+                <RealAvatar
+                  src={`http://localhost:5000/${user.userData.avatar}`}
+                />
+              ) : (
+                <Avatar size={40} icon={<UserOutlined />} />
+              )}
+            </SLink>
+          </OnPage>
+          <OnPage>
+            <div
+              style={{ fontSize: "16px", cursor: "pointer" }}
+              onClick={onLogoutHandler}
+            >
+              로그아웃
+            </div>
+          </OnPage>
+        </div>
+      </HeaderBar>
+    )
+  }
 }
 
 export default withRouter(Header)

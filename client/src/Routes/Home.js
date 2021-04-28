@@ -3,12 +3,16 @@ import { Link } from "react-router-dom"
 import axios from "axios"
 import styled from "styled-components"
 import { Card, Col, Row } from "antd"
+import Scroll from "react-scroll"
 import ImageSlider from "../Components/utils/ImageSlider"
 import CheckBox from "../Components/utils/CheckBox"
 import SearchProduct from "../Components/utils/SearchProduct"
 import RepImageSlider from "../Components/utils/RepImageSlider"
+import { duration } from "@material-ui/core"
 
 const { Meta } = Card
+
+const scroll = Scroll.animateScroll
 
 const region = [
   "서울",
@@ -47,6 +51,19 @@ const Container = styled.div`
   margin: 0 auto;
 `
 
+const StartBtn = styled.button`
+  width: 200px;
+  height: 70px;
+  border-radius: 20px;
+  background-color: #ff8474;
+  font-weight: 600;
+  font-size: 1.3em;
+  border: none;
+  color: white;
+  cursor: pointer;
+  box-shadow: 2px 2px 2px #ffc996;
+`
+
 const SogoImg = styled.img`
   height: 100px;
   width: 100px;
@@ -59,19 +76,6 @@ const Column = styled.div`
   margin-bottom: 50px;
   font-size: 40px;
   font-weight: 700;
-`
-
-const StartBtn = styled.button`
-  width: 140px;
-  height: 60px;
-  border-radius: 20px;
-  background-color: #ff8474;
-  font-weight: 600;
-  font-size: 1em;
-  border: none;
-  color: white;
-  cursor: pointer;
-  box-shadow: 2px 2px 2px #ffc996;
 `
 
 const CategoryColumn = styled.div`
@@ -165,7 +169,7 @@ function Home() {
   }
 
   const onStartBtnHandler = () => {
-    window.scrollTo(0, 1000)
+    scroll.scrollTo(1000, { duration: 500 })
   }
 
   return (
@@ -173,7 +177,7 @@ function Home() {
       <FirstContainer>
         <RepImageSlider />
         <StartBtnColumn>
-          <StartBtn onClick={onStartBtnHandler}>여 행 가 자</StartBtn>
+          <StartBtn onClick={onStartBtnHandler}>시 작 하 기</StartBtn>
         </StartBtnColumn>
       </FirstContainer>
       <Container>
