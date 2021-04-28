@@ -6,9 +6,10 @@ import styled from "styled-components"
 import DetailImage from "./DetailImage"
 import DetailInfo from "./DetailInfo"
 import Comments from "../../Components/utils/Comments"
+import Loading from "../../Components/Loading"
 
 const Container = styled.div`
-  padding-top: 100px;
+  padding-top: 80px;
   width: 80%;
   margin: 0 auto;
   padding-bottom: 100px;
@@ -18,39 +19,43 @@ function DetailProduct(props) {
   const productId = props.match.params.id
 
   const [productState, setProductState] = useState({})
+  const [loading, setLoading] = useState(true)
 
   const getProductDetail = async () => {
-    const {
-      data: { success, product },
-    } = await axios.get(`/api/product/detail?id=${productId}`)
-    setProductState(product)
-    if (success) {
-    } else {
-      alert("해당 상품을 찾을 수 없습니다.")
+    try {
+      const {
+        data: { product },
+      } = await axios.get(`/api/product/detail?id=${productId}`)
+      setProductState(product)
+    } catch {
+      alert("해당 상품을 불러오는데 실패하였습니다.")
+    } finally {
+      setLoading(false)
     }
   }
 
   useEffect(() => {
-    try {
-      getProductDetail()
-    } catch (error) {
-      alert("해당 상품을 찾을 수 없습니다.")
-    }
+    getProductDetail()
+    window.scrollTo(0, 0)
   }, [productId])
 
   return (
     <>
-      <Container>
-        <Row gutter={[16, 16]} style={{ marginBottom: "50px" }}>
-          <Col lg={12} xs={24}>
-            <DetailImage product={productState} />
-          </Col>
-          <Col lg={12} xs={24}>
-            <DetailInfo product={productState} />
-          </Col>
-        </Row>
-        <Comments />
-      </Container>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Container>
+          <Row gutter={[16, 16]} style={{ marginBottom: "50px" }}>
+            <Col lg={12} xs={24}>
+              <DetailImage product={productState} />
+            </Col>
+            <Col lg={12} xs={24}>
+              <DetailInfo product={productState} />
+            </Col>
+          </Row>
+          <Comments />
+        </Container>
+      )}
     </>
   )
 }
