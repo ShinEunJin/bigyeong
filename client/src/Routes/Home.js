@@ -55,13 +55,14 @@ const StartBtn = styled.button`
   width: 200px;
   height: 70px;
   border-radius: 20px;
-  background-color: #ff8474;
+  background-color: #8cadff;
   font-weight: 600;
   font-size: 1.3em;
   border: none;
   color: white;
   cursor: pointer;
-  box-shadow: 2px 2px 2px #ffc996;
+  text-shadow: 1px 1px 1px #bdd0ff;
+  box-shadow: 2px 2px 2px #82d5ff;
 `
 
 const SogoImg = styled.img`

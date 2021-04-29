@@ -14,9 +14,9 @@ const HeaderBar = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 0px 10%;
-  box-shadow: 2px 2px 5px #a2b29f;
+  box-shadow: 2px 2px 5px #b3e6ff;
   z-index: 5;
-  background-color: #f8ede3;
+  background-color: #ebfaff;
   font-weight: 600;
 `
 
@@ -26,7 +26,7 @@ const SLink = styled(Link)`
 
 const OnPage = styled.div`
   border-bottom: 2px solid
-    ${(props) => (props.current ? "aqua" : "transparent")};
+    ${(props) => (props.current ? "#8597ff" : "transparent")};
   margin: 0px 10px;
   width: 70px;
   display: flex;
@@ -63,12 +63,17 @@ function Header(props) {
     return (
       <HeaderBar>
         <div>
-          <OnPage current={props.location.pathname === "/"}>
+          <OnPage>
             <SLink to="/">
-              <img
-                style={{ height: 40, width: 40 }}
-                src="http://localhost:5000/logo/logo1.png"
-              />
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <img
+                  style={{ height: 50, width: 50 }}
+                  src="http://localhost:5000/logo/logo1.png"
+                />
+                <span style={{ paddingLeft: 3, fontSize: "1.5em" }}>
+                  EunJinTour
+                </span>
+              </div>
             </SLink>
           </OnPage>
         </div>
@@ -86,12 +91,17 @@ function Header(props) {
     return (
       <HeaderBar>
         <div>
-          <OnPage current={props.location.pathname === "/"}>
+          <OnPage>
             <SLink to="/">
-              <img
-                style={{ height: 50, width: 50 }}
-                src="http://localhost:5000/logo/logo1.png"
-              />
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <img
+                  style={{ height: 50, width: 50 }}
+                  src="http://localhost:5000/logo/logo1.png"
+                />
+                <span style={{ paddingLeft: 3, fontSize: "1.5em" }}>
+                  EunJinTour
+                </span>
+              </div>
             </SLink>
           </OnPage>
         </div>

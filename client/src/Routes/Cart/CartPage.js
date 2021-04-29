@@ -32,7 +32,7 @@ const Tr = styled.tr`
 
 const Th = styled.th`
   border: 1px solid #dddddd;
-  background-color: #ffebcd;
+  background-color: #adf2ff;
   padding: 10px;
   text-align: center;
   vertical-align: middle;
