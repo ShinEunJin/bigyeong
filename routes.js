@@ -21,28 +21,32 @@ const PRODUCT_TAKE = "/api/product/take"
 const PRODUCT_COMMENT = "/api/product/comments"
 const PRODUCT_GET_COMMENT = "/api/product/getComments"
 const PRODUCT_REMOVE_COMMENT = "/api/product/removeComment"
+const PRODUCT_REVISE = "/api/product/revise"
+const PRODUCT_REMOVE = "/api/product/remove"
 
 const routes = {
-    register: REGISTER,
-    login: LOGIN,
-    logout: LOGOUT,
-    auth: AUTH,
-    addTake: ADD_TAKE,
-    addLike: ADD_LIKE,
-    removeTake: REMOVE_TAKE,
-    getLike: GET_LIKE,
-    getMyProducts: GET_MY_PRODUCTS,
-    uploadAvatar: UPLOAD_AVATAR,
-    updateProfile: UPDATE_PROFILE,
-    product: PRODUCT,
-    productAll: PRODUCT_ALL,
-    productDetail: PRODUCT_DETAIL,
-    productImage: PRODUCT_IMAGE,
-    productLike: PRODUCT_LIKE,
-    productTake: PRODUCT_TAKE,
-    productComment: PRODUCT_COMMENT,
-    productGetComment: PRODUCT_GET_COMMENT,
-    productRemoveComment: PRODUCT_REMOVE_COMMENT
+  register: REGISTER,
+  login: LOGIN,
+  logout: LOGOUT,
+  auth: AUTH,
+  addTake: ADD_TAKE,
+  addLike: ADD_LIKE,
+  removeTake: REMOVE_TAKE,
+  getLike: GET_LIKE,
+  getMyProducts: GET_MY_PRODUCTS,
+  uploadAvatar: UPLOAD_AVATAR,
+  updateProfile: UPDATE_PROFILE,
+  product: PRODUCT,
+  productAll: PRODUCT_ALL,
+  productDetail: PRODUCT_DETAIL,
+  productImage: PRODUCT_IMAGE,
+  productLike: PRODUCT_LIKE,
+  productTake: PRODUCT_TAKE,
+  productComment: PRODUCT_COMMENT,
+  productGetComment: PRODUCT_GET_COMMENT,
+  productRemoveComment: PRODUCT_REMOVE_COMMENT,
+  productRevise: PRODUCT_REVISE,
+  productRemove: PRODUCT_REMOVE,
 }
 
 export default routes

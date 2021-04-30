@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link, withRouter } from "react-router-dom"
 import styled from "styled-components"
 import { Avatar } from "antd"
+import { UserOutlined } from "@ant-design/icons"
 import { logout } from "../_actions/user_action"
 
 const HeaderBar = styled.header`

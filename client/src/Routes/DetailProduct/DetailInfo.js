@@ -5,6 +5,7 @@ import { HeartFilled, CaretUpOutlined } from "@ant-design/icons"
 import { useDispatch, useSelector } from "react-redux"
 import { addTake, addLike } from "../../_actions/user_action"
 import axios from "axios"
+import DetailRevise from "./DetailRevise"
 
 const ButtonColumn = styled.div`
   display: grid;
@@ -123,24 +124,28 @@ function DetailInfo(props) {
       </Descriptions>
       <br />
       <br />
-      <ButtonColumn>
-        <Button onClick={handleTakeBtn} type="primary" size={"large"} block>
-          <CaretUpOutlined
-            style={{ color: `${takeBool ? "blue" : "white"}` }}
-          />
-          찜하기
-        </Button>
-        <Button
-          onClick={handleLikeBtn}
-          type="primary"
-          size={"large"}
-          block
-          danger
-        >
-          <HeartFilled style={{ color: `${likeBool ? "red" : "white"}` }} />
-          좋아요
-        </Button>
-      </ButtonColumn>
+      {user && product.writer && user.userData._id === product.writer._id ? (
+        <DetailRevise product={product} />
+      ) : (
+        <ButtonColumn>
+          <Button onClick={handleTakeBtn} type="primary" size={"large"} block>
+            <CaretUpOutlined
+              style={{ color: `${takeBool ? "blue" : "white"}` }}
+            />
+            찜하기
+          </Button>
+          <Button
+            onClick={handleLikeBtn}
+            type="primary"
+            size={"large"}
+            block
+            danger
+          >
+            <HeartFilled style={{ color: `${likeBool ? "red" : "white"}` }} />
+            좋아요
+          </Button>
+        </ButtonColumn>
+      )}
     </>
   )
 }

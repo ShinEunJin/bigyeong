@@ -220,3 +220,15 @@ export const removeComment = async (req, res) => {
     return res.status(400).json({ success: false, error })
   }
 }
+
+export const removeProduct = async (req, res) => {
+  const {
+    query: { id },
+  } = req
+  try {
+    await Product.findOneAndDelete({ _id: id })
+    return res.statis(200).json({ success: true })
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
+}
