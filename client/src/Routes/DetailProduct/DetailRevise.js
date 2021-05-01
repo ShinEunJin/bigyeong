@@ -14,16 +14,11 @@ const ButtonColumn = styled.div`
 function DetailRevise(props) {
   const onRemoveBtn = async () => {
     try {
-      const { data } = await axios.delete(
-        `/api/product/remove?id=${props.product._id}`
-      )
-      console.log(data)
-      if (data.success) {
-        alert("상품을 지우는데 성공하였습니다.")
-        props.history.push("/")
-      } else {
-        alert("상품을 지우는데 실패하였습니다.")
-      }
+      await axios.delete(`/api/product/remove?id=${props.product._id}`)
+      props.history.push("/")
+      setTimeout(() => {
+        alert("상품을 제거하는데 성공 했습니다.")
+      }, 500)
     } catch (error) {
       alert("상품을 지우는데 실패하였습니다.")
     }

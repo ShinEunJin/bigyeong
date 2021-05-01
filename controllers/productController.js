@@ -227,7 +227,7 @@ export const removeProduct = async (req, res) => {
   } = req
   try {
     await Product.findOneAndDelete({ _id: id })
-    return res.statis(200).json({ success: true })
+    return res.status(200).json({ success: true })
   } catch (error) {
     return res.status(400).json({ success: false, error })
   }
