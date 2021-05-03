@@ -5,11 +5,14 @@ import { useDispatch } from "react-redux"
 import { removeTake } from "../../_actions/user_action"
 import { FiShoppingBag } from "react-icons/fi"
 import { FaTrashAlt } from "react-icons/fa"
+import dotenv from "dotenv"
+dotenv.config()
 
 const Container = styled.div`
   padding-top: 100px;
   width: 80%;
   margin: 0 auto;
+  height: 80vh;
 `
 
 const Title = styled.div`
@@ -54,6 +57,16 @@ const SFaTrashAlt = styled(FaTrashAlt)`
   cursor: pointer;
 `
 
+const EmptyDiv = styled.div`
+  height: 60vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.5em;
+`
+
 function CartPage(props) {
   const dispatch = useDispatch()
 
@@ -95,25 +108,24 @@ function CartPage(props) {
         <FiShoppingBag style={{ marginRight: 5 }} />
         찜목록
       </Title>
-      <Table>
-        <thead>
-          <Tr>
-            <Th>이미지</Th>
-            <Th>상품</Th>
-            <Th>가격</Th>
-            <Th>판매자</Th>
-            <Th>삭제</Th>
-          </Tr>
-        </thead>
-        <tbody>
-          {productState &&
-            productState.length > 0 &&
-            productState.map((item, index) => (
+      {productState && productState.length > 0 ? (
+        <Table>
+          <thead>
+            <Tr>
+              <Th>이미지</Th>
+              <Th>상품</Th>
+              <Th>가격</Th>
+              <Th>판매자</Th>
+              <Th>삭제</Th>
+            </Tr>
+          </thead>
+          <tbody>
+            {productState.map((item, index) => (
               <Tr key={index}>
                 <Td style={{ width: "15%", textAlign: "center" }}>
                   <img
                     style={{ width: 100, height: 100 }}
-                    src={`http://localhost:5000/${item.images[0]}`}
+                    src={process.env.REACT_APP_DEV_PORT + `/${item.images[0]}`}
                   />
                 </Td>
                 <Td style={{ width: "30%" }}>{item.name}</Td>
@@ -124,8 +136,11 @@ function CartPage(props) {
                 </Td>
               </Tr>
             ))}
-        </tbody>
-      </Table>
+          </tbody>
+        </Table>
+      ) : (
+        <EmptyDiv>찜한 상품이 없습니다.</EmptyDiv>
+      )}
     </Container>
   )
 }

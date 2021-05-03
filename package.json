@@ -4,18 +4,21 @@
   "description": "side project of react and node.js",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon --exec babel-node index.js --delay 2",
+    "server": "nodemon server/index.js --exec babel-node --delay 2",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run start --prefix client\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "gh-pages -d build",
-    "predeploy": "npm run build"
+    "prebuild": "cd client && npm run build",
+    "build": "babel server --out-dir build",
+    "build:server": "babel server --out-dir build"
   },
   "author": "ShinEunJin",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.13.16",
     "@babel/core": "^7.13.10",
     "@babel/node": "^7.13.10",
+    "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.13.10",
     "@material-ui/core": "^4.11.3",
     "bcrypt": "^5.0.1",
@@ -29,7 +32,8 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "mongoose": "^5.12.1",
-    "multer": "^1.4.2"
+    "multer": "^1.4.2",
+    "path": "^0.12.7"
   },
   "homepage": "https://shineunjin.github.io/kibitz-room",
   "devDependencies": {

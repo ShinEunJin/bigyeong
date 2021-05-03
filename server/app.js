@@ -3,6 +3,7 @@ import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import routes from "./routes"
 import cors from "cors"
+import path from "path"
 import {
   addLike,
   addTake,
@@ -33,7 +34,9 @@ import { uploadAvatarImage, uploadProductImage } from "./middlewares/multer"
 
 const app = express()
 
-app.use(cors({ origin: "http://localhost:3000", credentials: true }))
+const prod = process.env.NODE_ENV === "production"
+
+app.use(cors({ origin: true, credentials: true }))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cookieParser())
@@ -65,5 +68,12 @@ app.get(routes.productGetComment, getComments)
 app.delete(routes.productRemoveComment, removeComment)
 //product revise 해야한다.
 app.delete(routes.productRemove, removeProduct)
+
+if (prod) {
+  app.use(express.static(path.join(__dirname, "../client/build")))
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../client/build", "index.html"))
+  })
+}
 
 export default app

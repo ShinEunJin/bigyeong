@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { getMyProducts } from "../../_actions/user_action"
 import { Row, Card, Col } from "antd"
 import { Link } from "react-router-dom"
+import dotenv from "dotenv"
+dotenv.config()
 
 const { Meta } = Card
 
@@ -102,7 +104,9 @@ function MyProfile() {
       <ProfleColumn>
         <Profile>
           {user && user.avatar ? (
-            <RealAvatar src={`http://localhost:5000/${user.avatar}`} />
+            <RealAvatar
+              src={process.env.REACT_APP_DEV_PORT + `/${user.avatar}`}
+            />
           ) : (
             <Avatar
               style={{ marginBottom: 70 }}
@@ -127,7 +131,7 @@ function MyProfile() {
                 cover={
                   <img
                     style={{ height: 250 }}
-                    src={`http://localhost:5000/${item.images[0]}`}
+                    src={process.env.REACT_APP_DEV_PORT + `/${item.images[0]}`}
                   />
                 }
               >

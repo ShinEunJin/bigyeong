@@ -8,7 +8,8 @@ import ImageSlider from "../Components/utils/ImageSlider"
 import CheckBox from "../Components/utils/CheckBox"
 import SearchProduct from "../Components/utils/SearchProduct"
 import RepImageSlider from "../Components/utils/RepImageSlider"
-import { duration } from "@material-ui/core"
+import dotenv from "dotenv"
+dotenv.config()
 
 const { Meta } = Card
 
@@ -183,7 +184,7 @@ function Home() {
       </FirstContainer>
       <Container>
         <Column>
-          <SogoImg src={"http://localhost:5000/logo/logo2.png"} />
+          <SogoImg src={process.env.REACT_APP_DEV_PORT + "/logo/logo2.png"} />
           한국의 坊坊曲曲
         </Column>
         <CategoryColumn>

@@ -5,6 +5,8 @@ import styled from "styled-components"
 import { Avatar } from "antd"
 import { UserOutlined } from "@ant-design/icons"
 import { logout } from "../_actions/user_action"
+import dotenv from "dotenv"
+dotenv.config()
 
 const HeaderBar = styled.header`
   position: fixed;
@@ -69,7 +71,7 @@ function Header(props) {
               <div style={{ display: "flex", alignItems: "center" }}>
                 <img
                   style={{ height: 50, width: 50 }}
-                  src="http://localhost:5000/logo/logo1.png"
+                  src={process.env.REACT_APP_DEV_PORT + "/logo/logo1.png"}
                 />
                 <span style={{ paddingLeft: 3, fontSize: "1.5em" }}>
                   EunJinTour
@@ -97,7 +99,7 @@ function Header(props) {
               <div style={{ display: "flex", alignItems: "center" }}>
                 <img
                   style={{ height: 50, width: 50 }}
-                  src="http://localhost:5000/logo/logo1.png"
+                  src={process.env.REACT_APP_DEV_PORT + "/logo/logo1.png"}
                 />
                 <span style={{ paddingLeft: 3, fontSize: "1.5em" }}>
                   EunJinTour
@@ -117,7 +119,9 @@ function Header(props) {
             <SLink to="/user/my-profile">
               {user && user.userData.avatar ? (
                 <RealAvatar
-                  src={`http://localhost:5000/${user.userData.avatar}`}
+                  src={
+                    process.env.REACT_APP_DEV_PORT + `/${user.userData.avatar}`
+                  }
                 />
               ) : (
                 <Avatar size={40} icon={<UserOutlined />} />

@@ -1,16 +1,16 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
 const Container = styled.div`
   width: 80%;
   margin: 0 auto;
-`;
+`
 
 const Column = styled.div`
   border-top: 1px solid #f4eee8;
   opacity: 0.5;
   margin-top: 3rem;
-`;
+`
 
 const FooterContent = styled.footer`
   padding: 4rem 0;
@@ -18,11 +18,11 @@ const FooterContent = styled.footer`
   flex-direction: column;
   align-items: center;
   opacity: 0.9;
-`;
+`
 
 const P = styled.p`
   margin-bottom: 0.5rem;
-`;
+`
 
 function Footer() {
   return (
@@ -34,7 +34,7 @@ function Footer() {
         </FooterContent>
       </Column>
     </Container>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

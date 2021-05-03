@@ -1,12 +1,14 @@
 import React from "react"
 import styled from "styled-components"
 import { Carousel } from "antd"
+import dotenv from "dotenv"
+dotenv.config()
 
 const images = [
-  "http://localhost:5000/uploads/repImages/repImage1.jpg",
-  "http://localhost:5000/uploads/repImages/repImage2.jpg",
-  "http://localhost:5000/uploads/repImages/repImage3.jpg",
-  "http://localhost:5000/uploads/repImages/repImage4.jpg",
+  process.env.REACT_APP_DEV_PORT + "/uploads/repImages/repImage1.jpg",
+  process.env.REACT_APP_DEV_PORT + "/uploads/repImages/repImage2.jpg",
+  process.env.REACT_APP_DEV_PORT + "/uploads/repImages/repImage3.jpg",
+  process.env.REACT_APP_DEV_PORT + "/uploads/repImages/repImage4.jpg",
 ]
 
 const Container = styled.div`
@@ -48,7 +50,9 @@ const Img = styled.img`
 function RepImageSlider() {
   return (
     <Container>
-      <FontImg src="http://localhost:5000/logo/font_title.png"></FontImg>
+      <FontImg
+        src={process.env.REACT_APP_DEV_PORT + "/logo/font_title.png"}
+      ></FontImg>
       <Text>
         <Span>우리가</Span>
         <Span>모르고 있었던</Span>
