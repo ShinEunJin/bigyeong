@@ -212,10 +212,27 @@ export const getComments = async (req, res) => {
 
 export const removeComment = async (req, res) => {
   const {
-    body: { commentId },
+    query: { commentId, productId, userId },
   } = req
   try {
-    await Comment.findOneAndDelete({ _id: commentId })
+    await Promise.all([
+      Product.findOneAndUpdate(
+        { _id: productId },
+        {
+          $pull: { comments: commentId },
+        },
+        { new: true }
+      ),
+      User.findOneAndUpdate(
+        { _id: userId },
+        {
+          $pull: { comments: commentId },
+        },
+        { new: true }
+      ),
+      Comment.findOneAndDelete({ _id: commentId }),
+    ])
+    return res.status(200).json({ success: true })
   } catch (error) {
     return res.status(400).json({ success: false, error })
   }

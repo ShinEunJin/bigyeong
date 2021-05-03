@@ -106,8 +106,8 @@ function Comments(props) {
     let body = { text, productId }
     if (user.isAuth) {
       try {
-        const { data } = await axios.post("/api/product/comments", body)
-        setComments([...comments, data.comment].reverse())
+        await axios.post("/api/product/comments", body)
+        await getComments()
         setText("")
       } catch (error) {
         alert("댓글을 등록하는데 실패하였습니다.")
@@ -130,9 +130,12 @@ function Comments(props) {
   }
 
   const onDeleteComment = async (commentId) => {
-    let body = { commentId }
     try {
-      await axios.post("/api/product/removeComment", body)
+      await axios.delete(
+        `/api/product/removeComment?commentId=${commentId}&productId=${productId}&userId=${user._id}`
+      )
+      await getComments()
+      alert("해당 댓글을 삭제하였습니다.")
     } catch (error) {
       alert("댓글을 지우는데 실패하였습니다.")
     }
