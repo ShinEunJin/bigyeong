@@ -8,10 +8,7 @@ function ImageSlider(props) {
     <Carousel autoplay>
       {props.images.map((image, index) => (
         <div key={index}>
-          <img
-            src={process.env.REACT_APP_DEV_PORT + `/${image}`}
-            style={{ width: "100%", maxHeight: "250px" }}
-          />
+          <img src={image} style={{ width: "100%", maxHeight: "250px" }} />
         </div>
       ))}
     </Carousel>

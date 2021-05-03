@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { getMyProducts } from "../../_actions/user_action"
 import { Row, Card, Col } from "antd"
 import { Link } from "react-router-dom"
-import dotenv from "dotenv"
-dotenv.config()
 
 const { Meta } = Card
 
@@ -104,9 +102,7 @@ function MyProfile() {
       <ProfleColumn>
         <Profile>
           {user && user.avatar ? (
-            <RealAvatar
-              src={process.env.REACT_APP_DEV_PORT + `/${user.avatar}`}
-            />
+            <RealAvatar src={user.avatar} />
           ) : (
             <Avatar
               style={{ marginBottom: 70 }}
@@ -128,12 +124,7 @@ function MyProfile() {
           <Col key={index} lg={6} md={8} xs={24}>
             <Link to={`/product/${item._id}`}>
               <Card
-                cover={
-                  <img
-                    style={{ height: 250 }}
-                    src={process.env.REACT_APP_DEV_PORT + `/${item.images[0]}`}
-                  />
-                }
+                cover={<img style={{ height: 250 }} src={item.images[0]} />}
               >
                 <Meta title={item.name} description={item.region} />
               </Card>

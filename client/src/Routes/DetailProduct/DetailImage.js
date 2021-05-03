@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react"
 import ImageGallery from "react-image-gallery"
-import dotenv from "dotenv"
-dotenv.config()
 
 function DetailImage(props) {
   const [imageState, setImageState] = useState([])
@@ -15,8 +13,8 @@ function DetailImage(props) {
       let newImages = []
       props.product.images.map((item) =>
         newImages.push({
-          original: process.env.REACT_APP_DEV_PORT + `/${item}`,
-          thumbnail: process.env.REACT_APP_DEV_PORT + `/${item}`,
+          original: `${item}`,
+          thumbnail: `${item}`,
         })
       )
       setImageState(newImages)

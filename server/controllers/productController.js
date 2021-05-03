@@ -7,8 +7,7 @@ export const uploadImages = (req, res) => {
   try {
     return res.json({
       success: true,
-      filePath: file.path,
-      fileName: file.filename,
+      filePath: file.location,
     })
   } catch (error) {
     return res.json({ success: false, error })

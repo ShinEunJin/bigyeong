@@ -7,8 +7,6 @@ import DetailImage from "./DetailImage"
 import DetailInfo from "./DetailInfo"
 import Comments from "../../Components/utils/Comments"
 import Loading from "../../Components/Loading"
-import dotenv from "dotenv"
-dotenv.config()
 
 const Container = styled.div`
   padding-top: 80px;

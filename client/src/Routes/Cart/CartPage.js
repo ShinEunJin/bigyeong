@@ -5,8 +5,6 @@ import { useDispatch } from "react-redux"
 import { removeTake } from "../../_actions/user_action"
 import { FiShoppingBag } from "react-icons/fi"
 import { FaTrashAlt } from "react-icons/fa"
-import dotenv from "dotenv"
-dotenv.config()
 
 const Container = styled.div`
   padding-top: 100px;
@@ -125,7 +123,7 @@ function CartPage(props) {
                 <Td style={{ width: "15%", textAlign: "center" }}>
                   <img
                     style={{ width: 100, height: 100 }}
-                    src={process.env.REACT_APP_DEV_PORT + `/${item.images[0]}`}
+                    src={item.images[0]}
                   />
                 </Td>
                 <Td style={{ width: "30%" }}>{item.name}</Td>

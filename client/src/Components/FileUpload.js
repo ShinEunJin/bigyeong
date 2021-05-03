@@ -84,7 +84,7 @@ function FileUpload(props) {
       <ImageZone>
         {images.map((image, index) => (
           <div onClick={() => deleteHandler(image)} key={index}>
-            <Img src={process.env.REACT_APP_DEV_PORT + `/${image}`} />
+            <Img src={image} />
           </div>
         ))}
       </ImageZone>

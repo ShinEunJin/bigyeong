@@ -7,8 +7,6 @@ import axios from "axios"
 import { withRouter } from "react-router-dom"
 import { useSelector } from "react-redux"
 import Avatar from "./Avatar"
-import dotenv from "dotenv"
-dotenv.config()
 
 const { TextArea } = Input
 
@@ -169,11 +167,7 @@ function Comments(props) {
           <CommentsList key={index}>
             <AvatarColumn>
               {item.writer_avatar ? (
-                <RealAvatar
-                  src={
-                    process.env.REACT_APP_DEV_PORT + `/${item.writer_avatar}`
-                  }
-                />
+                <RealAvatar src={item.writer_avatar} />
               ) : (
                 <NoAvatar
                   style={{ marginRight: 20 }}
