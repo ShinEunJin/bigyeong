@@ -3,6 +3,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import Product from "../models/Product"
 import dotenv from "dotenv"
+import "@babel/polyfill"
 dotenv.config()
 
 export const register = async (req, res) => {

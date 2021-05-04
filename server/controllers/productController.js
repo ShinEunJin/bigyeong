@@ -1,6 +1,7 @@
 import Product from "../models/Product"
 import User from "../models/User"
 import Comment from "../models/Comment"
+import "@babel/polyfill"
 
 export const uploadImages = (req, res) => {
   const { file } = req
