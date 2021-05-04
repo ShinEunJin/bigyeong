@@ -4,7 +4,7 @@
   "description": "side project of react and node.js",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "babel server/index.js",
     "server": "nodemon server/index.js --exec babel-node --delay 2",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run start --prefix client\"",
