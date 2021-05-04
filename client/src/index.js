@@ -1,5 +1,4 @@
 import React from "react"
-import * as serviceWorker from "./serviceWorker"
 import ReactDOM from "react-dom"
 import App from "./Components/App"
 import { Provider } from "react-redux"
