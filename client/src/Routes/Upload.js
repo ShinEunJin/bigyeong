@@ -112,16 +112,13 @@ function Upload(props) {
 
   const submitHandler = async (e) => {
     e.preventDefault()
-    if (
-      !name ||
-      !region ||
-      !location ||
-      !description ||
-      images === null ||
-      region === "지역 선택"
-    ) {
-      return alert("빈 칸을 확인해 주시기 바랍니다.")
-    }
+    if (!name) return alert("제목을 확인해 주시기 바랍니다.")
+    else if (!region || region === "지역 선택")
+      return alert("지역을 선택하여 주시기 바랍니다.")
+    else if (!location) return alert("위치를 확인해 주시기 바랍니다.")
+    else if (!description) return alert("설명을 적어주시기 바랍니다.")
+    else if (images.length === 0)
+      return alert("한 장 이상의 사진이 필요합니다.")
     let body = {
       name,
       region,
