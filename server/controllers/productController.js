@@ -24,10 +24,7 @@ export const uploadProduct = async (req, res) => {
       { _id: body.writer },
       {
         $push: {
-          products: {
-            id: product._id,
-            date: Date.now(),
-          },
+          products: product,
         },
       },
       { new: true }
@@ -240,10 +237,20 @@ export const removeComment = async (req, res) => {
 
 export const removeProduct = async (req, res) => {
   const {
-    query: { id },
+    query: { productId, userId },
   } = req
   try {
-    await Product.findOneAndDelete({ _id: id })
+    await Promise.all([
+      User.findOneAndUpdate(
+        { _id: userId },
+        {
+          $pull: { products: productId },
+        },
+        { new: true }
+      ),
+      Comment.remove({ product: productId }),
+      Product.findOneAndDelete({ _id: productId }),
+    ])
     return res.status(200).json({ success: true })
   } catch (error) {
     return res.status(400).json({ success: false, error })

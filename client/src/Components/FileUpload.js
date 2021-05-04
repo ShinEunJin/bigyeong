@@ -43,7 +43,6 @@ const Img = styled.img`
 function FileUpload(props) {
   const [images, setImages] = useState([])
 
-  //이미지 파일만 올릴 수 있게 만들기
   const onDropHandler = async (imageFile) => {
     let formData = new FormData()
     const config = {

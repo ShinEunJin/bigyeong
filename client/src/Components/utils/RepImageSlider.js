@@ -5,10 +5,10 @@ import dotenv from "dotenv"
 dotenv.config()
 
 const images = [
-  process.env.REACT_APP_DEV_PORT + "/uploads/repImages/repImage1.jpg",
-  process.env.REACT_APP_DEV_PORT + "/uploads/repImages/repImage2.jpg",
-  process.env.REACT_APP_DEV_PORT + "/uploads/repImages/repImage3.jpg",
-  process.env.REACT_APP_DEV_PORT + "/uploads/repImages/repImage4.jpg",
+  process.env.REACT_APP_DEV_PORT + "/logo/repImages/repImage1.jpg",
+  process.env.REACT_APP_DEV_PORT + "/logo/repImages/repImage2.jpg",
+  process.env.REACT_APP_DEV_PORT + "/logo/repImages/repImage3.jpg",
+  process.env.REACT_APP_DEV_PORT + "/logo/repImages/repImage4.jpg",
 ]
 
 const Container = styled.div`

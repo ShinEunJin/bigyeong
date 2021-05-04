@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { Button } from "antd"
 import axios from "axios"
 import { withRouter } from "react-router"
+import { useSelector } from "react-redux"
 
 const ButtonColumn = styled.div`
   display: grid;
@@ -12,9 +13,13 @@ const ButtonColumn = styled.div`
 `
 
 function DetailRevise(props) {
+  const { userData: user } = useSelector((state) => state.user)
+
   const onRemoveBtn = async () => {
     try {
-      await axios.delete(`/api/product/remove?id=${props.product._id}`)
+      await axios.delete(
+        `/api/product/remove?productId=${props.product._id}&userId=${user._id}`
+      )
       props.history.push("/")
       setTimeout(() => {
         alert("상품을 제거하는데 성공 했습니다.")

@@ -117,7 +117,7 @@ function Upload(props) {
       !region ||
       !location ||
       !description ||
-      !images ||
+      images === null ||
       region === "지역 선택"
     ) {
       return alert("빈 칸을 확인해 주시기 바랍니다.")
