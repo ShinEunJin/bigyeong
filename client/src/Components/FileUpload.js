@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { FaPlus } from "react-icons/fa"
 import Dropzone from "react-dropzone"
 import axios from "axios"
+import Loader from "react-loader-spinner"
 
 const Container = styled.div`
   width: 80%;
@@ -40,23 +41,39 @@ const Img = styled.img`
   object-position: center;
 `
 
+const EmptyImg = styled.div`
+  width: 550px;
+  height: 450px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+  opacity: 0.6;
+`
+
 function FileUpload(props) {
   const [images, setImages] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const onDropHandler = async (imageFile) => {
-    let formData = new FormData()
-    const config = {
-      header: { "content-type": "multipart/form-data" },
-    }
-    formData.append("imageFile", imageFile[0])
-    const {
-      data: { filePath },
-    } = await axios.post("/api/product/image", formData, config)
-    if (filePath) {
-      setImages([...images, filePath])
-      props.refreshFunction([...images, filePath])
-    } else {
-      alert("이미지를 저장하는데 실패했습니다.")
+    try {
+      setLoading(true)
+      let formData = new FormData()
+      const config = {
+        header: { "content-type": "multipart/form-data" },
+      }
+      formData.append("imageFile", imageFile[0])
+      const {
+        data: { filePath },
+      } = await axios.post("/api/product/image", formData, config)
+      if (filePath) {
+        setImages([...images, filePath])
+        props.refreshFunction([...images, filePath])
+      }
+    } catch (error) {
+      alert("이미지를 업로드 하는데 실패 하였습니다.")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -80,13 +97,32 @@ function FileUpload(props) {
           </section>
         )}
       </Dropzone>
-      <ImageZone>
-        {images.map((image, index) => (
-          <div onClick={() => deleteHandler(image)} key={index}>
-            <Img src={image} />
-          </div>
-        ))}
-      </ImageZone>
+      {loading ? (
+        <EmptyImg>
+          사진을 업로드 중입니다. 잠시만 기다려 주십시오.
+          <Loader
+            type="Oval"
+            color="#393e46"
+            height={20}
+            width={20}
+            timeout={3000}
+          />
+        </EmptyImg>
+      ) : (
+        <ImageZone>
+          {images.length === 0 ? (
+            <EmptyImg>
+              이미지를 업로드 하기 위해 옆에 + 버튼을 눌러주십시오.
+            </EmptyImg>
+          ) : (
+            images.map((image, index) => (
+              <div onClick={() => deleteHandler(image)} key={index}>
+                <Img src={image} />
+              </div>
+            ))
+          )}
+        </ImageZone>
+      )}
     </Container>
   )
 }
