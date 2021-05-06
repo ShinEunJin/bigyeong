@@ -2,8 +2,10 @@ import User from "../models/User"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import Product from "../models/Product"
-import dotenv from "dotenv"
+import nodemailer from "nodemailer"
 import "@babel/polyfill"
+
+import dotenv from "dotenv"
 dotenv.config()
 
 export const register = async (req, res) => {
@@ -11,11 +13,44 @@ export const register = async (req, res) => {
     body: { name, email, password },
   } = req
   try {
+    console.log(name, email, password)
     const user = new User({ name, email, password })
     await user.save()
-    return res.status(200).json({ success: true })
+    return res.stauts(200).json({ success: true })
   } catch (error) {
-    return res.json({ success: false, error })
+    return res.status(400).json({ success: false, error })
+  }
+}
+
+export const registerAuth = async (req, res) => {
+  const {
+    body: { email, randomNum },
+  } = req
+  let isExisted = false
+  try {
+    const user = await User.findOne({ email })
+    if (user) {
+      isExisted = true
+      return res.json({ success: false, isExisted })
+    } else {
+      let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+          user: "sineun5501@gmail.com",
+          pass: "tjdrhd5501!",
+        },
+      })
+      await transporter.sendMail({
+        from: "EunJinTour ☕ <sineun5501@gmail.com>",
+        to: email,
+        subject: "EunJinTour 이메일 인증번호 입니다.",
+        text: `${randomNum}`,
+      })
+    }
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
   }
 }
 
