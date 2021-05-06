@@ -13,10 +13,9 @@ export const register = async (req, res) => {
     body: { name, email, password },
   } = req
   try {
-    console.log(name, email, password)
     const user = new User({ name, email, password })
     await user.save()
-    return res.stauts(200).json({ success: true })
+    return res.status(200).json({ success: true })
   } catch (error) {
     return res.status(400).json({ success: false, error })
   }
