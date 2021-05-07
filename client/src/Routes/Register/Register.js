@@ -1,3 +1,4 @@
+import axios from "axios"
 import React, { useState } from "react"
 import styled from "styled-components"
 import RegisterAuth from "./RegisterAuth"
@@ -67,7 +68,7 @@ function Login() {
     setConfirmPassword(e.target.value)
   }
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault()
     if (!email) return alert("이메일을 적어주시기 바랍니다.")
     else if (!name) return alert("이름(닉네임)을 적어주시기 바랍니다.")
@@ -75,8 +76,14 @@ function Login() {
     else if (!confirmPassword)
       return alert("비밀번호 확인칸을 채워주시기 바랍니다.")
     if (password === confirmPassword) {
-      setAuthStage(true)
-      setRegisterInfo({ email, name, password })
+      let body = { email }
+      const { data } = await axios.post("/api/users/registerCheck", body)
+      if (data.isExisted) {
+        alert("이미 회원 가입된 이메일 입니다.")
+      } else {
+        setAuthStage(true)
+        setRegisterInfo({ email, name, password })
+      }
     } else {
       alert("비밀번호를 다시 확인해 주십시오.")
     }

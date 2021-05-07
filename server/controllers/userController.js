@@ -21,33 +21,44 @@ export const register = async (req, res) => {
   }
 }
 
-export const registerAuth = async (req, res) => {
+export const registerCheck = async (req, res) => {
   const {
-    body: { email, randomNum },
+    body: { email },
   } = req
   let isExisted = false
   try {
     const user = await User.findOne({ email })
     if (user) {
       isExisted = true
-      return res.json({ success: false, isExisted })
+      return res.status(200).json({ success: true, isExisted })
     } else {
-      let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false,
-        auth: {
-          user: "sineun5501@gmail.com",
-          pass: "tjdrhd5501!",
-        },
-      })
-      await transporter.sendMail({
-        from: "EunJinTour ☕ <sineun5501@gmail.com>",
-        to: email,
-        subject: "EunJinTour 이메일 인증번호 입니다.",
-        text: `${randomNum}`,
-      })
+      return res.status(200).json({ success: true, isExisted })
     }
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
+}
+
+export const registerAuth = async (req, res) => {
+  const {
+    body: { email, randomNum },
+  } = req
+  try {
+    let transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: "sineun5501@gmail.com",
+        pass: "tjdrhd5501!",
+      },
+    })
+    await transporter.sendMail({
+      from: "EunJinTour ☕ <sineun5501@gmail.com>",
+      to: email,
+      subject: "EunJinTour 이메일 인증번호 입니다.",
+      text: `${randomNum}`,
+    })
   } catch (error) {
     return res.status(400).json({ success: false, error })
   }

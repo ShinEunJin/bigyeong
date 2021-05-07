@@ -116,13 +116,12 @@ function RegisterAuth(props) {
       let body = { email, name, password }
       try {
         const { payload } = await dispatch(registerUser(body))
-        console.log("payload", payload)
-        if (payload.isExisted) {
-          alert("이미 회원 가입된 이메일 입니다.")
-          props.history.push("/login")
-        } else {
+        if (payload.success) {
           alert("성공적으로 회원 가입을 했습니다.")
           props.history.push("/login")
+        } else {
+          alert("특정 오류로 인해 회원가입 하는데 실패하였습니다.")
+          props.history.push("/")
         }
       } catch (error) {
         alert("특정 오류로 인해 회원가입 하는데 실패하였습니다.")

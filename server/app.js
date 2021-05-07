@@ -17,6 +17,7 @@ import {
   uploadAvatars,
   updateProfile,
   registerAuth,
+  registerCheck,
 } from "./controllers/userController"
 import middleAuth from "./middlewares/middleAuth"
 import {
@@ -46,6 +47,7 @@ app.use("/uploads", express.static("uploads"))
 
 //User
 app.post(routes.register, register)
+app.post(routes.registerCheck, registerCheck)
 app.post(routes.registerAuth, registerAuth)
 app.post(routes.login, login)
 app.get(routes.auth, middleAuth, auth)
