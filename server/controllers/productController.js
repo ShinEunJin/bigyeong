@@ -256,3 +256,15 @@ export const removeProduct = async (req, res) => {
     return res.status(400).json({ success: false, error })
   }
 }
+
+export const findDetailProduct = async (req, res) => {
+  const {
+    query: { productId },
+  } = req
+  try {
+    const product = await Product.findOne({ _id: productId })
+    return res.status(200).json({ success: true, product })
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
+}

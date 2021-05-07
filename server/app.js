@@ -23,6 +23,7 @@ import middleAuth from "./middlewares/middleAuth"
 import {
   deployProduct,
   detailProduct,
+  findDetailProduct,
   getComments,
   likeProduct,
   removeComment,
@@ -70,8 +71,8 @@ app.get(routes.productTake, middleAuth, takeProduct)
 app.post(routes.productComment, middleAuth, writeComment)
 app.get(routes.productGetComment, getComments)
 app.delete(routes.productRemoveComment, removeComment)
-//product revise 해야한다.
 app.delete(routes.productRemove, removeProduct)
+app.get(routes.productFindDetail, findDetailProduct)
 
 if (prod) {
   app.use(express.static(path.join(__dirname, "../client/build")))

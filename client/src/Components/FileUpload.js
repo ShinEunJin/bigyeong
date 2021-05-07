@@ -109,19 +109,31 @@ function FileUpload(props) {
           />
         </EmptyImg>
       ) : (
-        <ImageZone>
-          {images.length === 0 ? (
-            <EmptyImg>
-              이미지를 업로드 하기 위해 옆에 + 버튼을 눌러주십시오.
-            </EmptyImg>
+        <>
+          {props.getImages && props.getImages.length > 0 ? (
+            <ImageZone>
+              {props.getImages.map((image, index) => (
+                <div onClick={() => deleteHandler(image)} key={index}>
+                  <Img src={image} />
+                </div>
+              ))}
+            </ImageZone>
           ) : (
-            images.map((image, index) => (
-              <div onClick={() => deleteHandler(image)} key={index}>
-                <Img src={image} />
-              </div>
-            ))
+            <ImageZone>
+              {images.length === 0 ? (
+                <EmptyImg>
+                  이미지를 업로드 하기 위해 옆에 + 버튼을 눌러주십시오.
+                </EmptyImg>
+              ) : (
+                images.map((image, index) => (
+                  <div onClick={() => deleteHandler(image)} key={index}>
+                    <Img src={image} />
+                  </div>
+                ))
+              )}
+            </ImageZone>
           )}
-        </ImageZone>
+        </>
       )}
     </Container>
   )

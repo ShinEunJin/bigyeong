@@ -4,6 +4,7 @@ import { Button } from "antd"
 import axios from "axios"
 import { withRouter } from "react-router"
 import { useSelector } from "react-redux"
+import { Link } from "react-router-dom"
 
 const ButtonColumn = styled.div`
   display: grid;
@@ -32,7 +33,7 @@ function DetailRevise(props) {
   return (
     <ButtonColumn>
       <Button type="primary" size={"large"} block>
-        수정하기
+        <Link to={`/revise/${props.product._id}`}>수정하기</Link>
       </Button>
       <Button onClick={onRemoveBtn} type="primary" size={"large"} block danger>
         삭제하기

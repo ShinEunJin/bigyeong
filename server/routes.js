@@ -25,6 +25,7 @@ const PRODUCT_GET_COMMENT = "/api/product/getComments"
 const PRODUCT_REMOVE_COMMENT = "/api/product/removeComment"
 const PRODUCT_REVISE = "/api/product/revise"
 const PRODUCT_REMOVE = "/api/product/remove"
+const PRODUCT_FIND_DETAIL = "/api/product/findDetail"
 
 const routes = {
   register: REGISTER,
@@ -51,6 +52,7 @@ const routes = {
   productRemoveComment: PRODUCT_REMOVE_COMMENT,
   productRevise: PRODUCT_REVISE,
   productRemove: PRODUCT_REMOVE,
+  productFindDetail: PRODUCT_FIND_DETAIL,
 }
 
 export default routes
