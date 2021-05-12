@@ -95,58 +95,7 @@ function DetailInfo(props) {
   }
 
   return (
-    <>
-      <Descriptions
-        labelStyle={{ fontWeight: 600 }}
-        column={{ lg: 24, sm: 24, xs: 6 }}
-        title={`${product.name}`}
-        layout="vertical"
-        bordered={true}
-      >
-        <Descriptions.Item span={6} label="지역">
-          {product.region}
-        </Descriptions.Item>
-        <Descriptions.Item span={6} label="작성자">
-          {product.writer && product.writer.name}
-        </Descriptions.Item>
-        <Descriptions.Item span={6} label="조회수">
-          {product.views}
-        </Descriptions.Item>
-        <Descriptions.Item span={6} label="좋아요">
-          <HeartFilled style={{ color: "red" }} /> {likeState}
-        </Descriptions.Item>
-        <Descriptions.Item span={24} label="위치">
-          {product.location}
-        </Descriptions.Item>
-        <Descriptions.Item span={24} label="설명">
-          {product.description}
-        </Descriptions.Item>
-      </Descriptions>
-      <br />
-      <br />
-      {user && product.writer && user.userData._id === product.writer._id ? (
-        <DetailRevise product={product} />
-      ) : (
-        <ButtonColumn>
-          <Button onClick={handleTakeBtn} type="primary" size={"large"} block>
-            <CaretUpOutlined
-              style={{ color: `${takeBool ? "blue" : "white"}` }}
-            />
-            찜하기
-          </Button>
-          <Button
-            onClick={handleLikeBtn}
-            type="primary"
-            size={"large"}
-            block
-            danger
-          >
-            <HeartFilled style={{ color: `${likeBool ? "red" : "white"}` }} />
-            좋아요
-          </Button>
-        </ButtonColumn>
-      )}
-    </>
+    <div>info</div>
   )
 }
 
