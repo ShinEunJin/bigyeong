@@ -1,5 +1,5 @@
-import axios from "axios"
 import React, { useState } from "react"
+import axios from "axios"
 import styled from "styled-components"
 import RegisterAuth from "./RegisterAuth"
 
@@ -76,8 +76,7 @@ function Login() {
     else if (!confirmPassword)
       return alert("비밀번호 확인칸을 채워주시기 바랍니다.")
     if (password === confirmPassword) {
-      let body = { email }
-      const { data } = await axios.post("/api/users/registerCheck", body)
+      const { data } = await axios.get(`/api/users/register?email=${email}`)
       if (data.isExisted) {
         alert("이미 회원 가입된 이메일 입니다.")
       } else {

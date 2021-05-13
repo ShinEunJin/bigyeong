@@ -23,7 +23,7 @@ export const register = async (req, res) => {
 
 export const registerCheck = async (req, res) => {
   const {
-    body: { email },
+    query: { email },
   } = req
   let isExisted = false
   try {
@@ -39,7 +39,7 @@ export const registerCheck = async (req, res) => {
   }
 }
 
-export const registerAuth = async (req, res) => {
+export const registerEmail = async (req, res) => {
   const {
     body: { email, randomNum },
   } = req
