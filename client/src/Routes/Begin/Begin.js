@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+/* import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import axios from "axios"
 import styled from "styled-components"
@@ -104,7 +104,7 @@ const Button = styled.button`
   cursor: pointer;
 `
 
-function Home() {
+function Begin() {
   const [products, setProducts] = useState([])
   const [skip, setSkip] = useState(0)
   const [limit, setLimit] = useState(8)
@@ -223,4 +223,5 @@ function Home() {
   )
 }
 
-export default Home
+export default Begin
+ */

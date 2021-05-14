@@ -16,9 +16,9 @@ import {
   removeTake,
   uploadAvatars,
   updateProfile,
-  registerEmail,
   registerCheck,
 } from "./controllers/userController"
+import { registerEmail } from "./controllers/userControllers/base/sendEmail"
 import middleAuth from "./middlewares/middleAuth"
 import {
   deployProduct,

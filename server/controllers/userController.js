@@ -2,7 +2,6 @@ import User from "../models/User"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import Product from "../models/Product"
-import nodemailer from "nodemailer"
 import "@babel/polyfill"
 
 import dotenv from "dotenv"
@@ -34,31 +33,6 @@ export const registerCheck = async (req, res) => {
     } else {
       return res.status(200).json({ success: true, isExisted })
     }
-  } catch (error) {
-    return res.status(400).json({ success: false, error })
-  }
-}
-
-export const registerEmail = async (req, res) => {
-  const {
-    body: { email, randomNum },
-  } = req
-  try {
-    let transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      auth: {
-        user: "sineun5501@gmail.com",
-        pass: "tjdrhd5501!",
-      },
-    })
-    await transporter.sendMail({
-      from: "EunJinTour ☕ <sineun5501@gmail.com>",
-      to: email,
-      subject: "EunJinTour 이메일 인증번호 입니다.",
-      text: `${randomNum}`,
-    })
   } catch (error) {
     return res.status(400).json({ success: false, error })
   }

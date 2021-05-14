@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, withRouter } from "react-router-dom"
 import styled from "styled-components"
@@ -35,7 +35,7 @@ const OnPage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 48px;
+  height: 3rem;
   transition: border-bottom 0.1s linear;
 `
 
@@ -70,11 +70,11 @@ function Header(props) {
             <SLink to="/">
               <div style={{ display: "flex", alignItems: "center" }}>
                 <img
-                  style={{ height: 50, width: 50 }}
+                  style={{ height: "3rem", width: "3rem" }}
                   src={process.env.REACT_APP_DEV_PORT + "/logo/logo1.png"}
                 />
                 <span style={{ paddingLeft: 3, fontSize: "1.5em" }}>
-                  EunJinTour
+                  BGyeong
                 </span>
               </div>
             </SLink>
@@ -98,11 +98,11 @@ function Header(props) {
             <SLink to="/">
               <div style={{ display: "flex", alignItems: "center" }}>
                 <img
-                  style={{ height: 50, width: 50 }}
+                  style={{ height: "3rem", width: "3rem" }}
                   src={process.env.REACT_APP_DEV_PORT + "/logo/logo1.png"}
                 />
                 <span style={{ paddingLeft: 3, fontSize: "1.5em" }}>
-                  EunJinTour
+                  BGyeong
                 </span>
               </div>
             </SLink>
@@ -126,7 +126,7 @@ function Header(props) {
           </OnPage>
           <OnPage>
             <div
-              style={{ fontSize: "16px", cursor: "pointer" }}
+              style={{ fontSize: "1em", cursor: "pointer" }}
               onClick={onLogoutHandler}
             >
               로그아웃

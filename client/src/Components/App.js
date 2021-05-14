@@ -7,7 +7,7 @@ import {
 import GlobalStyle from "../Components/GlobalStyle"
 import Header from "./Header"
 import Auth from "../hoc/auth"
-import Home from "../Routes/Home"
+import Home from "../Routes/Home/Home"
 import Login from "../Routes/Login"
 import Register from "../Routes/Register/Register"
 import Upload from "../Routes/Upload"

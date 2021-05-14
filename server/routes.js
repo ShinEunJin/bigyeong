@@ -1,6 +1,6 @@
 //User
 const REGISTER = "/api/users/register"
-const REGISTER_AUTH = "/api/users/register-email"
+const REGISTER_EMAIL = "/api/users/register-email"
 const LOGIN = "/api/users/login"
 const LOGOUT = "/api/users/logout"
 const AUTH = "/api/users/auth"
@@ -28,7 +28,7 @@ const PRODUCT_FIND_DETAIL = "/api/product/findDetail"
 
 const routes = {
   register: REGISTER,
-  registerEmail: REGISTER_AUTH,
+  registerEmail: REGISTER_EMAIL,
   login: LOGIN,
   logout: LOGOUT,
   auth: AUTH,
