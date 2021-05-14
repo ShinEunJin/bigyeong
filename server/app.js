@@ -25,6 +25,7 @@ import {
   detailProduct,
   findDetailProduct,
   getComments,
+  getProduct,
   likeProduct,
   removeComment,
   removeProduct,
@@ -63,6 +64,7 @@ app.post(routes.updateProfile, middleAuth, updateProfile)
 
 //Product
 app.post(routes.product, uploadProduct)
+app.get(routes.productAll, getProduct) // 실험
 app.post(routes.productAll, deployProduct)
 app.get(routes.productDetail, detailProduct)
 app.post(routes.productImage, uploadProductImage, uploadImages)

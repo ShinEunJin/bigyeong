@@ -3,12 +3,16 @@ import User from "../models/User"
 import Comment from "../models/Comment"
 import "@babel/polyfill"
 
+import dotenv from "dotenv"
+dotenv.config()
+
 export const uploadImages = (req, res) => {
   const { file } = req
   try {
     return res.json({
       success: true,
-      filePath: file.location,
+      filePath:
+        process.env.NODE_ENV === "production" ? file.location : file.path,
     })
   } catch (error) {
     return res.json({ success: false, error })
@@ -29,6 +33,18 @@ export const uploadProduct = async (req, res) => {
       },
       { new: true }
     )
+    return res.status(200).json({ success: true, product })
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
+}
+
+export const getProduct = async (req, res) => {
+  let {
+    query: { filters },
+  } = req
+  try {
+    const product = await Product.find({ region: filters })
     return res.status(200).json({ success: true, product })
   } catch (error) {
     return res.status(400).json({ success: false, error })

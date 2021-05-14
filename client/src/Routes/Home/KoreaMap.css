@@ -1,12 +1,12 @@
 .land {
-  fill: #cccccc;
+  fill: #9fe6a0;
   fill-opacity: 1;
-  stroke: white;
+  stroke: black;
   stroke-opacity: 1;
   stroke-width: 0.5;
 }
 
 .land:hover {
-  fill: blue;
+  fill: #4aa96c;
   cursor: pointer;
 }

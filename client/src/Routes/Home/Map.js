@@ -39,10 +39,10 @@ const MapSection = styled.div`
 function Map() {
   return (
     <Container id="map">
-      <Column>
+      {/* <Column>
         <SogoImg src={process.env.REACT_APP_DEV_PORT + "/logo/logo2.png"} />
         한국의 坊坊曲曲
-      </Column>
+      </Column> */}
       <MapSection>
         <KoreaMap />
       </MapSection>
