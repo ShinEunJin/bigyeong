@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import axios from "axios"
@@ -9,13 +9,16 @@ const Svg = styled.svg`
   width: 27.5%;
 `
 
-function KoreaMap() {
-  const [filter, setFilter] = useState("")
-
+function KoreaMap(props) {
   const onClick = async (e) => {
-    console.log(e.target.getAttribute("title"))
-    /* const { data } = await axios.get("/api/product/products?filters=서울")
-    console.log(data) */
+    const { data } = await axios.get(
+      `/api/product/products?filters=${e.target.id}`
+    )
+    if (data.success && data.product && data.product.length > 0) {
+      props.getProducts(data.product)
+    } else {
+      alert("데이터를 가져오는데 실패하였습니다.")
+    }
   }
 
   return (
@@ -39,7 +42,7 @@ function KoreaMap() {
       <g>
         <Link to="/">
           <path
-            id="KR-11"
+            id="서울"
             title="Seoul"
             className="land"
             onClick={(e) => onClick(e)}

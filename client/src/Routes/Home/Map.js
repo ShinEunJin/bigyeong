@@ -1,9 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
-/* import { ReactComponent as KoreaMap } from "../../img/southKoreaHigh.svg" */
 import KoreaMap from "./KoreaMap"
-
 import dotenv from "dotenv"
+import { Link } from "react-router-dom"
 
 dotenv.config()
 
@@ -12,7 +11,7 @@ const Container = styled.div`
   margin: 0 auto;
   height: 100vh;
   padding-top: 3rem;
-  background-color: #e1e5ea;
+  background-color: #3edbf0;
 `
 
 const SogoImg = styled.img`
@@ -37,6 +36,13 @@ const MapSection = styled.div`
 `
 
 function Map() {
+  const [products, setProducts] = useState([])
+
+  const getProducts = (products) => {
+    setProducts(products)
+    console.log(products)
+  }
+
   return (
     <Container id="map">
       {/* <Column>
@@ -44,7 +50,16 @@ function Map() {
         한국의 坊坊曲曲
       </Column> */}
       <MapSection>
-        <KoreaMap />
+        <KoreaMap getProducts={getProducts} />
+        <>
+          {products &&
+            products.length > 0 &&
+            products.map((item, index) => (
+              <div key={index}>
+                <Link to={`/product/${item._id}`}>{item.name}</Link>
+              </div>
+            ))}
+        </>
       </MapSection>
     </Container>
   )
