@@ -1,6 +1,5 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components"
-import KoreaMap from "./KoreaMap"
 import dotenv from "dotenv"
 import { Link } from "react-router-dom"
 
@@ -11,55 +10,35 @@ const Container = styled.div`
   margin: 0 auto;
   height: 100vh;
   padding-top: 3rem;
-  background-color: #3edbf0;
-`
-
-const SogoImg = styled.img`
-  height: 6rem;
-  width: 6rem;
-`
-
-const Column = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 40px;
-  font-weight: 700;
+  background-color: #faf3f3;
 `
 
 const MapSection = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
 `
 
 function Map() {
-  const [products, setProducts] = useState([])
+  useEffect(() => {
+    const container = document.getElementById("kakao_map")
+    const options = {
+      center: new kakao.maps.LatLng(35.6, 128.1),
+      level: 12,
+    }
 
-  const getProducts = (products) => {
-    setProducts(products)
-    console.log(products)
-  }
+    let kakaoMap = new kakao.maps.Map(container, options)
+    kakaoMap.setMapTypeId(kakao.maps.MapTypeId.HYBRID)
+  }, [])
 
   return (
     <Container id="map">
-      {/* <Column>
-        <SogoImg src={process.env.REACT_APP_DEV_PORT + "/logo/logo2.png"} />
-        한국의 坊坊曲曲
-      </Column> */}
       <MapSection>
-        <KoreaMap getProducts={getProducts} />
-        <>
-          {products &&
-            products.length > 0 &&
-            products.map((item, index) => (
-              <div key={index}>
-                <Link to={`/product/${item._id}`}>{item.name}</Link>
-              </div>
-            ))}
-        </>
+        <div
+          id="kakao_map"
+          style={{ width: "50%", height: "calc(100vh - 3rem)" }}
+        ></div>
       </MapSection>
     </Container>
   )
