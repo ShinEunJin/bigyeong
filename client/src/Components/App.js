@@ -17,6 +17,7 @@ import MyProfile from "../Routes/Profile/MyProfile"
 import UpdateProfile from "../Routes/Profile/UpdateProfile"
 import Footer from "./Footer"
 import ReviseProduct from "../Routes/DetailProduct/ReviseProduct"
+import Find from "../Routes/Find/Find"
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/login" component={Auth(Login, false)} />
           <Route exact path="/register" component={Auth(Register, false)} />
           <Route exact path="/upload" component={Auth(Upload, true)} />
+          <Route exact path="/find" component={Auth(Find, null)} />
           <Route
             exact
             path="/revise/:id"

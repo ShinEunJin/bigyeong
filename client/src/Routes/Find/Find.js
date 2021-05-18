@@ -9,7 +9,6 @@ const Container = styled.div`
   width: 100%;
   margin: 0 auto;
   height: 100vh;
-  padding-top: 3rem;
   background-color: #faf3f3;
 `
 
@@ -20,28 +19,25 @@ const MapSection = styled.div`
   position: relative;
 `
 
-function Map() {
+function Find() {
   useEffect(() => {
     const container = document.getElementById("kakao_map")
     const options = {
-      center: new kakao.maps.LatLng(35.6, 128.1),
-      level: 12,
+      center: new kakao.maps.LatLng(37.5642135, 127.0016985),
+      level: 8,
     }
 
-    let kakaoMap = new kakao.maps.Map(container, options)
-    kakaoMap.setMapTypeId(kakao.maps.MapTypeId.HYBRID)
+    let map = new kakao.maps.Map(container, options)
+    map.setMapTypeId(kakao.maps.MapTypeId.HYBRID)
   }, [])
 
   return (
-    <Container id="map">
+    <Container>
       <MapSection>
-        <div
-          id="kakao_map"
-          style={{ width: "50%", height: "calc(100vh - 3rem)" }}
-        ></div>
+        <div id="kakao_map" style={{ width: "50%", height: "100vh" }}></div>
       </MapSection>
     </Container>
   )
 }
 
-export default Map
+export default Find
