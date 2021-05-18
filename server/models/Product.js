@@ -7,9 +7,17 @@ const ProductSchema = new mongoose.Schema(
       maxLength: 70,
       required: true,
     },
-    region: {
-      type: Number,
-      default: 1,
+    address: {
+      type: String,
+      required: true,
+    },
+    region1: {
+      type: String,
+      required: true,
+    },
+    region2: {
+      type: String,
+      required: true,
     },
     location: {
       type: String,

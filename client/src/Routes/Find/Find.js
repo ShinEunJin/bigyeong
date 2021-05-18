@@ -24,17 +24,25 @@ function Find() {
     const container = document.getElementById("kakao_map")
     const options = {
       center: new kakao.maps.LatLng(37.5642135, 127.0016985),
-      level: 8,
+      level: 10,
     }
 
     let map = new kakao.maps.Map(container, options)
     map.setMapTypeId(kakao.maps.MapTypeId.HYBRID)
   }, [])
 
+  /* const onClickHandler = (e) => {
+    console.log(e)
+  } */
+
   return (
     <Container>
       <MapSection>
-        <div id="kakao_map" style={{ width: "50%", height: "100vh" }}></div>
+        <div
+          /* onClick={onClickHandler} */
+          id="kakao_map"
+          style={{ width: "50%", height: "100vh" }}
+        ></div>
       </MapSection>
     </Container>
   )
