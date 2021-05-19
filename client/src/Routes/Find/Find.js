@@ -33,7 +33,6 @@ function Find() {
 
     let map = new kakao.maps.Map(container, options)
     let latlng = map.getCenter()
-    let markers = []
 
     map.setMapTypeId(kakao.maps.MapTypeId.HYBRID)
 
@@ -49,6 +48,8 @@ function Find() {
       }
     })
 
+    let markers = []
+
     kakao.maps.event.addListener(map, "dragend", function () {
       latlng = map.getCenter()
       searchDetailAddrFromCoords(latlng, async (result, status) => {
@@ -56,15 +57,28 @@ function Find() {
           const { data } = await axios.get(
             `/api/product/products?filters=${result[0].address.region_1depth_name}`
           )
-          let w = parseFloat(data.product[0].coord.La)
-          let s = parseFloat(data.product[0].coord.Ma)
+          setProducts(data.product)
+          console.log(markers)
+          for (let i = 0; i < markers.length; i++) {
+            markers[i].setMap(null)
+          }
+          markers = []
+          if (data.product && data.product.length > 0) {
+            for (let i = 0; i < data.product.length; i++) {
+              let lat = data.product[i].coord.Ma
+              let lng = data.product[i].coord.La
 
-          let markerPosition = new kakao.maps.LatLng(s, w)
-          console.log(markerPosition)
-          let marker = new kakao.maps.Marker({
-            position: markerPosition,
-          })
-          marker.setMap(map)
+              let markerPosition = new kakao.maps.LatLng(lat, lng)
+
+              let marker = new kakao.maps.Marker({
+                position: markerPosition,
+              })
+              markers.push(marker)
+            }
+            for (let i = 0; i < markers.length; i++) {
+              markers[i].setMap(map)
+            }
+          }
         }
       })
     })
@@ -74,6 +88,7 @@ function Find() {
     <Container>
       <MapSection>
         <div id="kakao_map" style={{ width: "50%", height: "100vh" }}></div>
+        <div>{products && products.length > 0 && products[0].region1}</div>
       </MapSection>
     </Container>
   )
