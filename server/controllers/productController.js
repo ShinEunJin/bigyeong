@@ -44,7 +44,7 @@ export const getProduct = async (req, res) => {
     query: { filters },
   } = req
   try {
-    const product = await Product.find({ region: filters })
+    const product = await Product.find({ region1: filters })
     return res.status(200).json({ success: true, product })
   } catch (error) {
     return res.status(400).json({ success: false, error })

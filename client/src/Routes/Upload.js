@@ -78,6 +78,7 @@ function Upload(props) {
   const [description, setDescription] = useState("")
   const [images, setImages] = useState([])
   const [address, setAddress] = useState("")
+  const [coord, setCoord] = useState({})
 
   const nameChangeHandler = (e) => {
     setName(e.target.value)
@@ -112,6 +113,7 @@ function Upload(props) {
       location,
       description,
       images,
+      coord,
       writer: user.userData._id,
     }
     const {
@@ -133,13 +135,12 @@ function Upload(props) {
       center: new kakao.maps.LatLng(36.5642135, 128.0016985),
       level: 13,
     }
-    //지도 생성
+
     let map = new kakao.maps.Map(container, options)
-    //지도 타입
+
     map.setMapTypeId(kakao.maps.MapTypeId.HYBRID)
-    //마커 생성
+
     let marker = new kakao.maps.Marker()
-    //클릭시 마커 생성
 
     kakao.maps.event.addListener(map, "click", function (mouseEvent) {
       searchDetailAddrFromCoords(mouseEvent.latLng, function (result, status) {
@@ -151,20 +152,21 @@ function Upload(props) {
             : ""
           detailAddr +=
             "<div>지번 주소 : " + result[0].address.address_name + "</div>"
+
           setRegion1(result[0].address.region_1depth_name)
           setRegion2(result[0].address.region_2depth_name)
           setAddress(result[0].address.address_name)
+          setCoord(mouseEvent.latLng)
+
           var content =
             '<div class="bAddr">' +
             '<span class="title">법정동 주소정보</span>' +
             detailAddr +
             "</div>"
 
-          // 마커를 클릭한 위치에 표시합니다
           marker.setPosition(mouseEvent.latLng)
           marker.setMap(map)
 
-          // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
           infowindow.setContent(content)
           infowindow.open(map, marker)
         }
@@ -202,7 +204,7 @@ function Upload(props) {
         <Input
           type="text"
           placeholder="제목을 적어주십시오."
-          value={name}
+          defaultValue={name}
           onChange={nameChangeHandler}
         />
         <br />
@@ -210,21 +212,21 @@ function Upload(props) {
         <Input
           type="text"
           placeholder="지도에서 해당 위치를 지정해 주십시오."
-          value={address}
+          defaultValue={address}
         />
         <br />
         <Label>위치</Label>
         <Input
           type="text"
           placeholder="선택 사항. 더 자세한 위치를 적어 주시면 됩니다."
-          value={location}
+          defaultValue={location}
           onChange={locationChangeHandler}
         />
         <br />
         <Label>설명</Label>
         <TEXTAREA
           placeholder="이 장소에 대해 자유롭게 설명해 주시기 바랍니다."
-          value={description}
+          defaultValue={description}
           onChange={descriptionChangeHandler}
         ></TEXTAREA>
         <br />
