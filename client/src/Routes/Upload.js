@@ -175,7 +175,6 @@ function Upload(props) {
     const infowindow = new kakao.maps.InfoWindow({ zindex: 1 })
     const geocoder = new kakao.maps.services.Geocoder()
     function searchDetailAddrFromCoords(coords, callback) {
-      // 좌표로 법정동 상세 주소 정보를 요청합니다
       geocoder.coord2Address(coords.getLng(), coords.getLat(), callback)
     }
   }, [])
@@ -212,7 +211,7 @@ function Upload(props) {
         <Input
           type="text"
           placeholder="지도에서 해당 위치를 지정해 주십시오."
-          defaultValue={address}
+          value={address}
         />
         <br />
         <Label>위치</Label>
