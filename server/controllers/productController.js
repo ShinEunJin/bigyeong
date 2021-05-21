@@ -41,11 +41,18 @@ export const uploadProduct = async (req, res) => {
 
 export const getProduct = async (req, res) => {
   let {
-    query: { filters },
+    query: { filter, limit, skip },
   } = req
+
+  skip = parseInt(skip) || 0
+  limit = parseInt(limit) || 10
+
   try {
-    const product = await Product.find({ region1: filters })
-    return res.status(200).json({ success: true, product })
+    const productLen = (await Product.find({ region1: filter })).length
+    const product = await Product.find({ region1: filter })
+      .skip(skip)
+      .limit(limit)
+    return res.status(200).json({ success: true, product, productLen })
   } catch (error) {
     return res.status(400).json({ success: false, error })
   }

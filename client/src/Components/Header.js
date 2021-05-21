@@ -17,9 +17,9 @@ const HeaderBar = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 0px 10%;
-  box-shadow: 2px 2px 5px #b3e6ff;
+  box-shadow: 2px 2px 3px #a6a6a6;
   z-index: 5;
-  background-color: #ebfaff;
+  background-color: #ffffff;
   font-weight: 600;
 `
 

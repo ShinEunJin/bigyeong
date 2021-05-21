@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
-import dotenv from "dotenv"
 import { Link } from "react-router-dom"
 import axios from "axios"
 import Loader from "../../Components/Loading"
-
-dotenv.config()
+import { Pagination } from "antd"
 
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
-  background-color: #f2f9ff;
+  background-color: #fafafa;
   display: flex;
 `
 
@@ -19,6 +16,8 @@ const MapSection = styled.div`
   height: calc(100vh - 3rem);
   display: flex;
   position: relative;
+  position: sticky;
+  top: 3rem;
 `
 
 const Map = styled.div`
@@ -42,11 +41,6 @@ const IndexSection = styled.div`
   flex-direction: column;
   padding: 0 1rem;
   width: 50%;
-  height: calc(100vh - 3rem);
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `
 
 const TitleColumn = styled.div`
@@ -69,6 +63,7 @@ const Img = styled.img`
   object-fit: cover;
   object-position: center;
   border-radius: 10px;
+  background-color: #b2b2b2;
 `
 
 const Info = styled.div`
@@ -101,52 +96,78 @@ const View = styled.div`
 
 const Like = styled.div``
 
+const PageColumn = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 3rem;
+  padding-bottom: 1rem;
+`
+
 function Find() {
   const [products, setProducts] = useState([])
   const [address, setAddress] = useState({})
   const [loading, setLoading] = useState(false)
   const [start, setStart] = useState(true)
+  const [filter, setFilter] = useState("")
+  const [productsLen, setProductsLen] = useState(0)
+  const [defaultPage, setDefaultPage] = useState(1)
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
+  let list = []
+  let markers = []
+
+  const getProducts = async (filter, limit, skip) => {
+    try {
+      const { data } = await axios.get(
+        `/api/product/products?filter=${filter}&limit=${limit}&skip=${skip}`
+      )
+      setProductsLen(data.productLen)
+      setFilter(filter)
+      setProducts(data.product)
+      if (data.product && data.product.length > 0) {
+        await data.product.forEach((item) => list.push(item))
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const onChangePage = async (page, filter) => {
+    setDefaultPage(page)
+    await getProducts(filter, 3, (page - 1) * 3)
+  }
+
+  const loadKakaoMap = (lat, lng, level) => {
     const container = document.getElementById("kakao_map")
     const options = {
-      center: new kakao.maps.LatLng(37.5642135, 127.0016985),
-      level: 8,
+      center: new kakao.maps.LatLng(lat, lng),
+      level,
     }
-    const geocoder = new kakao.maps.services.Geocoder()
-
     let map = new kakao.maps.Map(container, options)
-    let latlng = map.getCenter()
-
     map.setMapTypeId(kakao.maps.MapTypeId.ROADMAP)
+
+    const geocoder = new kakao.maps.services.Geocoder()
 
     function searchDetailAddrFromCoords(coords, callback) {
       geocoder.coord2Address(coords.getLng(), coords.getLat(), callback)
     }
 
-    let markers = []
-
     kakao.maps.event.addListener(map, "dragend", function () {
       setStart(false)
-      latlng = map.getCenter()
-      searchDetailAddrFromCoords(latlng, async (result, status) => {
+      searchDetailAddrFromCoords(map.getCenter(), async (result, status) => {
         if (status === kakao.maps.services.Status.OK) {
           try {
+            setDefaultPage(1)
             setAddress(result[0].address)
             setLoading(true)
-            const { data } = await axios.get(
-              `/api/product/products?filters=${result[0].address.region_1depth_name}`
-            )
-            setProducts(data.product)
+            await getProducts(result[0].address.region_1depth_name, 3, 0)
             for (let i = 0; i < markers.length; i++) {
               markers[i].setMap(null)
             }
             markers = []
-            if (data.product && data.product.length > 0) {
-              for (let i = 0; i < data.product.length; i++) {
-                let lat = data.product[i].coord.Ma
-                let lng = data.product[i].coord.La
+            if (list && list.length > 0) {
+              for (let i = 0; i < list.length; i++) {
+                let lat = list[i].coord.Ma
+                let lng = list[i].coord.La
 
                 let markerPosition = new kakao.maps.LatLng(lat, lng)
 
@@ -156,8 +177,9 @@ function Find() {
                 markers.push(marker)
               }
               for (let i = 0; i < markers.length; i++) {
-                markers[i].setMap(map)
+                await markers[i].setMap(map)
               }
+              list = []
             }
           } catch (error) {
             console.log(error)
@@ -167,15 +189,22 @@ function Find() {
         }
       })
     })
+  }
+
+  const re = useRef(null)
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    loadKakaoMap(37.5642135, 127.0016985, 8)
   }, [])
 
   return (
     <Container>
       <MapSection>
-        <Map id="kakao_map"></Map>
+        <Map ref={re} id="kakao_map"></Map>
       </MapSection>
       {start ? (
-        <BeginSection>옆 지도를 움직여 주십시오.</BeginSection>
+        <BeginSection>지도를 움직여 주십시오.</BeginSection>
       ) : (
         <IndexSection>
           <TitleColumn>
@@ -221,6 +250,15 @@ function Find() {
               </>
             )}
           </Column>
+          <PageColumn>
+            <Pagination
+              current={defaultPage}
+              defaultCurrent={1}
+              pageSize={3}
+              onChange={(page) => onChangePage(page, filter)}
+              total={productsLen}
+            />
+          </PageColumn>
         </IndexSection>
       )}
     </Container>
