@@ -54,6 +54,7 @@ const Content = styled.div`
   padding: 1rem;
   display: flex;
   margin-bottom: 1rem;
+  border-radius: 10px;
 `
 
 const Img = styled.img`
@@ -111,9 +112,10 @@ function Find() {
   const [filter, setFilter] = useState("")
   const [productsLen, setProductsLen] = useState(0)
   const [defaultPage, setDefaultPage] = useState(1)
+  const [testmap, setTestmap] = useState({})
+  const [mouse, setMouse] = useState("")
 
-  let list = []
-  let markers = []
+  const LIMIT = 5
 
   const getProducts = async (filter, limit, skip) => {
     try {
@@ -123,8 +125,54 @@ function Find() {
       setProductsLen(data.productLen)
       setFilter(filter)
       setProducts(data.product)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  let markers = []
+  const updateMarkers = async (map, filter, limit, skip) => {
+    if (map.sa && map.sa.length > 0) {
+      for (let i = 0; i < map.sa.length; i++) {
+        map.sa[i].setMap(null)
+      }
+    }
+    try {
+      const { data } = await axios.get(
+        `/api/product/products?filter=${filter}&limit=${limit}&skip=${skip}`
+      )
+      let list = []
+
       if (data.product && data.product.length > 0) {
         await data.product.forEach((item) => list.push(item))
+      }
+
+      if (markers.length > 0) {
+        for (let i = 0; i < markers.length; i++) {
+          await markers[i].setMap(null)
+        }
+      }
+
+      if (list && list.length > 0) {
+        for (let i = 0; i < list.length; i++) {
+          let lat = list[i].coord.Ma
+          let lng = list[i].coord.La
+
+          let markerPosition = new kakao.maps.LatLng(lat, lng)
+
+          let marker = new kakao.maps.Marker({
+            position: markerPosition,
+          })
+
+          marker.setMap(map)
+
+          kakao.maps.event.addListener(marker, "mouseover", function () {
+            setMouse(list[i]._id)
+          })
+          kakao.maps.event.addListener(marker, "mouseout", function () {
+            setMouse("")
+          })
+        }
       }
     } catch (error) {
       console.log(error)
@@ -133,7 +181,8 @@ function Find() {
 
   const onChangePage = async (page, filter) => {
     setDefaultPage(page)
-    await getProducts(filter, 3, (page - 1) * 3)
+    getProducts(filter, LIMIT, (page - 1) * LIMIT)
+    updateMarkers(testmap, filter, LIMIT, (page - 1) * LIMIT)
   }
 
   const loadKakaoMap = (lat, lng, level) => {
@@ -145,6 +194,7 @@ function Find() {
     let map = new kakao.maps.Map(container, options)
     map.setMapTypeId(kakao.maps.MapTypeId.ROADMAP)
 
+    setTestmap(map)
     const geocoder = new kakao.maps.services.Geocoder()
 
     function searchDetailAddrFromCoords(coords, callback) {
@@ -159,28 +209,13 @@ function Find() {
             setDefaultPage(1)
             setAddress(result[0].address)
             setLoading(true)
-            await getProducts(result[0].address.region_1depth_name, 3, 0)
-            for (let i = 0; i < markers.length; i++) {
-              markers[i].setMap(null)
-            }
-            markers = []
-            if (list && list.length > 0) {
-              for (let i = 0; i < list.length; i++) {
-                let lat = list[i].coord.Ma
-                let lng = list[i].coord.La
-
-                let markerPosition = new kakao.maps.LatLng(lat, lng)
-
-                let marker = new kakao.maps.Marker({
-                  position: markerPosition,
-                })
-                markers.push(marker)
-              }
-              for (let i = 0; i < markers.length; i++) {
-                await markers[i].setMap(map)
-              }
-              list = []
-            }
+            await getProducts(result[0].address.region_1depth_name, LIMIT, 0)
+            await updateMarkers(
+              map,
+              result[0].address.region_1depth_name,
+              LIMIT,
+              0
+            )
           } catch (error) {
             console.log(error)
           } finally {
@@ -191,17 +226,15 @@ function Find() {
     })
   }
 
-  const re = useRef(null)
-
   useEffect(() => {
     window.scrollTo(0, 0)
-    loadKakaoMap(37.5642135, 127.0016985, 8)
+    loadKakaoMap(37.5642135, 127.0016985, 9)
   }, [])
 
   return (
     <Container>
       <MapSection>
-        <Map ref={re} id="kakao_map"></Map>
+        <Map id="kakao_map"></Map>
       </MapSection>
       {start ? (
         <BeginSection>지도를 움직여 주십시오.</BeginSection>
@@ -233,7 +266,16 @@ function Find() {
                   products.length > 0 &&
                   products.map((item, index) => (
                     <Link key={index} to={`/product/${item._id}`}>
-                      <Content>
+                      <Content
+                        id={`${item._id}`}
+                        style={{
+                          backgroundColor: `${
+                            item._id === mouse
+                              ? "rgba(226, 226, 226, 0.8)"
+                              : "transparent"
+                          }`,
+                        }}
+                      >
                         <Img src={item.images[0]} />
                         <Info>
                           <Title>{item.name}</Title>
@@ -254,7 +296,7 @@ function Find() {
             <Pagination
               current={defaultPage}
               defaultCurrent={1}
-              pageSize={3}
+              pageSize={5}
               onChange={(page) => onChangePage(page, filter)}
               total={productsLen}
             />
