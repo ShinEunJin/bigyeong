@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import axios from "axios"
@@ -55,6 +55,9 @@ const Content = styled.div`
   display: flex;
   margin-bottom: 1rem;
   border-radius: 10px;
+  &:hover {
+    background-color: rgba(233, 233, 233, 0.8);
+  }
 `
 
 const Img = styled.img`
@@ -112,15 +115,16 @@ function Find() {
   const [filter, setFilter] = useState("")
   const [productsLen, setProductsLen] = useState(0)
   const [defaultPage, setDefaultPage] = useState(1)
-  const [testmap, setTestmap] = useState({})
   const [mouse, setMouse] = useState("")
+  const [markers, setMarkers] = useState([])
+  const [loadMap, setLoadMap] = useState({})
 
   const LIMIT = 5
 
-  const getProducts = async (filter, limit, skip) => {
+  const getProducts = async (filter, skip) => {
     try {
       const { data } = await axios.get(
-        `/api/product/products?filter=${filter}&limit=${limit}&skip=${skip}`
+        `/api/product/products?filter=${filter}&limit=${LIMIT}&skip=${skip}`
       )
       setProductsLen(data.productLen)
       setFilter(filter)
@@ -130,59 +134,46 @@ function Find() {
     }
   }
 
-  let markers = []
-  const updateMarkers = async (map, filter, limit, skip) => {
-    if (map.sa && map.sa.length > 0) {
-      for (let i = 0; i < map.sa.length; i++) {
-        map.sa[i].setMap(null)
-      }
-    }
+  const updateMarkers = async (map, filter, skip) => {
     try {
       const { data } = await axios.get(
-        `/api/product/products?filter=${filter}&limit=${limit}&skip=${skip}`
+        `/api/product/products?filter=${filter}&limit=${LIMIT}&skip=${skip}`
       )
-      let list = []
+
+      for (let i = 0; i < markers.length; i++) {
+        markers[i].setMap(null)
+      }
 
       if (data.product && data.product.length > 0) {
-        await data.product.forEach((item) => list.push(item))
-      }
-
-      if (markers.length > 0) {
-        for (let i = 0; i < markers.length; i++) {
-          await markers[i].setMap(null)
-        }
-      }
-
-      if (list && list.length > 0) {
-        for (let i = 0; i < list.length; i++) {
-          let lat = list[i].coord.Ma
-          let lng = list[i].coord.La
-
-          let markerPosition = new kakao.maps.LatLng(lat, lng)
-
+        let newMarkers = []
+        for (let product of data.product) {
+          let markerPosition = new kakao.maps.LatLng(
+            product.coord.Ma,
+            product.coord.La
+          )
           let marker = new kakao.maps.Marker({
             position: markerPosition,
           })
-
           marker.setMap(map)
-
-          kakao.maps.event.addListener(marker, "mouseover", function () {
-            setMouse(list[i]._id)
-          })
-          kakao.maps.event.addListener(marker, "mouseout", function () {
-            setMouse("")
-          })
+          newMarkers.push(marker)
         }
+        console.log("markers", markers)
       }
+      /* kakao.maps.event.addListener(marker, "mouseover", function () {
+        setMouse(list[i]._id)
+      })
+      kakao.maps.event.addListener(marker, "mouseout", function () {
+        setMouse("")
+      }) */
     } catch (error) {
       console.log(error)
     }
   }
 
-  const onChangePage = async (page, filter) => {
+  const onChangePage = async (page, filter, map) => {
     setDefaultPage(page)
-    getProducts(filter, LIMIT, (page - 1) * LIMIT)
-    updateMarkers(testmap, filter, LIMIT, (page - 1) * LIMIT)
+    /* getProducts(filter, LIMIT, (page - 1) * LIMIT) */
+    /* updateMarkers(testmap, filter, LIMIT, (page - 1) * LIMIT) */
   }
 
   const loadKakaoMap = (lat, lng, level) => {
@@ -194,7 +185,7 @@ function Find() {
     let map = new kakao.maps.Map(container, options)
     map.setMapTypeId(kakao.maps.MapTypeId.ROADMAP)
 
-    setTestmap(map)
+    setLoadMap(map)
     const geocoder = new kakao.maps.services.Geocoder()
 
     function searchDetailAddrFromCoords(coords, callback) {
@@ -203,19 +194,14 @@ function Find() {
 
     kakao.maps.event.addListener(map, "dragend", function () {
       setStart(false)
-      searchDetailAddrFromCoords(map.getCenter(), async (result, status) => {
+      searchDetailAddrFromCoords(map.getCenter(), (result, status) => {
         if (status === kakao.maps.services.Status.OK) {
           try {
             setDefaultPage(1)
             setAddress(result[0].address)
             setLoading(true)
-            await getProducts(result[0].address.region_1depth_name, LIMIT, 0)
-            await updateMarkers(
-              map,
-              result[0].address.region_1depth_name,
-              LIMIT,
-              0
-            )
+            getProducts(result[0].address.region_1depth_name, 0)
+            updateMarkers(map, result[0].address.region_1depth_name, 0)
           } catch (error) {
             console.log(error)
           } finally {
@@ -225,6 +211,10 @@ function Find() {
       })
     })
   }
+
+  useCallback(() => {
+    setMarkers(...markers)
+  }, [markers])
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -271,7 +261,7 @@ function Find() {
                         style={{
                           backgroundColor: `${
                             item._id === mouse
-                              ? "rgba(226, 226, 226, 0.8)"
+                              ? "rgba(233, 233, 233, 0.8)"
                               : "transparent"
                           }`,
                         }}
@@ -297,7 +287,7 @@ function Find() {
               current={defaultPage}
               defaultCurrent={1}
               pageSize={5}
-              onChange={(page) => onChangePage(page, filter)}
+              onChange={(page) => onChangePage(page, filter, loadMap)}
               total={productsLen}
             />
           </PageColumn>
