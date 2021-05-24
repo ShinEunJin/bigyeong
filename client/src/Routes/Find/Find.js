@@ -107,6 +107,8 @@ const PageColumn = styled.div`
   padding-bottom: 1rem;
 `
 
+let markers = []
+
 function Find() {
   const [products, setProducts] = useState([])
   const [address, setAddress] = useState({})
@@ -116,7 +118,6 @@ function Find() {
   const [productsLen, setProductsLen] = useState(0)
   const [defaultPage, setDefaultPage] = useState(1)
   const [mouse, setMouse] = useState("")
-  const [markers, setMarkers] = useState([])
   const [loadMap, setLoadMap] = useState({})
 
   const LIMIT = 5
@@ -143,9 +144,9 @@ function Find() {
       for (let i = 0; i < markers.length; i++) {
         markers[i].setMap(null)
       }
+      markers = []
 
       if (data.product && data.product.length > 0) {
-        let newMarkers = []
         for (let product of data.product) {
           let markerPosition = new kakao.maps.LatLng(
             product.coord.Ma,
@@ -155,9 +156,8 @@ function Find() {
             position: markerPosition,
           })
           marker.setMap(map)
-          newMarkers.push(marker)
+          markers.push(marker)
         }
-        console.log("markers", markers)
       }
       /* kakao.maps.event.addListener(marker, "mouseover", function () {
         setMouse(list[i]._id)
@@ -170,10 +170,11 @@ function Find() {
     }
   }
 
-  const onChangePage = async (page, filter, map) => {
+  const onChangePage = (page, filter, map) => {
+    console.log(page)
     setDefaultPage(page)
-    /* getProducts(filter, LIMIT, (page - 1) * LIMIT) */
-    /* updateMarkers(testmap, filter, LIMIT, (page - 1) * LIMIT) */
+    getProducts(filter, (page - 1) * LIMIT)
+    updateMarkers(map, filter, (page - 1) * LIMIT)
   }
 
   const loadKakaoMap = (lat, lng, level) => {

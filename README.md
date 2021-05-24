@@ -8,7 +8,9 @@ express.js
 
 ### 작업 상황
 
-카카오 맵 마커 문제 때문에 생고생중
+해결했다. 스코프 문제 였다.
+
+let markers = [] 를 그냥 function compoment 밖으로 꺼내면 됬다.
 
 #### 기록
 
