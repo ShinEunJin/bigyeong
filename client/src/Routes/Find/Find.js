@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import axios from "axios"
 import Loader from "../../Components/Loading"
 import { Pagination } from "antd"
+import { AiFillEye, AiFillHeart } from "react-icons/ai"
 
 const Container = styled.div`
   width: 100%;
@@ -96,6 +97,8 @@ const LikeAndView = styled.div`
 
 const View = styled.div`
   margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
 `
 
 const Like = styled.div``
@@ -157,14 +160,14 @@ function Find() {
           })
           marker.setMap(map)
           markers.push(marker)
+          kakao.maps.event.addListener(marker, "mouseover", function () {
+            setMouse(product._id)
+          })
+          kakao.maps.event.addListener(marker, "mouseout", function () {
+            setMouse("")
+          })
         }
       }
-      /* kakao.maps.event.addListener(marker, "mouseover", function () {
-        setMouse(list[i]._id)
-      })
-      kakao.maps.event.addListener(marker, "mouseout", function () {
-        setMouse("")
-      }) */
     } catch (error) {
       console.log(error)
     }
@@ -273,8 +276,14 @@ function Find() {
                           <Address>{item.address}</Address>
                           <Address>{item.location}</Address>
                           <LikeAndView>
-                            <View>조회수: {item.views}</View>
-                            <Like>좋아요: {item.likes}</Like>
+                            <View>
+                              <AiFillEye style={{ marginRight: 3 }} />
+                              {item.views}
+                            </View>
+                            <Like>
+                              <AiFillHeart style={{ marginRight: 3 }} />
+                              {item.likes}
+                            </Like>
                           </LikeAndView>
                         </Info>
                       </Content>

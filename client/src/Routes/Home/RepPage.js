@@ -2,31 +2,13 @@ import React from "react"
 import styled from "styled-components"
 import { Carousel } from "antd"
 import { HashLink } from "react-router-hash-link"
-import dotenv from "dotenv"
-dotenv.config()
 
-let images = []
-
-const prod = process.env.NODE_ENV === "production"
-const dev = process.env.NODE_ENV === "development"
-
-if (prod) {
-  images = [
-    "https://eunjintour.s3.ap-northeast-2.amazonaws.com/RepImages/adnan-ami-5GgFSc-hm_I-unsplash.jpg",
-    "https://eunjintour.s3.ap-northeast-2.amazonaws.com/RepImages/bundo-kim-p_D5pbQG5TE-unsplash.jpg",
-    "https://eunjintour.s3.ap-northeast-2.amazonaws.com/RepImages/hem-poudyal-Ys2s7QOQF1c-unsplash.jpg",
-    "https://eunjintour.s3.ap-northeast-2.amazonaws.com/RepImages/yeo-khee--e6Xu27_T50-unsplash.jpg",
-  ]
-}
-
-if (dev) {
-  images = [
-    process.env.REACT_APP_DEV_PORT + "/logo/repImages/repImage1.jpg",
-    process.env.REACT_APP_DEV_PORT + "/logo/repImages/repImage2.jpg",
-    process.env.REACT_APP_DEV_PORT + "/logo/repImages/repImage3.jpg",
-    process.env.REACT_APP_DEV_PORT + "/logo/repImages/repImage4.jpg",
-  ]
-}
+let images = [
+  "/logo/repImages/repImage1.jpg",
+  "/logo/repImages/repImage2.jpg",
+  "/logo/repImages/repImage3.jpg",
+  "/logo/repImages/repImage4.jpg",
+]
 
 const Container = styled.div`
   position: relative;
@@ -91,9 +73,7 @@ const SHashLink = styled(HashLink)`
 function RepPage() {
   return (
     <Container>
-      <FontImg
-        src={process.env.REACT_APP_DEV_PORT + "/logo/font_title.png"}
-      ></FontImg>
+      <FontImg src="/logo/font_title.png"></FontImg>
       <Text>
         <Span>우리가</Span>
         <Span>모르고 있었던</Span>

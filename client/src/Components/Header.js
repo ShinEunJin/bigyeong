@@ -9,7 +9,7 @@ import dotenv from "dotenv"
 dotenv.config()
 
 const HeaderBar = styled.header`
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   height: 3rem;
@@ -71,7 +71,7 @@ function Header(props) {
               <div style={{ display: "flex", alignItems: "center" }}>
                 <img
                   style={{ height: "3rem", width: "3rem" }}
-                  src={process.env.REACT_APP_DEV_PORT + "/logo/logo1.png"}
+                  src="/logo/logo1.png"
                 />
                 <span style={{ paddingLeft: 3, fontSize: "1.5em" }}>
                   BGyeong
@@ -99,7 +99,7 @@ function Header(props) {
               <div style={{ display: "flex", alignItems: "center" }}>
                 <img
                   style={{ height: "3rem", width: "3rem" }}
-                  src={process.env.REACT_APP_DEV_PORT + "/logo/logo1.png"}
+                  src="/logo/logo1.png"
                 />
                 <span style={{ paddingLeft: 3, fontSize: "1.5em" }}>
                   BGyeong
