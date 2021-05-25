@@ -5,7 +5,7 @@ import styled from "styled-components"
 const BackGround = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: #dbf5ff;
+  background-color: #fafafa;
 `
 
 const Container = styled.div`
@@ -58,6 +58,11 @@ const Contents = styled.div`
   align-items: center;
 `
 
+const Span = styled.span`
+  display: block;
+  margin-bottom: 8px;
+`
+
 function Category() {
   const [loadImage, setLoadImage] = useState([])
 
@@ -66,7 +71,7 @@ function Category() {
   }, [])
 
   return (
-    <BackGround id="map">
+    <BackGround id="find">
       <Container>
         <Link to="/find">
           <MapColumn
@@ -81,7 +86,8 @@ function Category() {
                 src="logo/map.png"
               />
               <div style={{ fontSize: 25, textAlign: "center" }}>
-                지도를 보고 <br></br> 경치를 찾아보세요
+                <Span>지도를 사용해</Span>
+                <Span>장소를 찾아보세요</Span>
               </div>
             </Contents>
           </MapColumn>
@@ -101,7 +107,8 @@ function Category() {
             <Title>검색으로 찾기</Title>
             <Contents>
               <div style={{ fontSize: 25, textAlign: "center" }}>
-                검색을 통해<br></br> 경치를 찾아보세요
+                <Span>검색을 통해</Span>
+                <Span>장소를 찾아보세요</Span>
               </div>
               <img
                 style={{ marginLeft: 30, width: 200, height: 200 }}

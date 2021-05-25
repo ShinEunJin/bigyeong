@@ -89,7 +89,7 @@ function RepPage() {
           ))}
       </Carousel>
       <StartBtnColumn>
-        <SHashLink smooth to="#map">
+        <SHashLink smooth to="#find">
           시 작 하 기
         </SHashLink>
       </StartBtnColumn>

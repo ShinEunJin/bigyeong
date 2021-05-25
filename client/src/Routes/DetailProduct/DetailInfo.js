@@ -19,7 +19,7 @@ function DetailInfo(props) {
   const [likeState, setLikeState] = useState(0)
   const [takeBool, setTakeBool] = useState(false)
   const [likeBool, setLikeBool] = useState(false)
-
+  console.log(props.product)
   const user = useSelector((state) => state.user)
 
   const dispatch = useDispatch()
@@ -95,7 +95,28 @@ function DetailInfo(props) {
   }
 
   return (
-    <div>info</div>
+    <>
+      {product && product.writer && (
+        <div>
+          <div style={{ fontSize: "1.3rem", fontWeight: 600 }}>
+            {product.name}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+            }}
+          >
+            {product.address}
+            <div>{product.location}</div>
+          </div>
+          <div>{product.description}</div>
+          <div>{product.writer.name}</div>
+          <div>{product.writer.email}</div>
+        </div>
+      )}
+    </>
   )
 }
 
