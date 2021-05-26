@@ -29,3 +29,47 @@
   overflow: hidden;
   white-space: nowrap;
 }
+
+.card {
+  border-radius: 15px;
+  width: 18rem;
+  height: 17rem;
+  background-color: white;
+  position: relative;
+  box-shadow: 1px 1px 7px 1px rgba(141, 141, 141, 0.8);
+}
+
+.card_image {
+  width: 100%;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  height: 11rem;
+  object-fit: cover;
+  object-position: center;
+  margin-bottom: 1rem;
+}
+
+.card_title {
+  font-weight: 600;
+  font-size: 1em;
+  width: 90%;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card_address {
+  font-size: 0.9em;
+  width: 90%;
+  opacity: 0.8;
+  padding-left: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card_likes {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 1rem;
+}

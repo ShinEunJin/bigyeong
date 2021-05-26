@@ -127,6 +127,7 @@ function Find() {
 
   const getProducts = async (filter, skip) => {
     try {
+      setLoading(true)
       const { data } = await axios.get(
         `/api/product/products?filter=${filter}&limit=${LIMIT}&skip=${skip}`
       )
@@ -135,6 +136,8 @@ function Find() {
       setProducts(data.product)
     } catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -143,12 +146,10 @@ function Find() {
       const { data } = await axios.get(
         `/api/product/products?filter=${filter}&limit=${LIMIT}&skip=${skip}`
       )
-
       for (let i = 0; i < markers.length; i++) {
         markers[i].setMap(null)
       }
       markers = []
-
       if (data.product && data.product.length > 0) {
         for (let product of data.product) {
           let markerPosition = new kakao.maps.LatLng(
@@ -158,8 +159,31 @@ function Find() {
           let marker = new kakao.maps.Marker({
             position: markerPosition,
           })
+          let content =
+            `<div class='card'>` +
+            `<img class="card_image" src=${product.images[0]} />` +
+            `<div class="card_title">${product.name}</div>` +
+            `<div class="card_address">${product.address}</div>` +
+            `<div class="card_likes">♥  ${product.likes}</div>` +
+            "</div>"
+          let customOverlay = new kakao.maps.CustomOverlay({
+            position: markerPosition,
+            content,
+            zIndex: 2,
+            yAnchor: 1.2,
+            clickable: true,
+          })
           marker.setMap(map)
           markers.push(marker)
+          kakao.maps.event.addListener(marker, "click", function () {
+            customOverlay.setMap(map)
+          })
+          kakao.maps.event.addListener(map, "click", function () {
+            customOverlay.setMap(null)
+          })
+          kakao.maps.event.addListener(map, "dragend", function () {
+            customOverlay.setMap(null)
+          })
           kakao.maps.event.addListener(marker, "mouseover", function () {
             setMouse(product._id)
           })
@@ -174,7 +198,6 @@ function Find() {
   }
 
   const onChangePage = (page, filter, map) => {
-    console.log(page)
     setDefaultPage(page)
     getProducts(filter, (page - 1) * LIMIT)
     updateMarkers(map, filter, (page - 1) * LIMIT)
@@ -198,6 +221,7 @@ function Find() {
 
     kakao.maps.event.addListener(map, "dragend", function () {
       setStart(false)
+
       searchDetailAddrFromCoords(map.getCenter(), (result, status) => {
         if (status === kakao.maps.services.Status.OK) {
           try {
