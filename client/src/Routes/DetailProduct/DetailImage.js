@@ -33,12 +33,12 @@ function DetailImage(props) {
       props.product.images.length > 0
     ) {
       let newImages = []
-      for (let i = 0; i < 5; i++) {
+      for (let image of props.product.images) {
         if (prod) {
-          newImages.push(`${props.product.images[i]}`)
+          newImages.push(`${image}`)
         }
         if (dev) {
-          newImages.push(`http://localhost:5000/${props.product.images[i]}`)
+          newImages.push(`http://localhost:5000/${image}`)
         }
       }
       setImageState(newImages)
@@ -47,7 +47,100 @@ function DetailImage(props) {
 
   return (
     <>
-      {imageState && imageState.length > 0 && (
+      {imageState && imageState.length === 1 && (
+        <Container>
+          <Img
+            src={imageState[0]}
+            style={{
+              gridArea: "1 / 1 / 3 / 5",
+              borderTopLeftRadius: "1rem",
+              borderBottomLeftRadius: "1rem",
+              borderTopRightRadius: "1rem",
+              borderBottomRightRadius: "1rem",
+            }}
+          />
+        </Container>
+      )}
+      {imageState && imageState.length === 2 && (
+        <Container>
+          <Img
+            src={imageState[0]}
+            style={{
+              gridArea: "1 / 1 / 3 / 3",
+              borderTopLeftRadius: "1rem",
+              borderBottomLeftRadius: "1rem",
+            }}
+          />
+          <Img
+            src={imageState[1]}
+            style={{
+              gridArea: "1 / 3 / 3 / 5",
+              borderTopRightRadius: "1rem",
+              borderBottomRightRadius: "1rem",
+            }}
+          />
+        </Container>
+      )}
+      {imageState && imageState.length === 3 && (
+        <Container>
+          <Img
+            src={imageState[0]}
+            style={{
+              gridArea: "1 / 1 / 3 / 3",
+              borderTopLeftRadius: "1rem",
+              borderBottomLeftRadius: "1rem",
+            }}
+          />
+          <Img
+            src={imageState[1]}
+            style={{
+              gridArea: "1 / 3 / 2 / 5",
+              borderTopRightRadius: "1rem",
+            }}
+          />
+          <Img
+            src={imageState[2]}
+            style={{
+              gridArea: "2 / 3 / 3 / 5",
+
+              borderBottomRightRadius: "1rem",
+            }}
+          />
+        </Container>
+      )}
+      {imageState && imageState.length === 4 && (
+        <Container>
+          <Img
+            src={imageState[0]}
+            style={{
+              gridArea: "1 / 1 / 3 / 3",
+              borderTopLeftRadius: "1rem",
+              borderBottomLeftRadius: "1rem",
+            }}
+          />
+          <Img
+            src={imageState[1]}
+            style={{
+              gridArea: "1 / 3 / 2 / 4",
+            }}
+          />
+          <Img
+            src={imageState[2]}
+            style={{
+              gridArea: "1 / 4 / 2 / 5",
+              borderTopRightRadius: "1rem",
+            }}
+          />
+          <Img
+            src={imageState[3]}
+            style={{
+              gridArea: "2 / 3 / 3 / 5",
+              borderBottomRightRadius: "1rem",
+            }}
+          />
+        </Container>
+      )}
+      {imageState && imageState.length >= 5 && (
         <Container>
           <Img
             src={imageState[0]}

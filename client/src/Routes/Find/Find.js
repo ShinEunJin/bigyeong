@@ -171,7 +171,6 @@ function Find() {
             content,
             zIndex: 2,
             yAnchor: 1.2,
-            clickable: true,
           })
           marker.setMap(map)
           markers.push(marker)
