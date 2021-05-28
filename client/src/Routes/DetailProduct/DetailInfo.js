@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { addTake, addLike } from "../../_actions/user_action"
 import axios from "axios"
 import DetailRevise from "./DetailRevise"
+import Map from "../../Components/utils/Map"
 
 const ButtonColumn = styled.div`
   display: grid;
@@ -19,7 +20,6 @@ function DetailInfo(props) {
   const [likeState, setLikeState] = useState(0)
   const [takeBool, setTakeBool] = useState(false)
   const [likeBool, setLikeBool] = useState(false)
-  console.log(props.product)
   const user = useSelector((state) => state.user)
 
   const dispatch = useDispatch()
@@ -111,7 +111,7 @@ function DetailInfo(props) {
             {product.address}
             <div>{product.location}</div>
           </div>
-          <div>{product.description}</div>
+
           <div>{product.writer.name}</div>
           <div>{product.writer.email}</div>
         </div>

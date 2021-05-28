@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import dotenv from "dotenv"
+import { Link } from "react-router-dom"
 
 dotenv.config()
 
@@ -21,6 +22,15 @@ const Img = styled.img`
   height: 100%;
   object-fit: cover;
   object-position: center;
+  background-color: #b2b2b2;
+  transition: 0.2s opacity;
+  &:hover {
+    opacity: 0.9;
+  }
+`
+
+const SLink = styled(Link)`
+  background-color: black;
 `
 
 function DetailImage(props) {
@@ -142,27 +152,51 @@ function DetailImage(props) {
       )}
       {imageState && imageState.length >= 5 && (
         <Container>
-          <Img
-            src={imageState[0]}
+          <SLink
+            to={props.product && `/product/${props.product._id}/gallery`}
             style={{
               gridArea: "1 / 1 / 3 / 3",
               borderTopLeftRadius: "1rem",
               borderBottomLeftRadius: "1rem",
             }}
-          />
-          <Img src={imageState[1]} style={{ gridArea: "1 / 3 / 2 / 4" }} />
-          <Img
-            src={imageState[2]}
+          >
+            <Img
+              src={imageState[0]}
+              style={{
+                borderTopLeftRadius: "1rem",
+                borderBottomLeftRadius: "1rem",
+              }}
+            />
+          </SLink>
+          <SLink style={{ gridArea: "1 / 3 / 2 / 4" }}>
+            <Img src={imageState[1]} />
+          </SLink>
+          <SLink
             style={{ gridArea: "1 / 4 / 2 / 5", borderTopRightRadius: "1rem" }}
-          />
-          <Img src={imageState[3]} style={{ gridArea: "2 / 3 / 3 / 4" }} />
-          <Img
-            src={imageState[4]}
+          >
+            <Img
+              src={imageState[2]}
+              style={{
+                borderTopRightRadius: "1rem",
+              }}
+            />
+          </SLink>
+          <SLink style={{ gridArea: "2 / 3 / 3 / 4" }}>
+            <Img src={imageState[3]} />
+          </SLink>
+          <SLink
             style={{
               gridArea: "2 / 4 / 3 / 5",
               borderBottomRightRadius: "1rem",
             }}
-          />
+          >
+            <Img
+              src={imageState[4]}
+              style={{
+                borderBottomRightRadius: "1rem",
+              }}
+            />
+          </SLink>
         </Container>
       )}
     </>

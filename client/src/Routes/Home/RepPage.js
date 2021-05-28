@@ -4,10 +4,10 @@ import { Carousel } from "antd"
 import { HashLink } from "react-router-hash-link"
 
 let images = [
-  "/logo/repImages/repImage1.jpg",
-  "/logo/repImages/repImage2.jpg",
-  "/logo/repImages/repImage3.jpg",
-  "/logo/repImages/repImage4.jpg",
+  "logo/repImages/repImage1.jpg",
+  "logo/repImages/repImage2.jpg",
+  "logo/repImages/repImage3.jpg",
+  "logo/repImages/repImage4.jpg",
 ]
 
 const Container = styled.div`
@@ -73,7 +73,7 @@ const SHashLink = styled(HashLink)`
 function RepPage() {
   return (
     <Container>
-      <FontImg src="/logo/font_title.png"></FontImg>
+      <FontImg src="logo/font_title.png"></FontImg>
       <Text>
         <Span>우리가</Span>
         <Span>모르고 있었던</Span>

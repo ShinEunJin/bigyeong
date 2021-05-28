@@ -18,6 +18,7 @@ import UpdateProfile from "../Routes/Profile/UpdateProfile"
 import Footer from "./Footer"
 import ReviseProduct from "../Routes/DetailProduct/ReviseProduct"
 import Find from "../Routes/Find/Find"
+import DetailGallery from "../Routes/DetailProduct/DetailGallery"
 
 function App() {
   return (
@@ -39,6 +40,11 @@ function App() {
             exact
             path="/product/:id"
             component={Auth(DetailProduct, null)}
+          />
+          <Route
+            exact
+            path="/product/:id/gallery"
+            component={Auth(DetailGallery, null)}
           />
           <Route exact path="/user/cart" component={Auth(CartPage, true)} />
           <Route
