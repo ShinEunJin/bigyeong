@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { Carousel } from "antd"
 import { HashLink } from "react-router-hash-link"
@@ -71,18 +71,26 @@ const SHashLink = styled(HashLink)`
 `
 
 function RepPage() {
+  const [icon, setIcon] = useState("")
+  const [repImages, setRepImages] = useState([])
+
+  useEffect(() => {
+    setIcon("logo/font_title.png")
+    setRepImages(images)
+  }, [])
+
   return (
     <Container>
-      <FontImg src="logo/font_title.png"></FontImg>
+      <FontImg src={icon}></FontImg>
       <Text>
         <Span>우리가</Span>
         <Span>모르고 있었던</Span>
         <Span>근처의 숨은 명소들</Span>
       </Text>
       <Carousel effect="fade" autoplay>
-        {images &&
-          images.length > 0 &&
-          images.map((item, index) => (
+        {repImages &&
+          repImages.length > 0 &&
+          repImages.map((item, index) => (
             <RepImageColumn key={index}>
               <Img src={item} />
             </RepImageColumn>
