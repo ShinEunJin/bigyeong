@@ -5,10 +5,18 @@ dotenv.config()
 
 function ImageSlider(props) {
   return (
-    <Carousel autoplay>
+    <Carousel>
       {props.images.map((image, index) => (
         <div key={index}>
-          <img src={image} style={{ width: "100%", maxHeight: "250px" }} />
+          <img
+            src={image}
+            style={{
+              width: "100%",
+              height: "250px",
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+          />
         </div>
       ))}
     </Carousel>

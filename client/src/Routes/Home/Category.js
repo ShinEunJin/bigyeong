@@ -73,7 +73,7 @@ function Category() {
   return (
     <BackGround id="find">
       <Container>
-        <Link to="/find">
+        <Link to="/find_map">
           <MapColumn
             style={{
               background: `linear-gradient(to right, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%), url(${loadImage[0]}) center/cover`,
@@ -92,31 +92,33 @@ function Category() {
             </Contents>
           </MapColumn>
         </Link>
-        <SearchColumn
-          style={{
-            background: `linear-gradient(to left, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%), url(${loadImage[1]}) center/cover`,
-          }}
-        >
-          <div
+        <Link to="/find_search">
+          <SearchColumn
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-end",
+              background: `linear-gradient(to left, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%), url(${loadImage[1]}) center/cover`,
             }}
           >
-            <Title>검색으로 찾기</Title>
-            <Contents>
-              <div style={{ fontSize: 25, textAlign: "center" }}>
-                <Span>검색을 통해</Span>
-                <Span>장소를 찾아보세요</Span>
-              </div>
-              <img
-                style={{ marginLeft: 30, width: 200, height: 200 }}
-                src="logo/search.png"
-              />
-            </Contents>
-          </div>
-        </SearchColumn>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+              }}
+            >
+              <Title>검색으로 찾기</Title>
+              <Contents>
+                <div style={{ fontSize: 25, textAlign: "center" }}>
+                  <Span>검색을 통해</Span>
+                  <Span>장소를 찾아보세요</Span>
+                </div>
+                <img
+                  style={{ marginLeft: 30, width: 200, height: 200 }}
+                  src="logo/search.png"
+                />
+              </Contents>
+            </div>
+          </SearchColumn>
+        </Link>
       </Container>
     </BackGround>
   )

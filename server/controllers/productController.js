@@ -6,6 +6,20 @@ import "@babel/polyfill"
 import dotenv from "dotenv"
 dotenv.config()
 
+export const getProducts = async (req, res) => {
+  const {
+    query: { category, skip, limit },
+  } = req
+  try {
+    const products = await Product.find({ region1: category })
+      .skip(parseInt(skip, 10))
+      .limit(parseInt(limit, 10))
+    return res.status(200).json({ success: true, products })
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
+}
+
 export const uploadImages = (req, res) => {
   const { file } = req
   try {

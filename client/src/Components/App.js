@@ -17,7 +17,8 @@ import MyProfile from "../Routes/Profile/MyProfile"
 import UpdateProfile from "../Routes/Profile/UpdateProfile"
 import Footer from "./Footer"
 import ReviseProduct from "../Routes/DetailProduct/ReviseProduct"
-import Find from "../Routes/Find/Find"
+import FindByMap from "../Routes/Find/FindByMap"
+import FindBySearch from "../Routes/Find/FindBySearch"
 import DetailGallery from "../Routes/DetailProduct/DetailGallery"
 
 function App() {
@@ -30,7 +31,12 @@ function App() {
           <Route exact path="/login" component={Auth(Login, false)} />
           <Route exact path="/register" component={Auth(Register, false)} />
           <Route exact path="/upload" component={Auth(Upload, true)} />
-          <Route exact path="/find" component={Auth(Find, null)} />
+          <Route exact path="/find_map" component={Auth(FindByMap, null)} />
+          <Route
+            exact
+            path="/find_search"
+            component={Auth(FindBySearch, null)}
+          />
           <Route
             exact
             path="/revise/:id"
