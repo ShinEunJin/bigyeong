@@ -8,21 +8,38 @@ dotenv.config()
 
 export const getProducts = async (req, res) => {
   const {
-    query: { category, skip, limit },
+    query: { sortBy, skip, limit, region },
   } = req
+
   try {
-    if (category === "popular") {
+    if (sortBy === "popular") {
       const products = await Product.find()
         .sort({ views: -1 })
         .skip(parseInt(skip, 10))
         .limit(parseInt(limit, 10))
       return res.status(200).json({ success: true, products })
-    } else {
+    } else if (sortBy === "like") {
       const products = await Product.find()
-        .sort({ createdAt: -1 })
+        .sort({ likes: -1 })
         .skip(parseInt(skip, 10))
         .limit(parseInt(limit, 10))
       return res.status(200).json({ success: true, products })
+    } else {
+      if (region !== "") {
+        const products = await Product.find({
+          region1: { $in: region.split(",") },
+        })
+          .sort({ createdAt: -1 })
+          .skip(parseInt(skip, 10))
+          .limit(parseInt(limit, 10))
+        return res.status(200).json({ success: true, products })
+      } else {
+        const products = await Product.find()
+          .sort({ createdAt: -1 })
+          .skip(parseInt(skip, 10))
+          .limit(parseInt(limit, 10))
+        return res.status(200).json({ success: true, products })
+      }
     }
   } catch (error) {
     return res.status(400).json({ success: false, error })

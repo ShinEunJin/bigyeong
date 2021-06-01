@@ -4,6 +4,8 @@ import { asyncThunk } from "./utils"
 
 export const getProducts = asyncThunk(
   GET_PRODUCTS,
-  ({ category, skip, limit }) =>
-    axios.get(`/api/products?category=${category}&skip=${skip}&limit=${limit}`)
+  ({ sortBy, skip, limit, region }) =>
+    axios.get(
+      `/api/products?sortBy=${sortBy}&skip=${skip}&limit=${limit}&region=${region}`
+    )
 )

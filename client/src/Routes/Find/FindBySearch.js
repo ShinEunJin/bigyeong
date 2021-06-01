@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getProducts } from "../../_actions/product_action"
 import { Link } from "react-router-dom"
@@ -90,18 +90,18 @@ const Icon = styled.div`
 
 function Begin() {
   const dispatch = useDispatch()
-  const { data, loading } = useSelector((state) => state.product)
 
-  let query = {
-    category: null,
-    skip: 0,
-    limit: 8,
-  }
+  const { data, loading } = useSelector((state) => state.product)
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    dispatch(getProducts(query))
+    dispatch(getProducts({ sortBy: "", skip: 0, limit: 8, region: "" }))
   }, [])
+
+  const handleCheckFilter = (filters) => {
+    let newFilters = [...filters]
+    dispatch(getProducts({ sortBy: "", skip: 0, limit: 8, region: newFilters }))
+  }
 
   return (
     <Container>
@@ -113,7 +113,9 @@ function Begin() {
           </div>
           <div style={{ height: "6rem", marginBottom: "6rem" }}>
             <Label>지역 선택</Label>
-            <Checkbox />
+            <Checkbox
+              handleCheckFilter={(filters) => handleCheckFilter(filters)}
+            />
           </div>
         </SearchColumn>
         <CategoryColumn></CategoryColumn>
@@ -122,7 +124,7 @@ function Begin() {
         {loading ? (
           <Loading />
         ) : (
-          <Row gutter={[16, 48]} justify="space-between">
+          <Row gutter={[38, 48]}>
             {data &&
               data.products &&
               data.products.length > 0 &&

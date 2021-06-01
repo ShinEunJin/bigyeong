@@ -11,30 +11,30 @@ const region = [
   "광주",
   "대전",
   "울산",
-  "경기도",
-  "강원도",
-  "충청북도",
-  "충청남도",
-  "전라북도",
-  "전라남도",
-  "경상북도",
-  "경상남도",
-  "제주도",
+  "경기",
+  "강원",
+  "충북",
+  "충남",
+  "전북",
+  "전남",
+  "경북",
+  "경남",
+  "제주특별자치도",
 ]
 
 function CheckBox(props) {
   const [checked, setChecked] = useState([])
 
   const handleToggle = (value) => {
-    const currentValue = checked.indexOf(value)
-    const newChecked = [...checked]
+    let currentValue = checked.indexOf(value)
+    let newChecked = [...checked]
     if (currentValue === -1) {
       newChecked.push(value)
     } else {
       newChecked.splice(currentValue, 1)
     }
     setChecked(newChecked)
-    /* props.handleCheckFilter(newChecked) */
+    props.handleCheckFilter(newChecked)
   }
 
   return (
