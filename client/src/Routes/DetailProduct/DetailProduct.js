@@ -23,7 +23,6 @@ function DetailProduct(props) {
     try {
       const { data } = await axios.get(`/api/product/detail?id=${productId}`)
       setProduct(data.product)
-      console.log(data.product)
     } catch {
       alert("해당 상품을 불러오는데 실패하였습니다.")
     } finally {
@@ -32,9 +31,9 @@ function DetailProduct(props) {
   }
 
   useEffect(() => {
-    getProductDetail()
     window.scrollTo(0, 0)
-  }, [props, productId])
+    getProductDetail()
+  }, [productId])
 
   return (
     <>

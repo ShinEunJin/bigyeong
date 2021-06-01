@@ -7,6 +7,7 @@ const Search = styled.input`
   border: 1px solid rgba(100, 100, 100, 0.3);
   &::placeholder {
     opacity: 0.7;
+    padding-left: 0.5rem;
   }
 `
 

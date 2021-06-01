@@ -11,10 +11,19 @@ export const getProducts = async (req, res) => {
     query: { category, skip, limit },
   } = req
   try {
-    const products = await Product.find({ region1: category })
-      .skip(parseInt(skip, 10))
-      .limit(parseInt(limit, 10))
-    return res.status(200).json({ success: true, products })
+    if (category === "popular") {
+      const products = await Product.find()
+        .sort({ views: -1 })
+        .skip(parseInt(skip, 10))
+        .limit(parseInt(limit, 10))
+      return res.status(200).json({ success: true, products })
+    } else {
+      const products = await Product.find()
+        .sort({ createdAt: -1 })
+        .skip(parseInt(skip, 10))
+        .limit(parseInt(limit, 10))
+      return res.status(200).json({ success: true, products })
+    }
   } catch (error) {
     return res.status(400).json({ success: false, error })
   }
