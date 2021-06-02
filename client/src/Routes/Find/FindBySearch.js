@@ -6,8 +6,10 @@ import styled from "styled-components"
 import Checkbox from "../../Components/utils/CheckBox"
 import SearchProduct from "../../Components/utils/SearchProduct"
 import Loading from "../../Components/Loading"
-import { Row, Col } from "antd"
-import { AiFillHeart, AiFillEye } from "react-icons/ai"
+import { Row, Col, Menu } from "antd"
+import { AiFillHeart, AiFillEye, AiOutlineUnorderedList } from "react-icons/ai"
+
+const { SubMenu } = Menu
 
 const Container = styled.div`
   width: 80%;
@@ -88,19 +90,98 @@ const Icon = styled.div`
   margin-right: 0.5rem;
 `
 
+const SMenu = styled(Menu)`
+  width: 9rem;
+  background-color: rgba(230, 230, 255, 0.5);
+  outline: none;
+`
+
+const StyleSubMenu = styled.div`
+  display: flex;
+  align-items: center;
+  color: black;
+`
+
 function Begin() {
   const dispatch = useDispatch()
 
   const { data, loading } = useSelector((state) => state.product)
 
+  const [searchTerm, setSearchTerm] = useState("")
+  const [region, setRegion] = useState([])
+  const [sortBy, setSortBy] = useState("")
+
   useEffect(() => {
     window.scrollTo(0, 0)
-    dispatch(getProducts({ sortBy: "", skip: 0, limit: 8, region: "" }))
+    dispatch(getProducts({ skip: 0, limit: 8, region: "", searchTerm: "" }))
   }, [])
 
   const handleCheckFilter = (filters) => {
     let newFilters = [...filters]
-    dispatch(getProducts({ sortBy: "", skip: 0, limit: 8, region: newFilters }))
+    setRegion(newFilters)
+    if (newFilters.length === 0) {
+      dispatch(
+        getProducts({ skip: 0, limit: 8, searchTerm, sortBy, region: "" })
+      )
+    } else {
+      dispatch(
+        getProducts({
+          skip: 0,
+          limit: 8,
+          searchTerm,
+          sortBy,
+          region: newFilters,
+        })
+      )
+    }
+  }
+
+  let timer
+  const handleSearchFilter = (searchTerm) => {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      setSearchTerm(searchTerm)
+      dispatch(getProducts({ skip: 0, limit: 8, searchTerm, sortBy, region }))
+    }, 500)
+  }
+
+  const onMenuClick = (e) => {
+    if (e.key === "1") {
+      setSortBy("popular")
+      dispatch(
+        getProducts({
+          skip: 0,
+          limit: 8,
+          region,
+          sortBy: "popular",
+          searchTerm,
+        })
+      )
+    } else if (e.key === "2") {
+      setSortBy("like")
+      dispatch(
+        getProducts({
+          skip: 0,
+          limit: 8,
+          region,
+          sortBy: "like",
+          searchTerm,
+        })
+      )
+    } else {
+      setSortBy("new")
+      dispatch(
+        getProducts({
+          skip: 0,
+          limit: 8,
+          region,
+          sortBy: "new",
+          searchTerm,
+        })
+      )
+    }
   }
 
   return (
@@ -109,13 +190,39 @@ function Begin() {
         <SearchColumn>
           <div>
             <Label>검색하기</Label>
-            <SearchProduct />
+            <SearchProduct handleSearchFilter={handleSearchFilter} />
           </div>
-          <div style={{ height: "6rem", marginBottom: "6rem" }}>
+          <div style={{ height: "6rem", marginBottom: "8rem" }}>
             <Label>지역 선택</Label>
             <Checkbox
               handleCheckFilter={(filters) => handleCheckFilter(filters)}
             />
+          </div>
+          <div>
+            <SMenu
+              triggerSubMenuAction="click"
+              mode="vertical"
+              defaultSelectedKeys={["1"]}
+              onClick={(e) => onMenuClick(e)}
+            >
+              <SubMenu
+                title={
+                  <StyleSubMenu>
+                    <AiOutlineUnorderedList
+                      style={{
+                        fontSize: "1.2em",
+                        marginRight: "0.5rem",
+                      }}
+                    />
+                    <span>정렬 기준</span>
+                  </StyleSubMenu>
+                }
+              >
+                <Menu.Item key="1">인기순</Menu.Item>
+                <Menu.Item key="2">좋아요순</Menu.Item>
+                <Menu.Item key="3">최신순</Menu.Item>
+              </SubMenu>
+            </SMenu>
           </div>
         </SearchColumn>
         <CategoryColumn></CategoryColumn>
