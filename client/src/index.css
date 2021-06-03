@@ -28,6 +28,12 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  font-weight: 600;
+}
+
+.bAddr_info {
+  font-weight: normal;
+  font-size: 0.9em;
 }
 
 .card {

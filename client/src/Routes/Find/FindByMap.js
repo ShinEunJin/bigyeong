@@ -209,7 +209,11 @@ function Find() {
       level,
     }
     let map = new kakao.maps.Map(container, options)
-    map.setMapTypeId(kakao.maps.MapTypeId.ROADMAP)
+
+    let mapTypeControl = new kakao.maps.MapTypeControl()
+    let zoomControl = new kakao.maps.ZoomControl()
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT)
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT)
 
     setLoadMap(map)
     const geocoder = new kakao.maps.services.Geocoder()

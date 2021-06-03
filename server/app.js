@@ -64,10 +64,11 @@ app.post(routes.uploadAvatar, uploadAvatarImage, uploadAvatars)
 app.post(routes.updateProfile, middleAuth, updateProfile)
 
 //Product
-app.get("/api/products", getProducts)
+app.get(routes.products, getProducts)
+app.get(routes.product, getProduct)
+
 app.post(routes.product, uploadProduct)
-app.get(routes.productAll, getProduct) // 실험
-app.post(routes.productAll, deployProduct)
+app.get(routes.productAll, deployProduct)
 app.get(routes.productDetail, detailProduct)
 app.post(routes.productImage, uploadProductImage, uploadImages)
 app.post(routes.productLike, middleAuth, likeProduct)

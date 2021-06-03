@@ -14,6 +14,8 @@ const UPDATE_PROFILE = "/api/users/updateProfile"
 
 //Product
 const PRODUCT = "/api/product"
+const PRODUCTS = "/api/products"
+
 const PRODUCT_ALL = "/api/product/products"
 const PRODUCT_DETAIL = "/api/product/detail"
 const PRODUCT_IMAGE = "/api/product/image"
@@ -40,6 +42,7 @@ const routes = {
   uploadAvatar: UPLOAD_AVATAR,
   updateProfile: UPDATE_PROFILE,
   product: PRODUCT,
+  products: PRODUCTS,
   productAll: PRODUCT_ALL,
   productDetail: PRODUCT_DETAIL,
   productImage: PRODUCT_IMAGE,

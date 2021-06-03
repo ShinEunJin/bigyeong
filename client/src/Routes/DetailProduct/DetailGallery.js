@@ -2,8 +2,6 @@ import React from "react"
 import { withRouter } from "react-router"
 
 function DetailGallery(props) {
-  console.log(props.match.params)
-
   return (
     <div
       style={{

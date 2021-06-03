@@ -138,31 +138,32 @@ function Upload(props) {
 
     let map = new kakao.maps.Map(container, options)
 
-    map.setMapTypeId(kakao.maps.MapTypeId.HYBRID)
-
     let marker = new kakao.maps.Marker()
+
+    let mapTypeControl = new kakao.maps.MapTypeControl()
+    let zoomControl = new kakao.maps.ZoomControl()
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT)
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT)
 
     kakao.maps.event.addListener(map, "click", function (mouseEvent) {
       searchDetailAddrFromCoords(mouseEvent.latLng, function (result, status) {
         if (status === kakao.maps.services.Status.OK) {
           var detailAddr = !!result[0].road_address
-            ? "<div>도로명주소 : " +
+            ? "<div><span class='bAddr'>도로명주소<span> : " +
               result[0].road_address.address_name +
               "</div>"
             : ""
           detailAddr +=
-            "<div>지번 주소 : " + result[0].address.address_name + "</div>"
+            "<div><span class='bAddr_info'>지번 주소</span> : " +
+            result[0].address.address_name +
+            "</div>"
 
           setRegion1(result[0].address.region_1depth_name)
           setRegion2(result[0].address.region_2depth_name)
           setAddress(result[0].address.address_name)
           setCoord(mouseEvent.latLng)
 
-          var content =
-            '<div class="bAddr">' +
-            '<span class="title">법정동 주소정보</span>' +
-            detailAddr +
-            "</div>"
+          var content = '<div class="bAddr">' + detailAddr + "</div>"
 
           marker.setPosition(mouseEvent.latLng)
           marker.setMap(map)

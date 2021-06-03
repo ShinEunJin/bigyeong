@@ -12,8 +12,8 @@ export const getProducts = async (req, res) => {
   } = req
   let skipToNum = parseInt(skip, 10)
   let limitToNum = parseInt(limit, 10)
-  console.log({ sortBy: sortBy, region: region, searchTerm: searchTerm })
-  console.log(typeof sortBy, typeof region, typeof searchTerm)
+  /* console.log({ sortBy: sortBy, region: region, searchTerm: searchTerm })
+  console.log(typeof sortBy, typeof region, typeof searchTerm) */
   try {
     if (searchTerm !== "") {
       const products = await Product.find(
@@ -98,6 +98,22 @@ export const uploadProduct = async (req, res) => {
 }
 
 export const getProduct = async (req, res) => {
+  const {
+    query: { id },
+  } = req
+  try {
+    const product = await Product.findOneAndUpdate(
+      { _id: id },
+      { $inc: { views: 1 } },
+      { new: true }
+    )
+    return res.status(200).json({ success: true, product })
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
+}
+
+export const deployProduct = async (req, res) => {
   let {
     query: { filter, limit, skip },
   } = req
@@ -113,49 +129,6 @@ export const getProduct = async (req, res) => {
     return res.status(200).json({ success: true, product, productLen })
   } catch (error) {
     return res.status(400).json({ success: false, error })
-  }
-}
-
-export const deployProduct = async (req, res) => {
-  let {
-    body: { skip, limit, filters, searchTerm },
-  } = req
-  let findArgs = {}
-
-  skip = parseInt(skip) || 0
-  limit = parseInt(limit) || 8
-
-  for (let key in filters) {
-    if (filters[key].length > 0) {
-      findArgs[key] = filters[key]
-    }
-  }
-
-  if (searchTerm) {
-    try {
-      const productInfo = await Product.find(findArgs)
-        .find({ name: { $regex: searchTerm, $options: "i" } })
-        .populate("writer")
-        .skip(skip)
-        .limit(limit)
-      return res
-        .status(200)
-        .json({ success: true, productInfo, productLen: productInfo.length })
-    } catch (error) {
-      return res.status(400).json({ success: false, error })
-    }
-  } else {
-    try {
-      const productInfo = await Product.find(findArgs)
-        .populate("writer")
-        .skip(skip)
-        .limit(limit)
-      return res
-        .status(200)
-        .json({ success: true, productInfo, productLen: productInfo.length })
-    } catch (error) {
-      return res.status(400).json({ success: false, error })
-    }
   }
 }
 

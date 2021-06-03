@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import dotenv from "dotenv"
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 dotenv.config()
 
@@ -12,7 +13,7 @@ const Container = styled.div`
   display: grid;
   width: 100%;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 30vh);
+  grid-template-rows: repeat(2, 40vh);
   grid-gap: 0.6rem;
   margin-bottom: 5rem;
 `
@@ -33,17 +34,15 @@ const SLink = styled(Link)`
   background-color: black;
 `
 
-function DetailImage(props) {
+function DetailImage() {
   const [imageState, setImageState] = useState([])
 
+  const { data } = useSelector((state) => state.product)
+
   useEffect(() => {
-    if (
-      props.product &&
-      props.product.images &&
-      props.product.images.length > 0
-    ) {
+    if (data.product && data.product.images && data.product.images.length > 0) {
       let newImages = []
-      for (let image of props.product.images) {
+      for (let image of data.product.images) {
         if (prod) {
           newImages.push(`${image}`)
         }
@@ -53,7 +52,7 @@ function DetailImage(props) {
       }
       setImageState(newImages)
     }
-  }, [props.product])
+  }, [data.product])
 
   return (
     <>
@@ -153,7 +152,7 @@ function DetailImage(props) {
       {imageState && imageState.length >= 5 && (
         <Container>
           <SLink
-            to={props.product && `/product/${props.product._id}/gallery`}
+            to={data.product && `/product/${data.product._id}/gallery`}
             style={{
               gridArea: "1 / 1 / 3 / 3",
               borderTopLeftRadius: "1rem",
