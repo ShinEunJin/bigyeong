@@ -8,9 +8,7 @@ express.js
 
 ### 작업 상황
 
-해결했다. 스코프 문제 였다.
-
-let markers = [] 를 그냥 function compoment 밖으로 꺼내면 됬다.
+request URL이 이상하게 나온다. 차이는 Route 설정할때 path에서 param의 유무
 
 #### 기록
 

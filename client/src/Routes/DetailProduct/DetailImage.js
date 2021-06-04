@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import { useSelector } from "react-redux"
-import { CSSTransition } from "react-transition-group"
 import { LazyLoadImage } from "react-lazy-load-image-component"
+import { Link } from "react-router-dom"
 
 const Container = styled.div`
   display: grid;
@@ -25,47 +25,17 @@ const SLazyLoadImage = styled(LazyLoadImage)`
   }
 `
 
-const GalleryZone = styled.div`
+const SLink = styled(Link)`
   background-color: black;
 `
 
 function DetailImage() {
-  const [test, setTest] = useState(false)
-
   const {
     data: { product },
   } = useSelector((state) => state.product)
 
-  const onClickButton = () => {
-    setTest(true)
-  }
-
   return (
     <>
-      {/* <CSSTransition
-        in={test}
-        timeout={2000}
-        classNames="gallery"
-        unmountOnExit
-      >
-        <div
-          style={{
-            height: "100vh",
-            width: "100%",
-          }}
-        >
-          <SLazyLoadImage
-            style={{ width: 300, height: 300 }}
-            src={
-              data &&
-              data.product &&
-              data.product.images &&
-              data.product.images.length > 0 &&
-              data.product.images[0]
-            }
-          />
-        </div>
-      </CSSTransition> */}
       {product && product.images && product.images.length === 1 && (
         <Container>
           <SLazyLoadImage
@@ -161,8 +131,8 @@ function DetailImage() {
       )}
       {product && product.images && product.images.length >= 5 && (
         <Container>
-          <GalleryZone
-            onClick={onClickButton}
+          <SLink
+            to={`/product/${product._id}/gallery`}
             style={{
               gridArea: "1 / 1 / 3 / 3",
               borderTopLeftRadius: "1rem",
@@ -176,36 +146,48 @@ function DetailImage() {
                 borderBottomLeftRadius: "1rem",
               }}
             />
-          </GalleryZone>
-          <GalleryZone style={{ gridArea: "1 / 3 / 2 / 4" }}>
-            <SLazyLoadImage src={product.images[1]} />
-          </GalleryZone>
-          <GalleryZone
+          </SLink>
+          <SLink
+            to={`/product/${product._id}/gallery`}
+            style={{ gridArea: "1 / 3 / 2 / 4" }}
+          >
+            <SLazyLoadImage
+              src={`http://localhost:5000/${product.images[1]}`}
+            />
+          </SLink>
+          <SLink
+            to={`/product/${product._id}/gallery`}
             style={{ gridArea: "1 / 4 / 2 / 5", borderTopRightRadius: "1rem" }}
           >
             <SLazyLoadImage
-              src={product.images[2]}
+              src={`http://localhost:5000/${product.images[2]}`}
               style={{
                 borderTopRightRadius: "1rem",
               }}
             />
-          </GalleryZone>
-          <GalleryZone style={{ gridArea: "2 / 3 / 3 / 4" }}>
-            <SLazyLoadImage src={product.images[3]} />
-          </GalleryZone>
-          <GalleryZone
+          </SLink>
+          <SLink
+            to={`/product/${product._id}/gallery`}
+            style={{ gridArea: "2 / 3 / 3 / 4" }}
+          >
+            <SLazyLoadImage
+              src={`http://localhost:5000/${product.images[3]}`}
+            />
+          </SLink>
+          <SLink
+            to={`/product/${product._id}/gallery`}
             style={{
               gridArea: "2 / 4 / 3 / 5",
               borderBottomRightRadius: "1rem",
             }}
           >
             <SLazyLoadImage
-              src={product.images[4]}
+              src={`http://localhost:5000/${product.images[4]}`}
               style={{
                 borderBottomRightRadius: "1rem",
               }}
             />
-          </GalleryZone>
+          </SLink>
         </Container>
       )}
     </>
