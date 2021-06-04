@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { Carousel } from "antd"
 import { HashLink } from "react-router-hash-link"
+import Fade from "react-reveal/Fade"
 
 let images = [
   "logo/repImages/repImage1.jpg",
@@ -83,9 +84,15 @@ function RepPage() {
     <Container>
       <FontImg src={icon}></FontImg>
       <Text>
-        <Span>우리가</Span>
-        <Span>모르고 있었던</Span>
-        <Span>근처의 숨은 명소들</Span>
+        <Fade top delay={300} distance="1rem">
+          <Span>우리가</Span>
+        </Fade>
+        <Fade top delay={700} distance="1rem">
+          <Span>모르고 있었던</Span>
+        </Fade>
+        <Fade top delay={1100} distance="1rem">
+          <Span>근처의 숨은 명소들</Span>
+        </Fade>
       </Text>
       <Carousel effect="fade" autoplay>
         {repImages &&

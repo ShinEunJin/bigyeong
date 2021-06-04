@@ -3,6 +3,10 @@ import { useSelector } from "react-redux"
 import styled from "styled-components"
 import Fade from "react-reveal/Fade"
 
+const Title = styled.div`
+  font-size: 1.1em;
+`
+
 function DetailInfo({ trigger }) {
   const {
     data: { product },
@@ -13,7 +17,7 @@ function DetailInfo({ trigger }) {
     const container = document.getElementById("kakao_map")
     const options = {
       center: new kakao.maps.LatLng(product.coord.Ma, product.coord.La),
-      level: 7,
+      level: 6,
     }
     let markerPosition = new kakao.maps.LatLng(
       product.coord.Ma,
@@ -35,7 +39,7 @@ function DetailInfo({ trigger }) {
   }, [product && product.coord])
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", marginBottom: "3rem" }}>
       <Fade left when={trigger}>
         <div
           id="kakao_map"
@@ -56,9 +60,12 @@ function DetailInfo({ trigger }) {
             borderRadius: 15,
             backgroundColor: "white",
             boxShadow: "1px 1px 7px 1px gray",
+            padding: "1rem",
           }}
         >
-          {product.name}
+          <Title>{product.name}</Title>
+          <Title>{product.location}</Title>
+          <Title>{product.description}</Title>
         </div>
       </Fade>
     </div>

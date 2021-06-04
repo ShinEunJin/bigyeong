@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
+import Fade from "react-reveal/Fade"
 
 const BackGround = styled.div`
   width: 100%;
@@ -65,60 +66,72 @@ const Span = styled.span`
 
 function Category() {
   const [loadImage, setLoadImage] = useState([])
+  const [mapHeight, setMapHeight] = useState(false)
+  const [searchHeight, setSearchHeight] = useState(false)
 
   useEffect(() => {
+    window.addEventListener("scroll", handleScroll)
     setLoadImage(["logo/menu/menu1.jpg", "logo/menu/menu2.jpg"])
   }, [])
+
+  const handleScroll = () => {
+    setMapHeight(window.scrollY > window.outerHeight * 0.4)
+    setSearchHeight(window.scrollY > window.outerHeight * 0.8)
+  }
 
   return (
     <BackGround id="find">
       <Container>
-        <Link to="/find_map">
-          <MapColumn
-            style={{
-              background: `linear-gradient(to right, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%), url(${loadImage[0]}) center/cover`,
-            }}
-          >
-            <Title>지도로 찾기</Title>
-            <Contents>
-              <img
-                style={{ marginRight: 30, width: 200, height: 200 }}
-                src="logo/map.png"
-              />
-              <div style={{ fontSize: 25, textAlign: "center" }}>
-                <Span>지도를 사용해</Span>
-                <Span>장소를 찾아보세요</Span>
-              </div>
-            </Contents>
-          </MapColumn>
-        </Link>
-        <Link to="/find_search">
-          <SearchColumn
-            style={{
-              background: `linear-gradient(to left, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%), url(${loadImage[1]}) center/cover`,
-            }}
-          >
-            <div
+        <Fade right when={mapHeight} distance="10%">
+          <Link to="/find_map">
+            <MapColumn
               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-end",
+                background: `linear-gradient(to right, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%), url(${loadImage[0]}) center/cover`,
               }}
             >
-              <Title>검색으로 찾기</Title>
+              <Title>지도로 찾기</Title>
               <Contents>
+                <img
+                  style={{ marginRight: 30, width: 200, height: 200 }}
+                  src="logo/map.png"
+                />
                 <div style={{ fontSize: 25, textAlign: "center" }}>
-                  <Span>검색을 통해</Span>
+                  <Span>지도를 사용해</Span>
                   <Span>장소를 찾아보세요</Span>
                 </div>
-                <img
-                  style={{ marginLeft: 30, width: 200, height: 200 }}
-                  src="logo/search.png"
-                />
               </Contents>
-            </div>
-          </SearchColumn>
-        </Link>
+            </MapColumn>
+          </Link>
+        </Fade>
+        <Fade left when={searchHeight} distance="10%">
+          <Link to="/find_search">
+            <SearchColumn
+              style={{
+                background: `linear-gradient(to left, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%), url(${loadImage[1]}) center/cover`,
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                }}
+              >
+                <Title>검색으로 찾기</Title>
+                <Contents>
+                  <div style={{ fontSize: 25, textAlign: "center" }}>
+                    <Span>검색을 통해</Span>
+                    <Span>장소를 찾아보세요</Span>
+                  </div>
+                  <img
+                    style={{ marginLeft: 30, width: 200, height: 200 }}
+                    src="logo/search.png"
+                  />
+                </Contents>
+              </div>
+            </SearchColumn>
+          </Link>
+        </Fade>
       </Container>
     </BackGround>
   )

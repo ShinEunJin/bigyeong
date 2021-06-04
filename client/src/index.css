@@ -79,3 +79,19 @@
   bottom: 0.5rem;
   left: 1rem;
 }
+
+.gallery-enter {
+  opacity: 0;
+}
+
+.gallery-enter-active {
+  opacity: 1;
+  transition: opacity 2000ms;
+}
+.gallery-exit {
+  opacity: 1;
+}
+.gallery-exit-active {
+  opacity: 0;
+  transition: opacity 2000ms;
+}

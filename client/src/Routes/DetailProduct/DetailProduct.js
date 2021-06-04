@@ -11,7 +11,7 @@ import { getProduct } from "../../_actions/product_action"
 const Container = styled.div`
   width: 80%;
   margin: 0 auto;
-  padding: 3rem;
+  padding-top: 3rem;
 `
 
 function DetailProduct(props) {
@@ -30,7 +30,7 @@ function DetailProduct(props) {
   }, [productId])
 
   const handleScroll = () => {
-    setHeight(window.scrollY > window.innerHeight - 800)
+    setHeight(window.scrollY > window.outerHeight * 0.3)
   }
 
   return (

@@ -19,7 +19,6 @@ import Footer from "./Footer"
 import ReviseProduct from "../Routes/DetailProduct/ReviseProduct"
 import FindByMap from "../Routes/Find/FindByMap"
 import FindBySearch from "../Routes/Find/FindBySearch"
-import DetailGallery from "../Routes/DetailProduct/DetailGallery"
 
 function App() {
   return (
@@ -46,11 +45,6 @@ function App() {
             exact
             path="/product/:id"
             component={Auth(DetailProduct, null)}
-          />
-          <Route
-            exact
-            path="/product/:id/gallery"
-            component={Auth(DetailGallery, null)}
           />
           <Route exact path="/user/cart" component={Auth(CartPage, true)} />
           <Route

@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
-import dotenv from "dotenv"
-import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
-
-dotenv.config()
-
-const prod = process.env.NODE_ENV === "production"
-const dev = process.env.NODE_ENV === "development"
+import { CSSTransition } from "react-transition-group"
+import { LazyLoadImage } from "react-lazy-load-image-component"
 
 const Container = styled.div`
   display: grid;
@@ -18,7 +13,7 @@ const Container = styled.div`
   margin-bottom: 5rem;
 `
 
-const Img = styled.img`
+const SLazyLoadImage = styled(LazyLoadImage)`
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -30,36 +25,51 @@ const Img = styled.img`
   }
 `
 
-const SLink = styled(Link)`
+const GalleryZone = styled.div`
   background-color: black;
 `
 
 function DetailImage() {
-  const [imageState, setImageState] = useState([])
+  const [test, setTest] = useState(false)
 
-  const { data } = useSelector((state) => state.product)
+  const {
+    data: { product },
+  } = useSelector((state) => state.product)
 
-  useEffect(() => {
-    if (data.product && data.product.images && data.product.images.length > 0) {
-      let newImages = []
-      for (let image of data.product.images) {
-        if (prod) {
-          newImages.push(`${image}`)
-        }
-        if (dev) {
-          newImages.push(`http://localhost:5000/${image}`)
-        }
-      }
-      setImageState(newImages)
-    }
-  }, [data.product])
+  const onClickButton = () => {
+    setTest(true)
+  }
 
   return (
     <>
-      {imageState && imageState.length === 1 && (
+      {/* <CSSTransition
+        in={test}
+        timeout={2000}
+        classNames="gallery"
+        unmountOnExit
+      >
+        <div
+          style={{
+            height: "100vh",
+            width: "100%",
+          }}
+        >
+          <SLazyLoadImage
+            style={{ width: 300, height: 300 }}
+            src={
+              data &&
+              data.product &&
+              data.product.images &&
+              data.product.images.length > 0 &&
+              data.product.images[0]
+            }
+          />
+        </div>
+      </CSSTransition> */}
+      {product && product.images && product.images.length === 1 && (
         <Container>
-          <Img
-            src={imageState[0]}
+          <SLazyLoadImage
+            src={product.images[0]}
             style={{
               gridArea: "1 / 1 / 3 / 5",
               borderTopLeftRadius: "1rem",
@@ -70,18 +80,18 @@ function DetailImage() {
           />
         </Container>
       )}
-      {imageState && imageState.length === 2 && (
+      {product && product.images && product.images.length === 2 && (
         <Container>
-          <Img
-            src={imageState[0]}
+          <SLazyLoadImage
+            src={product.images[0]}
             style={{
               gridArea: "1 / 1 / 3 / 3",
               borderTopLeftRadius: "1rem",
               borderBottomLeftRadius: "1rem",
             }}
           />
-          <Img
-            src={imageState[1]}
+          <SLazyLoadImage
+            src={product.images[1]}
             style={{
               gridArea: "1 / 3 / 3 / 5",
               borderTopRightRadius: "1rem",
@@ -90,25 +100,25 @@ function DetailImage() {
           />
         </Container>
       )}
-      {imageState && imageState.length === 3 && (
+      {product && product.images && product.images.length === 3 && (
         <Container>
-          <Img
-            src={imageState[0]}
+          <SLazyLoadImage
+            src={product.images[0]}
             style={{
               gridArea: "1 / 1 / 3 / 3",
               borderTopLeftRadius: "1rem",
               borderBottomLeftRadius: "1rem",
             }}
           />
-          <Img
-            src={imageState[1]}
+          <SLazyLoadImage
+            src={product.images[1]}
             style={{
               gridArea: "1 / 3 / 2 / 5",
               borderTopRightRadius: "1rem",
             }}
           />
-          <Img
-            src={imageState[2]}
+          <SLazyLoadImage
+            src={product.images[2]}
             style={{
               gridArea: "2 / 3 / 3 / 5",
 
@@ -117,31 +127,31 @@ function DetailImage() {
           />
         </Container>
       )}
-      {imageState && imageState.length === 4 && (
+      {product && product.images && product.images.length === 4 && (
         <Container>
-          <Img
-            src={imageState[0]}
+          <SLazyLoadImage
+            src={product.images[0]}
             style={{
               gridArea: "1 / 1 / 3 / 3",
               borderTopLeftRadius: "1rem",
               borderBottomLeftRadius: "1rem",
             }}
           />
-          <Img
-            src={imageState[1]}
+          <SLazyLoadImage
+            src={product.images[1]}
             style={{
               gridArea: "1 / 3 / 2 / 4",
             }}
           />
-          <Img
-            src={imageState[2]}
+          <SLazyLoadImage
+            src={product.images[2]}
             style={{
               gridArea: "1 / 4 / 2 / 5",
               borderTopRightRadius: "1rem",
             }}
           />
-          <Img
-            src={imageState[3]}
+          <SLazyLoadImage
+            src={product.images[3]}
             style={{
               gridArea: "2 / 3 / 3 / 5",
               borderBottomRightRadius: "1rem",
@@ -149,53 +159,53 @@ function DetailImage() {
           />
         </Container>
       )}
-      {imageState && imageState.length >= 5 && (
+      {product && product.images && product.images.length >= 5 && (
         <Container>
-          <SLink
-            to={data.product && `/product/${data.product._id}/gallery`}
+          <GalleryZone
+            onClick={onClickButton}
             style={{
               gridArea: "1 / 1 / 3 / 3",
               borderTopLeftRadius: "1rem",
               borderBottomLeftRadius: "1rem",
             }}
           >
-            <Img
-              src={imageState[0]}
+            <SLazyLoadImage
+              src={`http://localhost:5000/${product.images[0]}`}
               style={{
                 borderTopLeftRadius: "1rem",
                 borderBottomLeftRadius: "1rem",
               }}
             />
-          </SLink>
-          <SLink style={{ gridArea: "1 / 3 / 2 / 4" }}>
-            <Img src={imageState[1]} />
-          </SLink>
-          <SLink
+          </GalleryZone>
+          <GalleryZone style={{ gridArea: "1 / 3 / 2 / 4" }}>
+            <SLazyLoadImage src={product.images[1]} />
+          </GalleryZone>
+          <GalleryZone
             style={{ gridArea: "1 / 4 / 2 / 5", borderTopRightRadius: "1rem" }}
           >
-            <Img
-              src={imageState[2]}
+            <SLazyLoadImage
+              src={product.images[2]}
               style={{
                 borderTopRightRadius: "1rem",
               }}
             />
-          </SLink>
-          <SLink style={{ gridArea: "2 / 3 / 3 / 4" }}>
-            <Img src={imageState[3]} />
-          </SLink>
-          <SLink
+          </GalleryZone>
+          <GalleryZone style={{ gridArea: "2 / 3 / 3 / 4" }}>
+            <SLazyLoadImage src={product.images[3]} />
+          </GalleryZone>
+          <GalleryZone
             style={{
               gridArea: "2 / 4 / 3 / 5",
               borderBottomRightRadius: "1rem",
             }}
           >
-            <Img
-              src={imageState[4]}
+            <SLazyLoadImage
+              src={product.images[4]}
               style={{
                 borderBottomRightRadius: "1rem",
               }}
             />
-          </SLink>
+          </GalleryZone>
         </Container>
       )}
     </>

@@ -92,7 +92,7 @@ const Icon = styled.div`
 
 const SMenu = styled(Menu)`
   width: 9rem;
-  background-color: rgba(230, 230, 255, 0.5);
+  background-color: rgba(240, 240, 240, 0.7);
   outline: none;
 `
 
@@ -147,40 +147,26 @@ function Begin() {
     }, 500)
   }
 
+  const dispatchUtils = (category) => {
+    setSortBy(category)
+    dispatch(
+      getProducts({
+        skip: 0,
+        limit: 8,
+        region,
+        searchTerm,
+        sortBy: category,
+      })
+    )
+  }
+
   const onMenuClick = (e) => {
     if (e.key === "1") {
-      setSortBy("popular")
-      dispatch(
-        getProducts({
-          skip: 0,
-          limit: 8,
-          region,
-          sortBy: "popular",
-          searchTerm,
-        })
-      )
+      dispatchUtils("popular")
     } else if (e.key === "2") {
-      setSortBy("like")
-      dispatch(
-        getProducts({
-          skip: 0,
-          limit: 8,
-          region,
-          sortBy: "like",
-          searchTerm,
-        })
-      )
+      dispatchUtils("like")
     } else {
-      setSortBy("new")
-      dispatch(
-        getProducts({
-          skip: 0,
-          limit: 8,
-          region,
-          sortBy: "new",
-          searchTerm,
-        })
-      )
+      dispatchUtils("new")
     }
   }
 
