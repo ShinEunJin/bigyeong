@@ -65,7 +65,6 @@ function App() {
           />
           <Redirect from="*" to="/" />
         </Switch>
-        <Footer />
       </Router>
       <GlobalStyle />
     </>

@@ -33,28 +33,18 @@ function DetailProduct(props) {
     setHeight(window.scrollY > window.outerHeight * 0.3)
   }
 
-  {
-    /* <>
-              <DetailImage />
-              <DetailInfo trigger={height} />
-            </> */
-  }
-
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
         <Container>
-          {data &&
-            data.product &&
-            data.product.images &&
-            data.product.images.length > 0 && (
-              <img
-                style={{ height: 300, width: 300 }}
-                src={`http://localhost:5000/${data.product.images[0]}`}
-              />
-            )}
+          {data && data.product && (
+            <>
+              <DetailImage />
+              <DetailInfo trigger={height} />
+            </>
+          )}
           <Comments />
         </Container>
       )}
