@@ -4,6 +4,7 @@ import Fade from "react-reveal/Fade"
 
 function DetailGallery() {
   const [start, setStart] = useState(false)
+  const [photo, setPhoto] = useState(false)
 
   const {
     data: { product },
@@ -14,8 +15,12 @@ function DetailGallery() {
     setStart(true)
   }, [product])
 
+  const onRevealHandler = () => {
+    setPhoto(true)
+  }
+
   return (
-    <Fade bottom big in={start}>
+    <Fade bottom big in={start} mountOnEnter onReveal={onRevealHandler}>
       <div
         style={{
           position: "absolute",
@@ -23,14 +28,17 @@ function DetailGallery() {
           zindex: 50,
           height: "100vh",
           width: "100%",
+          backgroundColor: "aqua",
         }}
       >
-        {product.images.map((item, value) => (
-          <img
-            style={{ width: 300, height: 300 }}
-            src={`http://localhost:5000/${item}`}
-          />
-        ))}
+        <Fade bottom in={photo}>
+          {product.images.map((item, value) => (
+            <img
+              style={{ width: 300, height: 300 }}
+              src={`http://localhost:5000/${item}`}
+            />
+          ))}
+        </Fade>
       </div>
     </Fade>
   )

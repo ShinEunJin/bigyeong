@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import axios from "axios"
 import { useDispatch } from "react-redux"
-import { removeTake } from "../../_actions/user_action"
 import { FiShoppingBag } from "react-icons/fi"
 import { FaTrashAlt } from "react-icons/fa"
 

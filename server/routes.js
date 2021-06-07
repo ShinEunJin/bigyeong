@@ -4,13 +4,12 @@ const REGISTER_EMAIL = "/api/users/register-email"
 const LOGIN = "/api/users/login"
 const LOGOUT = "/api/users/logout"
 const AUTH = "/api/users/auth"
-const ADD_TAKE = "/api/users/addTake"
-const ADD_LIKE = "/api/users/addLike"
-const REMOVE_TAKE = "/api/users/removeTake"
-const GET_LIKE = "/api/users/getLike"
 const GET_MY_PRODUCTS = "/api/users/getMyProducts"
 const UPLOAD_AVATAR = "/api/users/uploadAvatar"
 const UPDATE_PROFILE = "/api/users/updateProfile"
+
+const USER_LIKE = "/api/users/like"
+const USER_TAKE = "/api/users/take"
 
 //Product
 const PRODUCT = "/api/product"
@@ -34,13 +33,11 @@ const routes = {
   login: LOGIN,
   logout: LOGOUT,
   auth: AUTH,
-  addTake: ADD_TAKE,
-  addLike: ADD_LIKE,
-  removeTake: REMOVE_TAKE,
-  getLike: GET_LIKE,
   getMyProducts: GET_MY_PRODUCTS,
   uploadAvatar: UPLOAD_AVATAR,
   updateProfile: UPDATE_PROFILE,
+  userLike: USER_LIKE,
+  userTake: USER_TAKE,
   product: PRODUCT,
   products: PRODUCTS,
   productAll: PRODUCT_ALL,

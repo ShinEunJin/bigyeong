@@ -25,14 +25,18 @@ const UserSchema = new mongoose.Schema(
     },
     avatar: String,
     token: String,
-    take: {
-      type: Array,
-      default: [],
-    },
-    likes: {
-      type: Array,
-      default: [],
-    },
+    take: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
     history: {
       type: Array,
       default: [],

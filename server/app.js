@@ -5,18 +5,15 @@ import routes from "./routes"
 import cors from "cors"
 import path from "path"
 import {
-  addLike,
-  addTake,
   auth,
-  getLike,
   getMyProduct,
   login,
   logout,
   register,
-  removeTake,
   uploadAvatars,
   updateProfile,
   registerCheck,
+  updateUserLike,
 } from "./controllers/userController"
 import { registerEmail } from "./controllers/userControllers/base/sendEmail"
 import middleAuth from "./middlewares/middleAuth"
@@ -55,13 +52,11 @@ app.post(routes.registerEmail, registerEmail)
 app.post(routes.login, login)
 app.get(routes.auth, middleAuth, auth)
 app.get(routes.logout, middleAuth, logout)
-app.post(routes.addTake, middleAuth, addTake)
-app.post(routes.addLike, middleAuth, addLike)
-app.post(routes.removeTake, middleAuth, removeTake)
-app.get(routes.getLike, middleAuth, getLike)
 app.get(routes.getMyProducts, middleAuth, getMyProduct)
 app.post(routes.uploadAvatar, uploadAvatarImage, uploadAvatars)
 app.post(routes.updateProfile, middleAuth, updateProfile)
+
+app.patch(routes.userLike, updateUserLike)
 
 //Product
 app.get(routes.products, getProducts)

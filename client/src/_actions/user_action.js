@@ -1,16 +1,14 @@
 import axios from "axios"
 import {
   AUTH_USER,
-  ADD_TAKE,
-  ADD_LIKE,
   LOGIN_USER,
   REGISTER_USER,
   LOGOUT_USER,
-  REMOVE_TAKE,
-  GET_LIKE,
   GET_MY_PRODUCTS,
   UPDATE_PROFILE,
+  UPDATE_LIKE,
 } from "./types"
+import { asyncThunk } from "./utils"
 
 export const loginUser = async (dataToSubmit) => {
   const { data } = await axios.post("/api/users/login", dataToSubmit)
@@ -44,47 +42,6 @@ export const auth = async () => {
   }
 }
 
-export const addTake = async (productId) => {
-  let body = { productId }
-  const { data } = await axios.post("/api/users/addTake", body)
-  return {
-    type: ADD_TAKE,
-    payload: data,
-  }
-}
-
-export const addLike = async (productId) => {
-  let body = { productId }
-  const { data } = await axios.post("/api/users/addLike", body)
-  if (data.myProduct) {
-    return {
-      type: null,
-    }
-  } else {
-    return {
-      type: ADD_LIKE,
-      payload: data,
-    }
-  }
-}
-
-export const removeTake = async (productId) => {
-  let body = { productId }
-  const { data } = await axios.post("/api/users/removeTake", body)
-  return {
-    type: REMOVE_TAKE,
-    payload: data,
-  }
-}
-
-export const getLike = async () => {
-  const { data } = await axios.get("/api/users/getlike")
-  return {
-    type: GET_LIKE,
-    payload: data,
-  }
-}
-
 export const getMyProducts = async () => {
   const { data } = await axios.get("/api/users/getMyProducts")
   return {
@@ -100,3 +57,7 @@ export const updateProfile = async (dataToSubmit) => {
     payload: data,
   }
 }
+
+export const updateUserLike = asyncThunk(UPDATE_LIKE, (dataToSubmit) =>
+  axios.patch("/api/users/like", dataToSubmit)
+)
