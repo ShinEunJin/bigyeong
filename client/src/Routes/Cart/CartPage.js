@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import axios from "axios"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { FiShoppingBag } from "react-icons/fi"
 import { FaTrashAlt } from "react-icons/fa"
+import dotenv from "dotenv"
+import { updateUserTake } from "../../_actions/user_action"
+
+dotenv.config()
 
 const Container = styled.div`
   padding-top: 100px;
@@ -64,39 +68,33 @@ const EmptyDiv = styled.div`
   font-size: 1.5em;
 `
 
-function CartPage(props) {
+function CartPage() {
   const dispatch = useDispatch()
 
-  const [productState, setProductState] = useState([])
+  const { userData } = useSelector((state) => state.user)
 
-  let takeList = []
+  const [product, setProduct] = useState([])
+
+  const getUserTake = async (productList) => {
+    const { data } = await axios.get(`/api/users/take?productId=${productList}`)
+    setProduct(data.product)
+  }
 
   useEffect(() => {
-    if (props.user.userData && props.user.userData.take) {
-      if (props.user.userData.take.length > 0) {
-        props.user.userData.take.forEach((item) => {
-          takeList.push(item.id)
-        })
-        try {
-          const getTakeList = async () => {
-            const {
-              data: { product },
-            } = await axios.get(`/api/product/take?id=${takeList}`)
-            setProductState(product)
-          }
-          getTakeList()
-        } catch (error) {
-          console.log(error)
-        }
-      }
+    if (userData.take && userData.take.length > 0) {
+      getUserTake(userData.take)
+    } else {
+      setProduct([])
     }
-  }, [props.user.userData])
+  }, [userData])
 
-  const handleRemoveTake = async (productId) => {
-    const {
-      payload: { product },
-    } = await dispatch(removeTake(productId))
-    setProductState(product)
+  const onDeleteBtn = (productId) => {
+    let body = {
+      userId: userData._id,
+      productId,
+      add: false,
+    }
+    dispatch(updateUserTake(body))
   }
 
   return (
@@ -105,31 +103,40 @@ function CartPage(props) {
         <FiShoppingBag style={{ marginRight: 5 }} />
         찜목록
       </Title>
-      {productState && productState.length > 0 ? (
+      {product && product.length > 0 ? (
         <Table>
           <thead>
             <Tr>
               <Th>이미지</Th>
-              <Th>상품</Th>
-              <Th>가격</Th>
-              <Th>판매자</Th>
+              <Th>제목</Th>
+              <Th>위치</Th>
+              <Th>작성자</Th>
               <Th>삭제</Th>
             </Tr>
           </thead>
           <tbody>
-            {productState.map((item, index) => (
+            {product.map((item, index) => (
               <Tr key={index}>
                 <Td style={{ width: "15%", textAlign: "center" }}>
                   <img
-                    style={{ width: 100, height: 100 }}
-                    src={item.images[0]}
+                    style={{
+                      width: 100,
+                      height: 100,
+                      objectFit: "cover",
+                      objectPosition: "center",
+                    }}
+                    src={
+                      process.env.NODE_ENV === "development"
+                        ? `http://localhost:5000/${item.images[0]}`
+                        : item.images[0]
+                    }
                   />
                 </Td>
                 <Td style={{ width: "30%" }}>{item.name}</Td>
                 <Td style={{ width: "30%" }}>{item.location}</Td>
                 <Td style={{ width: "20%" }}>{item.writer.name}</Td>
                 <Td style={{ width: "5%", textAlign: "center" }}>
-                  <SFaTrashAlt onClick={() => handleRemoveTake(item._id)} />
+                  <SFaTrashAlt onClick={() => onDeleteBtn(item._id)} />
                 </Td>
               </Tr>
             ))}

@@ -152,60 +152,24 @@ export const detailProduct = async (req, res) => {
 
 export const likeProduct = async (req, res) => {
   const {
-    body: { productId, userId },
+    body: { productId, alreadyLike },
   } = req
   try {
-    const user = await User.findOne({ _id: userId })
-    let myProduct = false
-    user.products.forEach((item) => {
-      if (item.id.toString() === productId) {
-        myProduct = true
-      }
-    })
-    if (myProduct) {
-      return res.json({ myProduct })
+    if (!alreadyLike) {
+      const product = await Product.findOneAndUpdate(
+        { _id: productId },
+        { $inc: { likes: 1 } },
+        { new: true }
+      )
+      return res.status(200).json({ success: true, likeNum: product.likes })
     } else {
-      let alreadyLike = false
-      user.likes.forEach((item) => {
-        if (item.id === productId) {
-          alreadyLike = true
-        }
-      })
-      if (alreadyLike) {
-        const product = await Product.findOneAndUpdate(
-          { _id: productId },
-          {
-            $inc: { likes: -1 },
-          },
-          { new: true }
-        )
-        return res.status(200).json({ success: true, likes: product.likes })
-      } else {
-        const product = await Product.findOneAndUpdate(
-          { _id: productId },
-          {
-            $inc: { likes: 1 },
-          },
-          { new: true }
-        )
-        return res.status(200).json({ success: true, likes: product.likes })
-      }
+      const product = await Product.findOneAndUpdate(
+        { _id: productId },
+        { $inc: { likes: -1 } },
+        { new: true }
+      )
+      return res.status(200).json({ success: true, likeNum: product.likes })
     }
-  } catch (error) {
-    return res.status(400).json({ success: false, error })
-  }
-}
-
-export const takeProduct = async (req, res) => {
-  const {
-    query: { id },
-  } = req
-  let takeList = id.split(",")
-  try {
-    const product = await Product.find({ _id: { $in: takeList } }).populate(
-      "writer"
-    )
-    return res.status(200).json({ success: true, product })
   } catch (error) {
     return res.status(400).json({ success: false, error })
   }

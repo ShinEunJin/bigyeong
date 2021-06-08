@@ -139,43 +139,81 @@ export const updateUserLike = async (req, res) => {
   } = req
   try {
     if (!alreadyLike) {
-      const [_, product] = await Promise.all([
-        User.updateOne(
-          { _id: userId },
-          {
-            $push: {
-              likes: productId,
-            },
+      const user = await User.findOneAndUpdate(
+        { _id: userId },
+        {
+          $push: {
+            likes: productId,
           },
-          { new: true }
-        ),
-        Product.findOneAndUpdate(
-          { _id: productId },
-          { $inc: { likes: 1 } },
-          { new: true }
-        ),
-      ])
-      return res.status(200).json({ success: true, like: product.likes })
+        },
+        { new: true }
+      )
+      return res.status(200).json({ success: true, like: user.likes })
     } else {
-      const [_, product] = await Promise.all([
-        User.updateOne(
+      const user = await User.findOneAndUpdate(
+        { _id: userId },
+        {
+          $pull: {
+            likes: productId,
+          },
+        },
+        { new: true }
+      )
+      return res.status(200).json({ success: true, like: user.likes })
+    }
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
+}
+
+export const getUserTake = async (req, res) => {
+  const {
+    query: { productId },
+  } = req
+  let list = productId.split(",")
+  try {
+    const product = await Product.find({ _id: { $in: list } }).populate(
+      "writer"
+    )
+    return res.status(200).json({ success: true, product })
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
+}
+
+export const updateUserTake = async (req, res) => {
+  const {
+    body: { userId, productId, add },
+  } = req
+  try {
+    if (add) {
+      const user = await User.findOneAndUpdate(
+        { _id: userId },
+        {
+          $push: {
+            take: productId,
+          },
+        },
+        { new: true }
+      )
+      return res.status(200).json({ success: true, take: user.take })
+    } else {
+      try {
+        const user = await User.findOneAndUpdate(
           { _id: userId },
           {
             $pull: {
-              likes: productId,
+              take: productId,
             },
           },
           { new: true }
-        ),
-        Product.findOneAndUpdate(
-          { _id: productId },
-          { $inc: { likes: -1 } },
-          { new: true }
-        ),
-      ])
-      return res.status(200).json({ success: true, like: product.likes })
+        )
+        return res.status(200).json({ success: true, take: user.take })
+      } catch (error) {
+        return res.status(400).json({ success: false, error })
+      }
     }
   } catch (error) {
-    return res.status(400).json({ success: false })
+    return res.status(400).json({ success: false, error })
   }
 }

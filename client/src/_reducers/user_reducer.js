@@ -4,10 +4,9 @@ import {
   REGISTER_USER,
   LOGOUT_USER,
   UPDATE_LIKE,
-  UPDATE_LIKE_FAILURE,
-  UPDATE_LIKE_SUCCESS,
   GET_MY_PRODUCTS,
   UPDATE_PROFILE,
+  UPDATE_USER_TAKE,
 } from "../_actions/types"
 
 export default (state = {}, action) => {
@@ -20,6 +19,16 @@ export default (state = {}, action) => {
       return { ...state, logout: action.payload }
     case AUTH_USER:
       return { ...state, userData: action.payload }
+    case UPDATE_LIKE:
+      return {
+        ...state,
+        userData: { ...state.userData, likes: action.payload },
+      }
+    case UPDATE_USER_TAKE:
+      return {
+        ...state,
+        userData: { ...state.userData, take: action.payload },
+      }
     case GET_MY_PRODUCTS:
       return {
         ...state,

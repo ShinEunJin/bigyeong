@@ -14,6 +14,8 @@ import {
   updateProfile,
   registerCheck,
   updateUserLike,
+  getUserTake,
+  updateUserTake,
 } from "./controllers/userController"
 import { registerEmail } from "./controllers/userControllers/base/sendEmail"
 import middleAuth from "./middlewares/middleAuth"
@@ -27,7 +29,6 @@ import {
   likeProduct,
   removeComment,
   removeProduct,
-  takeProduct,
   uploadImages,
   uploadProduct,
   writeComment,
@@ -58,6 +59,9 @@ app.post(routes.updateProfile, middleAuth, updateProfile)
 
 app.patch(routes.userLike, updateUserLike)
 
+app.get(routes.userTake, getUserTake)
+app.patch(routes.userTake, updateUserTake)
+
 //Product
 app.get(routes.products, getProducts)
 app.get(routes.product, getProduct)
@@ -66,8 +70,9 @@ app.post(routes.product, uploadProduct)
 app.get(routes.productAll, deployProduct)
 app.get(routes.productDetail, detailProduct)
 app.post(routes.productImage, uploadProductImage, uploadImages)
-app.post(routes.productLike, middleAuth, likeProduct)
-app.get(routes.productTake, middleAuth, takeProduct)
+
+app.patch(routes.productLike, middleAuth, likeProduct)
+
 app.post(routes.productComment, middleAuth, writeComment)
 app.get(routes.productGetComment, getComments)
 app.delete(routes.productRemoveComment, removeComment)

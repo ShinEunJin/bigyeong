@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 import Fade from "react-reveal/Fade"
-import axios from "axios"
 import { AiFillHeart, AiFillEye } from "react-icons/ai"
 import { HeartFilled, CaretUpOutlined } from "@ant-design/icons"
+import { updateUserTake, updateUserLike } from "../../_actions/user_action"
+import { updateProductLike } from "../../_actions/product_action"
 
 const Container = styled.div`
   display: flex;
@@ -82,24 +83,33 @@ const Span = styled.span`
 `
 
 function DetailInfo({ trigger }) {
+  const dispatch = useDispatch()
+
   const {
     data: { product },
   } = useSelector((state) => state.product)
 
   const { userData } = useSelector((state) => state.user)
 
-  const [like, setLike] = useState(0)
   const [alreadyLike, setAlreadyLike] = useState(false)
+  const [alreadyTake, setAlreadyTake] = useState(false)
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    if (userData.likes && userData.likes.length > 0) {
+      for (let like of userData.likes) {
+        if (like === product._id) {
+          setAlreadyLike(true)
+          break
+        }
+      }
+    }
 
-    setLike(product.likes)
-
-    for (let like of userData.likes) {
-      if (like === product._id) {
-        setAlreadyLike(true)
-        break
+    if (userData.take && userData.take.length > 0) {
+      for (let take of userData.take) {
+        if (take === product._id) {
+          setAlreadyTake(true)
+          break
+        }
       }
     }
 
@@ -125,7 +135,7 @@ function DetailInfo({ trigger }) {
     })
     infowindow.setContent(content)
     infowindow.open(map, marker)
-  }, [product && product.coord])
+  }, [product, userData])
 
   const onClickLikeBtn = async () => {
     if (!userData.isAuth) {
@@ -136,14 +146,29 @@ function DetailInfo({ trigger }) {
         productId: product._id,
         alreadyLike,
       }
-      const { data } = await axios.patch("/api/users/like", body)
-      if (data.success === true) {
-        setLike(data.like)
-      }
-      if (!alreadyLike) {
-        setAlreadyLike(true)
-      } else {
+      dispatch(updateUserLike(body))
+      dispatch(updateProductLike(body))
+      if (alreadyLike) {
         setAlreadyLike(false)
+      } else {
+        setAlreadyLike(true)
+      }
+    }
+  }
+
+  const onClickTakeBtn = async () => {
+    if (!userData.isAuth) {
+      alert("로그인이 필요한 서비스입니다.")
+    } else {
+      if (alreadyTake) {
+        alert("이미 찜목록에 등록되어 있습니다.")
+      } else {
+        let body = {
+          userId: userData._id,
+          productId: product._id,
+          add: true,
+        }
+        dispatch(updateUserTake(body))
       }
     }
   }
@@ -162,16 +187,22 @@ function DetailInfo({ trigger }) {
         <Info>
           <Like>
             <AiFillHeart style={{ color: "red", marginRight: "0.3rem" }} />{" "}
-            {like}
+            {product.likes}
           </Like>
           <Like>
             <AiFillEye style={{ marginRight: "0.3rem" }} /> {product.views}
           </Like>
         </Info>
         <ButtonColumn>
-          <Button style={{ marginRight: "1rem", backgroundColor: "#80bfff" }}>
+          <Button
+            onClick={onClickTakeBtn}
+            style={{ marginRight: "1rem", backgroundColor: "#80bfff" }}
+          >
             <CaretUpOutlined
-              style={{ marginRight: "0.2rem", color: "white" }}
+              style={{
+                marginRight: "0.2rem",
+                color: `${alreadyTake ? "blue" : "white"}`,
+              }}
             />
             <Span>찜하기</Span>
           </Button>

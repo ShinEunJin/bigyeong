@@ -7,8 +7,8 @@ import {
   GET_MY_PRODUCTS,
   UPDATE_PROFILE,
   UPDATE_LIKE,
+  UPDATE_USER_TAKE,
 } from "./types"
-import { asyncThunk } from "./utils"
 
 export const loginUser = async (dataToSubmit) => {
   const { data } = await axios.post("/api/users/login", dataToSubmit)
@@ -58,6 +58,22 @@ export const updateProfile = async (dataToSubmit) => {
   }
 }
 
-export const updateUserLike = asyncThunk(UPDATE_LIKE, (dataToSubmit) =>
-  axios.patch("/api/users/like", dataToSubmit)
-)
+export const updateUserLike = async (dataToSubmit) => {
+  const {
+    data: { like },
+  } = await axios.patch("/api/users/like", dataToSubmit)
+  return {
+    type: UPDATE_LIKE,
+    payload: like,
+  }
+}
+
+export const updateUserTake = async (dataToSubmit) => {
+  const {
+    data: { take },
+  } = await axios.patch("/api/users/take", dataToSubmit)
+  return {
+    type: UPDATE_USER_TAKE,
+    payload: take,
+  }
+}
