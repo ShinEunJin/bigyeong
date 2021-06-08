@@ -27,6 +27,9 @@ function DetailProduct(props) {
     window.addEventListener("scroll", handleScroll)
     window.scrollTo(0, 0)
     dispatch(getProduct({ id: productId }))
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
   }, [productId])
 
   const handleScroll = () => {

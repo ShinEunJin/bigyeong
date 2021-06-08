@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getProducts } from "../../_actions/product_action"
+import { getProducts, getProductsMore } from "../../_actions/product_action"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import Checkbox from "../../Components/utils/CheckBox"
@@ -102,23 +102,45 @@ const StyleSubMenu = styled.div`
   color: black;
 `
 
+let region = []
+let searchTerm = ""
+let sortBy = ""
+let changedSkip = 0
+
 function Begin() {
   const dispatch = useDispatch()
 
   const { data, loading } = useSelector((state) => state.product)
 
-  const [searchTerm, setSearchTerm] = useState("")
-  const [region, setRegion] = useState([])
-  const [sortBy, setSortBy] = useState("")
-
   useEffect(() => {
     window.scrollTo(0, 0)
+    window.addEventListener("scroll", handleScroll)
     dispatch(getProducts({ skip: 0, limit: 8, region: "", searchTerm: "" }))
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
   }, [])
+
+  const handleScroll = () => {
+    console.log(changedSkip)
+    if (window.scrollY >= document.body.scrollHeight - window.innerHeight) {
+      changedSkip = changedSkip + 8
+      dispatch(
+        getProductsMore({
+          skip: changedSkip,
+          limit: 8,
+          region,
+          searchTerm,
+          sortBy,
+        })
+      )
+    }
+  }
 
   const handleCheckFilter = (filters) => {
     let newFilters = [...filters]
-    setRegion(newFilters)
+    changedSkip = 0
+    region = newFilters
     if (newFilters.length === 0) {
       dispatch(
         getProducts({ skip: 0, limit: 8, searchTerm, sortBy, region: "" })
@@ -137,18 +159,20 @@ function Begin() {
   }
 
   let timer
-  const handleSearchFilter = (searchTerm) => {
+  const handleSearchFilter = (Term) => {
     if (timer) {
       clearTimeout(timer)
     }
     timer = setTimeout(() => {
-      setSearchTerm(searchTerm)
+      changedSkip = 0
+      searchTerm = Term
+      console.log(searchTerm)
       dispatch(getProducts({ skip: 0, limit: 8, searchTerm, sortBy, region }))
     }, 500)
   }
 
   const dispatchUtils = (category) => {
-    setSortBy(category)
+    sortBy = category
     dispatch(
       getProducts({
         skip: 0,

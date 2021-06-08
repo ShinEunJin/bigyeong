@@ -3,12 +3,11 @@ import {
   GET_PRODUCTS,
   GET_PRODUCTS_SUCCESS,
   GET_PRODUCTS_FAILURE,
+  GET_PRODUCTS_MORE,
   GET_PRODUCT,
   GET_PRODUCT_SUCCESS,
   GET_PRODUCT_FAILURE,
   UPDATE_PRODUCT_LIKE,
-  UPDATE_PRODUCT_LIKE_SUCCESS,
-  UPDATE_PRODUCT_LIKE_FAILURE,
 } from "../_actions/types"
 
 const initialState = {
@@ -23,6 +22,14 @@ export default (state = initialState, action) => {
     case GET_PRODUCTS_SUCCESS:
     case GET_PRODUCTS_FAILURE:
       return handleAsyncActions(GET_PRODUCTS)(state, action)
+    case GET_PRODUCTS_MORE:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          products: [...state.data.products, ...action.payload],
+        },
+      }
     case GET_PRODUCT:
     case GET_PRODUCT_SUCCESS:
     case GET_PRODUCT_FAILURE:

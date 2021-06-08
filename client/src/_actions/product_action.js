@@ -1,5 +1,10 @@
 import axios from "axios"
-import { GET_PRODUCT, GET_PRODUCTS, UPDATE_PRODUCT_LIKE } from "./types"
+import {
+  GET_PRODUCT,
+  GET_PRODUCTS,
+  UPDATE_PRODUCT_LIKE,
+  GET_PRODUCTS_MORE,
+} from "./types"
 import { asyncThunk } from "./utils"
 
 export const getProducts = asyncThunk(
@@ -9,6 +14,22 @@ export const getProducts = asyncThunk(
       `/api/products?sortBy=${sortBy}&skip=${skip}&limit=${limit}&region=${region}&searchTerm=${searchTerm}`
     )
 )
+
+export const getProductsMore = async ({
+  sortBy,
+  skip,
+  limit,
+  region,
+  searchTerm,
+}) => {
+  const { data } = await axios.get(
+    `/api/products?sortBy=${sortBy}&skip=${skip}&limit=${limit}&region=${region}&searchTerm=${searchTerm}`
+  )
+  return {
+    type: GET_PRODUCTS_MORE,
+    payload: data.products,
+  }
+}
 
 export const getProduct = asyncThunk(GET_PRODUCT, ({ id }) =>
   axios.get(`/api/product?id=${id}`)

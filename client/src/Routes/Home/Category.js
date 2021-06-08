@@ -72,11 +72,14 @@ function Category() {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll)
     setLoadImage(["logo/menu/menu1.jpg", "logo/menu/menu2.jpg"])
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
   }, [])
 
   const handleScroll = () => {
     setMapHeight(window.scrollY > window.outerHeight * 0.4)
-    setSearchHeight(window.scrollY > window.outerHeight * 0.8)
+    setSearchHeight(window.scrollY > window.outerHeight * 0.6)
   }
 
   return (
