@@ -28,10 +28,10 @@ import {
   getProducts,
   likeProduct,
   removeComment,
-  removeProduct,
   uploadImages,
   uploadProduct,
   writeComment,
+  deleteProduct,
 } from "./controllers/productController"
 import { uploadAvatarImage, uploadProductImage } from "./middlewares/multer"
 
@@ -64,7 +64,9 @@ app.patch(routes.userTake, updateUserTake)
 
 //Product
 app.get(routes.products, getProducts)
+
 app.get(routes.product, getProduct)
+app.delete(routes.product, deleteProduct)
 
 app.post(routes.product, uploadProduct)
 app.get(routes.productAll, deployProduct)
@@ -76,7 +78,6 @@ app.patch(routes.productLike, middleAuth, likeProduct)
 app.post(routes.productComment, middleAuth, writeComment)
 app.get(routes.productGetComment, getComments)
 app.delete(routes.productRemoveComment, removeComment)
-app.delete(routes.productRemove, removeProduct)
 app.get(routes.productFindDetail, findDetailProduct)
 
 if (prod) {

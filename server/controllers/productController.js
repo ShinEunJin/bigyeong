@@ -253,7 +253,7 @@ export const removeComment = async (req, res) => {
   }
 }
 
-export const removeProduct = async (req, res) => {
+export const deleteProduct = async (req, res) => {
   const {
     query: { productId, userId },
   } = req
@@ -266,7 +266,7 @@ export const removeProduct = async (req, res) => {
         },
         { new: true }
       ),
-      Comment.remove({ product: productId }),
+      Comment.deleteMany({ product: productId }),
       Product.findOneAndDelete({ _id: productId }),
     ])
     return res.status(200).json({ success: true })

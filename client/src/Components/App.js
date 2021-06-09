@@ -16,7 +16,6 @@ import CartPage from "../Routes/Cart/CartPage"
 import MyProfile from "../Routes/Profile/MyProfile"
 import UpdateProfile from "../Routes/Profile/UpdateProfile"
 import Footer from "./Footer"
-import ReviseProduct from "../Routes/DetailProduct/ReviseProduct"
 import FindByMap from "../Routes/Find/FindByMap"
 import FindBySearch from "../Routes/Find/FindBySearch"
 import DetailGallery from "../Routes/DetailProduct/DetailGallery"
@@ -36,11 +35,6 @@ function App() {
             exact
             path="/find_search"
             component={Auth(FindBySearch, null)}
-          />
-          <Route
-            exact
-            path="/revise/:id"
-            component={Auth(ReviseProduct, true)}
           />
           <Route
             exact

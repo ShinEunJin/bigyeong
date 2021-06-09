@@ -23,8 +23,6 @@ const PRODUCT_IMAGE = "/api/product/image"
 const PRODUCT_COMMENT = "/api/product/comments"
 const PRODUCT_GET_COMMENT = "/api/product/getComments"
 const PRODUCT_REMOVE_COMMENT = "/api/product/removeComment"
-const PRODUCT_REVISE = "/api/product/revise"
-const PRODUCT_REMOVE = "/api/product/remove"
 const PRODUCT_FIND_DETAIL = "/api/product/findDetail"
 
 const routes = {
@@ -48,8 +46,6 @@ const routes = {
   productComment: PRODUCT_COMMENT,
   productGetComment: PRODUCT_GET_COMMENT,
   productRemoveComment: PRODUCT_REMOVE_COMMENT,
-  productRevise: PRODUCT_REVISE,
-  productRemove: PRODUCT_REMOVE,
   productFindDetail: PRODUCT_FIND_DETAIL,
 }
 

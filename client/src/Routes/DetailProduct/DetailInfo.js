@@ -6,6 +6,7 @@ import { AiFillHeart, AiFillEye } from "react-icons/ai"
 import { HeartFilled, CaretUpOutlined } from "@ant-design/icons"
 import { updateUserTake, updateUserLike } from "../../_actions/user_action"
 import { updateProductLike } from "../../_actions/product_action"
+import DetailRevise from "./DetailRevise"
 
 const Container = styled.div`
   display: flex;
@@ -193,32 +194,36 @@ function DetailInfo({ trigger }) {
             <AiFillEye style={{ marginRight: "0.3rem" }} /> {product.views}
           </Like>
         </Info>
-        <ButtonColumn>
-          <Button
-            onClick={onClickTakeBtn}
-            style={{ marginRight: "1rem", backgroundColor: "#80bfff" }}
-          >
-            <CaretUpOutlined
-              style={{
-                marginRight: "0.2rem",
-                color: `${alreadyTake ? "blue" : "white"}`,
-              }}
-            />
-            <Span>찜하기</Span>
-          </Button>
-          <Button
-            onClick={onClickLikeBtn}
-            style={{ backgroundColor: "#ff8080" }}
-          >
-            <HeartFilled
-              style={{
-                marginRight: "0.2rem",
-                color: `${alreadyLike ? "red" : "white"}`,
-              }}
-            />
-            <Span>좋아요</Span>
-          </Button>
-        </ButtonColumn>
+        {product.writer && userData._id === product.writer._id ? (
+          <DetailRevise />
+        ) : (
+          <ButtonColumn>
+            <Button
+              onClick={onClickTakeBtn}
+              style={{ marginRight: "1rem", backgroundColor: "#80bfff" }}
+            >
+              <CaretUpOutlined
+                style={{
+                  marginRight: "0.2rem",
+                  color: `${alreadyTake ? "blue" : "white"}`,
+                }}
+              />
+              <Span>찜하기</Span>
+            </Button>
+            <Button
+              onClick={onClickLikeBtn}
+              style={{ backgroundColor: "#ff8080" }}
+            >
+              <HeartFilled
+                style={{
+                  marginRight: "0.2rem",
+                  color: `${alreadyLike ? "red" : "white"}`,
+                }}
+              />
+              <Span>좋아요</Span>
+            </Button>
+          </ButtonColumn>
+        )}
       </InfoSection>
       <Fade right when={trigger}>
         <div
