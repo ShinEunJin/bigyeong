@@ -118,22 +118,26 @@ function Begin() {
     dispatch(getProducts({ skip: 0, limit: 8, region: "", searchTerm: "" }))
     return () => {
       window.removeEventListener("scroll", handleScroll)
+      clearTimeout(trigger)
     }
-  }, [])
+  }, [dispatch])
 
+  let trigger
   const handleScroll = () => {
-    console.log(changedSkip)
+    clearTimeout(trigger)
     if (window.scrollY >= document.body.scrollHeight - window.innerHeight) {
-      changedSkip = changedSkip + 8
-      dispatch(
-        getProductsMore({
-          skip: changedSkip,
-          limit: 8,
-          region,
-          searchTerm,
-          sortBy,
-        })
-      )
+      trigger = setTimeout(() => {
+        changedSkip = changedSkip + 8
+        dispatch(
+          getProductsMore({
+            skip: changedSkip,
+            limit: 8,
+            region,
+            searchTerm,
+            sortBy,
+          })
+        )
+      }, 400)
     }
   }
 
@@ -158,15 +162,14 @@ function Begin() {
     }
   }
 
-  let timer
+  let debouncingTimer
   const handleSearchFilter = (Term) => {
-    if (timer) {
-      clearTimeout(timer)
+    if (debouncingTimer) {
+      clearTimeout(debouncingTimer)
     }
-    timer = setTimeout(() => {
+    debouncingTimer = setTimeout(() => {
       changedSkip = 0
       searchTerm = Term
-      console.log(searchTerm)
       dispatch(getProducts({ skip: 0, limit: 8, searchTerm, sortBy, region }))
     }, 500)
   }
