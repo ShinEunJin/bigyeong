@@ -112,7 +112,8 @@ export const uploadAvatars = (req, res) => {
   try {
     return res.json({
       success: true,
-      filePath: file.location,
+      filePath:
+        process.env.NODE_ENV === "production" ? file.location : file.path,
     })
   } catch (error) {
     return res.json({ success: false, error })

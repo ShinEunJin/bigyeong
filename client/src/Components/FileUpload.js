@@ -61,8 +61,8 @@ function FileUpload(props) {
   useEffect(() => {
     if (props.updatePage) {
       setImages(props.updatePage)
+      props.refreshFunction([...props.updatePage])
     }
-    props.refreshFunction([...props.updatePage])
   }, [])
 
   const onDropHandler = async (imageFile) => {

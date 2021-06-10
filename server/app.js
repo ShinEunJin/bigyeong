@@ -77,9 +77,10 @@ app.post(routes.productImage, uploadProductImage, uploadImages)
 
 app.patch(routes.productLike, middleAuth, likeProduct)
 
-app.post(routes.productComment, middleAuth, writeComment)
-app.get(routes.productGetComment, getComments)
-app.delete(routes.productRemoveComment, removeComment)
+app.post(routes.productComments, middleAuth, writeComment)
+app.get(routes.productComments, getComments)
+app.delete(routes.productComments, removeComment)
+
 app.get(routes.productFindDetail, findDetailProduct)
 
 if (prod) {

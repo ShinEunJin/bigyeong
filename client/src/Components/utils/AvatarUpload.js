@@ -6,6 +6,9 @@ import { UserOutlined } from "@ant-design/icons"
 import { FaCamera } from "react-icons/fa"
 import axios from "axios"
 import { useSelector } from "react-redux"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const StyleDropZone = styled.div`
   height: 96px;
@@ -68,7 +71,13 @@ function AvatarUpload(props) {
             <StyleDropZone {...getRootProps()}>
               <input {...getInputProps()} />
               {avatar ? (
-                <RealAvatar src={avatar} />
+                <RealAvatar
+                  src={
+                    process.env.NODE_ENV === "development"
+                      ? `http://localhost:5000/${avatar}`
+                      : avatar
+                  }
+                />
               ) : (
                 <Avatar size={96} icon={<UserOutlined />} />
               )}

@@ -7,11 +7,13 @@ import Comments from "../../Components/utils/Comments"
 import Loading from "../../Components/Loading"
 import { useDispatch, useSelector } from "react-redux"
 import { getProduct } from "../../_actions/product_action"
+import Footer from "../../Components/Footer"
 
 const Container = styled.div`
   width: 80%;
   margin: 0 auto;
   padding-top: 3rem;
+  padding-bottom: 5vh;
 `
 
 function DetailProduct(props) {
@@ -41,15 +43,18 @@ function DetailProduct(props) {
       {loading ? (
         <Loading />
       ) : (
-        <Container>
-          {data && data.product && (
-            <>
-              <DetailImage />
-              <DetailInfo trigger={height} />
-            </>
-          )}
-          <Comments />
-        </Container>
+        <>
+          <Container>
+            {data && data.product && (
+              <>
+                <DetailImage />
+                <DetailInfo trigger={height} />
+              </>
+            )}
+            <Comments />
+          </Container>
+          <Footer />
+        </>
       )}
     </>
   )

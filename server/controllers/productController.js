@@ -184,29 +184,29 @@ export const writeComment = async (req, res) => {
     const comment = new Comment({
       text,
       writer,
-      writer_name: writer.name,
-      writer_avatar: writer.avatar,
       product: productId,
     })
     await comment.save()
-    await Product.findOneAndUpdate(
-      { _id: productId },
-      {
-        $push: {
-          comments: comment,
+    await Promise.all([
+      Product.findOneAndUpdate(
+        { _id: productId },
+        {
+          $push: {
+            comments: comment,
+          },
         },
-      },
-      { new: true }
-    )
-    await User.findOneAndUpdate(
-      { _id: writer._id },
-      {
-        $push: {
-          comments: comment,
+        { new: true }
+      ),
+      User.findOneAndUpdate(
+        { _id: writer._id },
+        {
+          $push: {
+            comments: comment,
+          },
         },
-      },
-      { new: true }
-    )
+        { new: true }
+      ),
+    ])
     return res.status(200).json({ success: true, comment })
   } catch (error) {
     return res.status(400).json({ success: false, error })
@@ -215,11 +215,22 @@ export const writeComment = async (req, res) => {
 
 export const getComments = async (req, res) => {
   const {
-    query: { id },
+    query: { productId, skip, limit },
   } = req
+  let skipToNum = parseInt(skip, 10)
+  let limitToNum = parseInt(limit, 10)
   try {
-    const comments = await Comment.find({ product: id })
-    return res.status(200).json({ success: true, comments })
+    const [comments, commentsLength] = await Promise.all([
+      Comment.find({ product: productId })
+        .sort({ createdAt: -1 })
+        .populate("writer")
+        .skip(skipToNum)
+        .limit(limitToNum),
+      Comment.find({ product: productId }),
+    ])
+    return res
+      .status(200)
+      .json({ success: true, comments, length: commentsLength.length })
   } catch (error) {
     return res.status(400).json({ success: false, error })
   }

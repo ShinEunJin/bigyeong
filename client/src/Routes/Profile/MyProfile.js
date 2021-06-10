@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { getMyProducts } from "../../_actions/user_action"
 import { Row, Card, Col } from "antd"
 import { Link } from "react-router-dom"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const { Meta } = Card
 
@@ -103,7 +106,13 @@ function MyProfile() {
       <ProfleColumn>
         <Profile>
           {user && user.avatar ? (
-            <RealAvatar src={user.avatar} />
+            <RealAvatar
+              src={
+                process.env.NODE_ENV === "development"
+                  ? `http://localhost:5000/${user.avatar}`
+                  : user.avatar
+              }
+            />
           ) : (
             <Avatar
               style={{ marginBottom: 70 }}

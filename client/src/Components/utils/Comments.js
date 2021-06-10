@@ -7,6 +7,9 @@ import axios from "axios"
 import { withRouter } from "react-router-dom"
 import { useSelector } from "react-redux"
 import Avatar from "./Avatar"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const { TextArea } = Input
 
@@ -32,7 +35,7 @@ const CommetsHead = styled.div`
 
 const CommentsList = styled.div`
   padding: 1rem;
-  background-color: #cff4ff;
+  background-color: rgba(234, 235, 255, 0.6);
   border-radius: 15px;
   display: flex;
   margin-bottom: 2rem;
@@ -78,15 +81,36 @@ const TextColumn = styled.div`
   align-self: flex-start;
 `
 
-const CommentName = styled.span`
+const CommentName = styled.div`
   font-weight: 600;
   margin-bottom: 10px;
+  margin-right: 1rem;
+`
+
+const CommentDate = styled.div`
+  font-size: 0.8em;
+  opacity: 0.7;
 `
 
 const DeleteColumn = styled.div`
   min-width: 5%;
   max-width: 44px;
 `
+
+const LoadMoreBtn = styled.button`
+  border: 1px solid rgba(200, 200, 200, 0.5);
+  background-color: rgba(234, 235, 235, 0.8);
+  color: rgba(100, 100, 100, 0.9);
+  border-radius: 5px;
+  padding: 0.3rem;
+  font-size: 0.9em;
+  cursor: pointer;
+`
+
+let skip = 0
+let limit = 5
+let changedSkip = 0
+let loadMore = false
 
 function Comments(props) {
   const { userData: user } = useSelector((state) => state.user)
@@ -96,6 +120,7 @@ function Comments(props) {
   const [text, setText] = useState("")
   const [comments, setComments] = useState([])
   const [commentNumber, setCommentNumber] = useState(0)
+  const [commentLastNumber, setCommentLastNumer] = useState(0)
 
   const onTextChange = (e) => {
     setText(e.target.value)
@@ -107,7 +132,7 @@ function Comments(props) {
     if (user.isAuth) {
       try {
         await axios.post("/api/product/comments", body)
-        await getComments()
+        await getComments(skip, limit)
         setText("")
       } catch (error) {
         alert("댓글을 등록하는데 실패하였습니다.")
@@ -117,13 +142,18 @@ function Comments(props) {
     }
   }
 
-  const getComments = async () => {
+  const getComments = async (skip, limit) => {
     try {
       const { data } = await axios.get(
-        `/api/product/getComments?id=${productId}`
+        `/api/product/comments?productId=${productId}&skip=${skip}&limit=${limit}`
       )
-      setComments(data.comments.reverse())
-      setCommentNumber(data.comments.length)
+      if (loadMore) {
+        setComments([...comments, ...data.comments])
+      } else {
+        setComments(data.comments)
+      }
+      setCommentLastNumer(data.comments.length)
+      setCommentNumber(data.length)
     } catch (error) {
       alert("댓글을 불러오는데 실패하였습니다.")
     }
@@ -132,17 +162,23 @@ function Comments(props) {
   const onDeleteComment = async (commentId) => {
     try {
       await axios.delete(
-        `/api/product/removeComment?commentId=${commentId}&productId=${productId}&userId=${user._id}`
+        `/api/product/comments?commentId=${commentId}&productId=${productId}&userId=${user._id}`
       )
-      await getComments()
+      await getComments(skip, limit)
       alert("해당 댓글을 삭제하였습니다.")
     } catch (error) {
       alert("댓글을 지우는데 실패하였습니다.")
     }
   }
 
+  const loadMoreHandler = () => {
+    loadMore = true
+    changedSkip = changedSkip + limit
+    getComments(changedSkip, limit)
+  }
+
   useEffect(() => {
-    getComments()
+    getComments(skip, limit)
   }, [])
 
   return (
@@ -166,8 +202,14 @@ function Comments(props) {
         comments.map((item, index) => (
           <CommentsList key={index}>
             <AvatarColumn>
-              {item.writer_avatar ? (
-                <RealAvatar src={item.writer_avatar} />
+              {item.writer && item.writer.avatar ? (
+                <RealAvatar
+                  src={
+                    process.env.NODE_ENV === "development"
+                      ? `http://localhost:5000/${item.writer.avatar}`
+                      : item.writer.avatar
+                  }
+                />
               ) : (
                 <NoAvatar
                   style={{ marginRight: 20 }}
@@ -177,11 +219,14 @@ function Comments(props) {
               )}
             </AvatarColumn>
             <TextColumn>
-              <CommentName>{item.writer_name}</CommentName>
+              <div style={{ display: "flex" }}>
+                <CommentName>{item.writer && item.writer.name}</CommentName>
+                <CommentDate>{item.date}</CommentDate>
+              </div>
               <span>{item.text}</span>
             </TextColumn>
             <DeleteColumn>
-              {user && user._id === item.writer ? (
+              {user && item.writer && user._id === item.writer._id ? (
                 <FaTimes
                   style={{ cursor: "pointer" }}
                   onClick={() => onDeleteComment(item._id)}
@@ -192,6 +237,9 @@ function Comments(props) {
             </DeleteColumn>
           </CommentsList>
         ))}
+      {commentLastNumber === limit && (
+        <LoadMoreBtn onClick={loadMoreHandler}>더보기</LoadMoreBtn>
+      )}
     </CommentsColumn>
   )
 }

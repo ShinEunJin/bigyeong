@@ -16,13 +16,11 @@ const PRODUCT = "/api/product"
 const PRODUCTS = "/api/products"
 const PRODUCT_LIKE = "/api/product/like"
 const PRODUCT_TAKE = "/api/product/take"
+const PRODUCT_COMMENTS = "/api/product/comments"
 
 const PRODUCT_ALL = "/api/product/products"
 const PRODUCT_DETAIL = "/api/product/detail"
 const PRODUCT_IMAGE = "/api/product/image"
-const PRODUCT_COMMENT = "/api/product/comments"
-const PRODUCT_GET_COMMENT = "/api/product/getComments"
-const PRODUCT_REMOVE_COMMENT = "/api/product/removeComment"
 const PRODUCT_FIND_DETAIL = "/api/product/findDetail"
 
 const routes = {
@@ -43,9 +41,7 @@ const routes = {
   productImage: PRODUCT_IMAGE,
   productLike: PRODUCT_LIKE,
   productTake: PRODUCT_TAKE,
-  productComment: PRODUCT_COMMENT,
-  productGetComment: PRODUCT_GET_COMMENT,
-  productRemoveComment: PRODUCT_REMOVE_COMMENT,
+  productComments: PRODUCT_COMMENTS,
   productFindDetail: PRODUCT_FIND_DETAIL,
 }
 

@@ -118,7 +118,13 @@ function Header(props) {
           <OnPage current={props.location.pathname === "/user/my-profile"}>
             <SLink to="/user/my-profile">
               {user && user.userData && user.userData.avatar ? (
-                <RealAvatar src={user.userData.avatar} />
+                <RealAvatar
+                  src={
+                    process.env.NODE_ENV === "development"
+                      ? `http://localhost:5000/${user.userData.avatar}`
+                      : user.userData.avatar
+                  }
+                />
               ) : (
                 <Avatar size={40} icon={<UserOutlined />} />
               )}

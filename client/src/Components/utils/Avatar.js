@@ -3,6 +3,9 @@ import { Avatar as NoAvatar } from "antd"
 import { UserOutlined } from "@ant-design/icons"
 import { useSelector } from "react-redux"
 import styled from "styled-components"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const RealAvatar = styled.img`
   height: 40px;
@@ -19,7 +22,13 @@ function Avatar() {
   return (
     <>
       {user && user.avatar ? (
-        <RealAvatar src={user.avatar} />
+        <RealAvatar
+          src={
+            process.env.NODE_ENV === "development"
+              ? `http://localhost:5000/${user.avatar}`
+              : user.avatar
+          }
+        />
       ) : (
         <NoAvatar
           style={{ marginRight: 20 }}

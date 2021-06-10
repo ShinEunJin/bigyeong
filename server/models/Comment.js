@@ -1,27 +1,28 @@
 import mongoose from "mongoose"
 import moment from "moment"
 
-const CommentSchema = new mongoose.Schema({
-  writer: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+const CommentSchema = new mongoose.Schema(
+  {
+    writer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+    },
+    likes: {
+      type: Number,
+      default: 0,
+    },
+    date: {
+      type: String,
+      default: moment().format("YYYY년 MM월 DD일"),
+    },
+    text: String,
   },
-  writer_name: String,
-  writer_avatar: String,
-  product: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
-  },
-  likes: {
-    type: Number,
-    default: 0,
-  },
-  date: {
-    type: String,
-    default: moment().format("YYYY-MM-DD hh:mm:ss"),
-  },
-  text: String,
-})
+  { timestamps: true }
+)
 
 const Comment = mongoose.model("Comment", CommentSchema)
 

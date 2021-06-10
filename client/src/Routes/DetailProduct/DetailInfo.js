@@ -7,6 +7,9 @@ import { HeartFilled, CaretUpOutlined } from "@ant-design/icons"
 import { updateUserTake, updateUserLike } from "../../_actions/user_action"
 import { updateProductLike } from "../../_actions/product_action"
 import DetailRevise from "./DetailRevise"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const Container = styled.div`
   display: flex;
@@ -182,7 +185,13 @@ function DetailInfo({ trigger }) {
           {product.address} - {product.location}
         </Address>
         <WriterColumn>
-          <RealAvatar src={product.writer.avatar} />
+          <RealAvatar
+            src={
+              process.env.NODE_ENV === "development"
+                ? `http://localhost:5000/${product.writer.avatar}`
+                : product.writer.avatar
+            }
+          />
           <Name>{product.writer.name}</Name>
         </WriterColumn>
         <Info>
