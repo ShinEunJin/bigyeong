@@ -19,6 +19,7 @@ import Footer from "./Footer"
 import FindByMap from "../Routes/Find/FindByMap"
 import FindBySearch from "../Routes/Find/FindBySearch"
 import DetailGallery from "../Routes/DetailProduct/DetailGallery"
+import UpdateProduct from "../Routes/Update/UpdateProduct"
 
 function App() {
   return (
@@ -40,6 +41,11 @@ function App() {
             exact
             path="/product/:id"
             component={Auth(DetailProduct, null)}
+          />
+          <Route
+            exact
+            path="/product/:id/update"
+            component={Auth(UpdateProduct, null)}
           />
           <Route
             exact

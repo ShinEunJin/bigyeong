@@ -1,9 +1,12 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { FaPlus } from "react-icons/fa"
 import Dropzone from "react-dropzone"
 import axios from "axios"
 import Loader from "react-loader-spinner"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const Container = styled.div`
   width: 80%;
@@ -54,6 +57,13 @@ const EmptyImg = styled.div`
 function FileUpload(props) {
   const [images, setImages] = useState([])
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (props.updatePage) {
+      setImages(props.updatePage)
+    }
+    props.refreshFunction([...props.updatePage])
+  }, [])
 
   const onDropHandler = async (imageFile) => {
     try {
@@ -114,7 +124,13 @@ function FileUpload(props) {
             <ImageZone>
               {props.getImages.map((image, index) => (
                 <div onClick={() => deleteHandler(image)} key={index}>
-                  <Img src={image} />
+                  <Img
+                    src={
+                      process.env.NODE_ENV === "development"
+                        ? `http://localhost:5000/${image}`
+                        : image
+                    }
+                  />
                 </div>
               ))}
             </ImageZone>
@@ -127,7 +143,13 @@ function FileUpload(props) {
               ) : (
                 images.map((image, index) => (
                   <div onClick={() => deleteHandler(image)} key={index}>
-                    <Img src={image} />
+                    <Img
+                      src={
+                        process.env.NODE_ENV === "development"
+                          ? `http://localhost:5000/${image}`
+                          : image
+                      }
+                    />
                   </div>
                 ))
               )}

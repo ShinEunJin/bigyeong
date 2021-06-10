@@ -32,6 +32,7 @@ import {
   uploadProduct,
   writeComment,
   deleteProduct,
+  updateProduct,
 } from "./controllers/productController"
 import { uploadAvatarImage, uploadProductImage } from "./middlewares/multer"
 
@@ -66,6 +67,7 @@ app.patch(routes.userTake, updateUserTake)
 app.get(routes.products, getProducts)
 
 app.get(routes.product, getProduct)
+app.patch(routes.product, updateProduct)
 app.delete(routes.product, deleteProduct)
 
 app.post(routes.product, uploadProduct)

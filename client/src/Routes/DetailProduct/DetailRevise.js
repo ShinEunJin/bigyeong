@@ -3,6 +3,8 @@ import { useSelector } from "react-redux"
 import styled from "styled-components"
 import axios from "axios"
 import { withRouter } from "react-router"
+import { FaPen, FaTrashAlt } from "react-icons/fa"
+import { Link } from "react-router-dom"
 
 const ButtonColumn = styled.div`
   position: absolute;
@@ -13,7 +15,7 @@ const ButtonColumn = styled.div`
 
 const Button = styled.button`
   border-radius: 5px;
-  width: 5rem;
+  width: 10rem;
   height: 2rem;
   border: none;
   cursor: pointer;
@@ -47,13 +49,22 @@ function DetailDelete(props) {
 
   return (
     <ButtonColumn>
-      <Button
-        /* onClick={onClickRevise} */
-        style={{ marginRight: "1rem", backgroundColor: "#80bfff" }}
-      >
-        <Span>수정하기</Span>
-      </Button>
+      <Link to={`/product/${product._id}/update`}>
+        <Button style={{ marginRight: "1rem", backgroundColor: "#80bfff" }}>
+          <FaPen
+            style={{
+              marginRight: "0.2rem",
+            }}
+          />
+          <Span>수정하기</Span>
+        </Button>
+      </Link>
       <Button onClick={onClickDelete} style={{ backgroundColor: "#ff8080" }}>
+        <FaTrashAlt
+          style={{
+            marginRight: "0.2rem",
+          }}
+        />
         <Span>삭제하기</Span>
       </Button>
     </ButtonColumn>

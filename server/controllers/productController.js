@@ -286,3 +286,31 @@ export const findDetailProduct = async (req, res) => {
     return res.status(400).json({ success: false, error })
   }
 }
+
+export const updateProduct = async (req, res) => {
+  const {
+    body: {
+      updateInfo: {
+        images,
+        name,
+        region1,
+        region2,
+        address,
+        location,
+        description,
+        coord,
+      },
+      productId,
+    },
+  } = req
+  try {
+    await Product.updateOne(
+      { _id: productId },
+      { images, name, region1, region2, address, location, description, coord },
+      { new: true }
+    )
+    return res.status(200).json({ success: true })
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
+}

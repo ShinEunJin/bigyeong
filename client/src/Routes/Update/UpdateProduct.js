@@ -1,9 +1,9 @@
-import axios from "axios"
 import React, { useState, useEffect } from "react"
+import axios from "axios"
 import { useSelector } from "react-redux"
 import { withRouter } from "react-router-dom"
 import styled from "styled-components"
-import FileUpload from "../Components/FileUpload"
+import FileUpload from "../../Components/FileUpload"
 
 const Container = styled.div`
   padding-top: 100px;
@@ -56,7 +56,7 @@ const Button = styled.button`
   border-radius: 10px;
   border: 1px solid gray;
   font-size: 14px;
-  width: 4rem;
+  width: 6rem;
   height: 2rem;
   cursor: pointer;
 `
@@ -70,7 +70,7 @@ const MapSection = styled.div`
   margin-bottom: 5rem;
 `
 
-function Upload(props) {
+function UpdateProduct(props) {
   const [name, setName] = useState("")
   const [region1, setRegion1] = useState("")
   const [region2, setRegion2] = useState("")
@@ -97,15 +97,13 @@ function Upload(props) {
   }
 
   const user = useSelector((state) => state.user)
+  const {
+    data: { product },
+  } = useSelector((state) => state.product)
 
   const submitHandler = async (e) => {
     e.preventDefault()
-    if (!name) return alert("제목을 확인해 주시기 바랍니다.")
-    else if (!address) return alert("지도에서 해당 위치를 지정해 주십시오.")
-    else if (!description) return alert("설명을 적어주시기 바랍니다.")
-    else if (images.length === 0)
-      return alert("한 장 이상의 사진이 필요합니다.")
-    let body = {
+    let updateInfo = {
       name,
       region1,
       region2,
@@ -118,27 +116,44 @@ function Upload(props) {
     }
     const {
       data: { success },
-    } = await axios.post("/api/product", body)
+    } = await axios.patch("/api/product", {
+      updateInfo,
+      productId: product._id,
+    })
     if (success) {
       props.history.push("/")
       setTimeout(() => {
-        alert("상품 업로드에 성공 했습니다.")
+        alert("컨텐츠 수정에 성공 했습니다.")
       }, 500)
     } else {
-      alert("상품 업로드에 실패 했습니다.")
+      alert("컨텐츠 수정에 실패 했습니다.")
     }
   }
 
   useEffect(() => {
+    setName(product.name)
+    setLocation(product.location)
+    setDescription(product.description)
+    setRegion1(product.region1)
+    setRegion2(product.region2)
+    setAddress(product.address)
+    setCoord(product.coord)
+
     const container = document.getElementById("kakao_map")
     const options = {
-      center: new kakao.maps.LatLng(36.5642135, 128.0016985),
-      level: 13,
+      center: new kakao.maps.LatLng(product.coord.Ma, product.coord.La),
+      level: 7,
     }
 
     let map = new kakao.maps.Map(container, options)
 
-    let marker = new kakao.maps.Marker()
+    let markerPosition = new kakao.maps.LatLng(
+      product.coord.Ma,
+      product.coord.La
+    )
+
+    let marker = new kakao.maps.Marker({ position: markerPosition })
+    marker.setMap(map)
 
     let mapTypeControl = new kakao.maps.MapTypeControl()
     let zoomControl = new kakao.maps.ZoomControl()
@@ -178,11 +193,11 @@ function Upload(props) {
     function searchDetailAddrFromCoords(coords, callback) {
       geocoder.coord2Address(coords.getLng(), coords.getLat(), callback)
     }
-  }, [])
+  }, [product])
 
   return (
     <Container>
-      <FileUpload refreshFunction={updateImages} />
+      <FileUpload refreshFunction={updateImages} updatePage={product.images} />
       <Label
         style={{
           marginBottom: "1rem",
@@ -204,7 +219,7 @@ function Upload(props) {
         <Input
           type="text"
           placeholder="제목을 적어주십시오."
-          defaultValue={name}
+          defaultValue={product.name}
           onChange={nameChangeHandler}
         />
         <br />
@@ -220,21 +235,21 @@ function Upload(props) {
         <Input
           type="text"
           placeholder="선택 사항. 더 자세한 위치를 적어 주시면 됩니다."
-          defaultValue={location}
+          defaultValue={product.location}
           onChange={locationChangeHandler}
         />
         <br />
         <Label>설명</Label>
         <TEXTAREA
           placeholder="이 장소에 대해 자유롭게 설명해 주시기 바랍니다."
-          defaultValue={description}
+          defaultValue={product.description}
           onChange={descriptionChangeHandler}
         ></TEXTAREA>
         <br />
-        <Button type="submit">확인</Button>
+        <Button type="submit">수정하기</Button>
       </Form>
     </Container>
   )
 }
 
-export default withRouter(Upload)
+export default withRouter(UpdateProduct)
