@@ -19,6 +19,7 @@ import {
   updateUserTake,
   getUserProfile,
   getUserProducts,
+  deleteUser,
 } from "./controllers/userController"
 import { registerEmail } from "./controllers/userControllers/base/sendEmail"
 import middleAuth from "./middlewares/middleAuth"
@@ -70,6 +71,8 @@ app.patch(routes.userLike, updateUserLike)
 
 app.get(routes.userTake, getUserTake)
 app.patch(routes.userTake, updateUserTake)
+
+app.delete(routes.userDelete, deleteUser)
 
 //Product
 app.get(routes.products, getProducts)

@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getProducts, getProductsMore } from "../../_actions/product_action"
-import { Link } from "react-router-dom"
+import { Link, withRouter } from "react-router-dom"
 import styled from "styled-components"
 import Checkbox from "../../Components/utils/CheckBox"
 import SearchProduct from "../../Components/utils/SearchProduct"
@@ -107,7 +107,7 @@ let searchTerm = ""
 let sortBy = ""
 let changedSkip = 0
 
-function Begin() {
+function Begin(props) {
   const dispatch = useDispatch()
 
   const { data, loading } = useSelector((state) => state.product)
@@ -125,8 +125,8 @@ function Begin() {
   let trigger
   const handleScroll = () => {
     clearTimeout(trigger)
-    if (window.scrollY >= document.body.scrollHeight - window.innerHeight) {
-      trigger = setTimeout(() => {
+    trigger = setTimeout(() => {
+      if (window.scrollY >= document.body.scrollHeight - window.innerHeight) {
         changedSkip = changedSkip + 8
         dispatch(
           getProductsMore({
@@ -137,8 +137,8 @@ function Begin() {
             sortBy,
           })
         )
-      }, 400)
-    }
+      }
+    }, 500)
   }
 
   const handleCheckFilter = (filters) => {
@@ -280,4 +280,4 @@ function Begin() {
   )
 }
 
-export default Begin
+export default withRouter(Begin)

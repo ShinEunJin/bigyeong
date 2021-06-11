@@ -106,7 +106,7 @@ export const getProduct = async (req, res) => {
       { _id: id },
       { $inc: { views: 1 } },
       { new: true }
-    ).populate("writer")
+    ).populate("writer", "-password -token")
     return res.status(200).json({ success: true, product })
   } catch (error) {
     return res.status(400).json({ success: false, error })
@@ -143,7 +143,7 @@ export const detailProduct = async (req, res) => {
         $inc: { views: 1 },
       },
       { new: true }
-    ).populate("writer")
+    ).populate("writer", "-password -token")
     return res.status(200).json({ success: true, product })
   } catch (error) {
     return res.status(400).json({ success: false, error })
@@ -223,7 +223,7 @@ export const getComments = async (req, res) => {
     const [comments, commentsLength] = await Promise.all([
       Comment.find({ product: productId })
         .sort({ createdAt: -1 })
-        .populate("writer")
+        .populate("writer", "-password -token")
         .skip(skipToNum)
         .limit(limitToNum),
       Comment.find({ product: productId }),

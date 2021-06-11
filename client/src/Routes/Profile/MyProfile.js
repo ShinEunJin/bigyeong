@@ -3,8 +3,8 @@ import styled from "styled-components"
 import { Avatar } from "antd"
 import { UserOutlined } from "@ant-design/icons"
 import { useSelector } from "react-redux"
-import { Row, Card, Col } from "antd"
-import { Link } from "react-router-dom"
+import { Row, Card, Col, Modal, Button } from "antd"
+import { Link, withRouter } from "react-router-dom"
 import dotenv from "dotenv"
 import { FaPlus } from "react-icons/fa"
 import axios from "axios"
@@ -54,12 +54,25 @@ const EmailColumn = styled.div`
   width: 100%;
 `
 
-const Button = styled.button`
+const UpdateButton = styled.button`
   position: absolute;
-  bottom: 20px;
+  bottom: 1rem;
   width: 90%;
-  height: 50px;
+  height: 3rem;
   background-color: #98ddca;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+`
+
+const DeleteButton = styled.button`
+  position: absolute;
+  bottom: 5rem;
+  width: 90%;
+  color: white;
+  height: 3rem;
+  background-color: #ff3333;
   border-radius: 5px;
   cursor: pointer;
   border: none;
@@ -80,7 +93,7 @@ const RealAvatar = styled.img`
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
-  margin-bottom: 70px;
+  margin-bottom: 3rem;
 `
 
 const LoadMoreBtn = styled.button`
@@ -96,16 +109,25 @@ const LoadMoreBtn = styled.button`
   margin-bottom: 10vh;
 `
 
+const PasswordInput = styled.input`
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  width: 50%;
+`
+
 let skip = 0
 let limit = 4
 let changedSkip = 0
 let loadMore = false
 
-function MyProfile() {
+function MyProfile(props) {
   const { userData: user } = useSelector((state) => state.user)
 
   const [products, setProducts] = useState([])
   const [productsNum, setProductsNum] = useState(0)
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [withdrawModal, setWithdrawModal] = useState(false)
+  const [password, setPassword] = useState("")
 
   const getProducts = async (skip, limit) => {
     const { data } = await axios.get(
@@ -133,6 +155,44 @@ function MyProfile() {
     getProducts(changedSkip, limit)
   }
 
+  const showModal = () => {
+    setIsModalVisible(true)
+  }
+
+  const handleOk = () => {
+    setIsModalVisible(false)
+    setWithdrawModal(true)
+  }
+
+  const handleCancel = () => {
+    setIsModalVisible(false)
+  }
+
+  const withdrawOk = async () => {
+    const { data } = await axios.delete(
+      `/api/users/delete?userId=${user._id}&password=${password}`
+    )
+    if (data.success) {
+      props.history.push("/")
+      setTimeout(() => {
+        alert(
+          "회원 탈퇴를 완료하였습니다. 지금까지 서비스를 이용해 주셔서 감사합니다."
+        )
+      }, 300)
+    } else {
+      alert(data.message)
+    }
+    setWithdrawModal(false)
+  }
+
+  const withdrawCancel = () => {
+    setWithdrawModal(false)
+  }
+
+  const onChangePassword = (e) => {
+    setPassword(e.target.value)
+  }
+
   return (
     <Container>
       <ProfleColumn>
@@ -147,18 +207,21 @@ function MyProfile() {
             />
           ) : (
             <Avatar
-              style={{ marginBottom: 70 }}
+              style={{ marginBottom: "3rem" }}
               size={96}
               icon={<UserOutlined />}
             />
           )}
           <NameColumn>{user.name}</NameColumn>
           <EmailColumn>{user.email}</EmailColumn>
-          <Button>
+          <DeleteButton onClick={showModal}>
+            <Span>회원 탈퇴</Span>
+          </DeleteButton>
+          <UpdateButton>
             <Link to="/user/update-profile">
               <Span>프로필 수정</Span>
             </Link>
-          </Button>
+          </UpdateButton>
         </Profile>
       </ProfleColumn>
       <Row gutter={[16, 16]}>
@@ -192,8 +255,49 @@ function MyProfile() {
           <FaPlus />
         </LoadMoreBtn>
       )}
+      <Modal
+        title="회원 탈퇴"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="ok" type="danger" onClick={handleOk}>
+            확인
+          </Button>,
+          <Button key="cancle" onClick={handleCancel}>
+            취소
+          </Button>,
+        ]}
+      >
+        <p>회원 탈퇴 과정을 계속 진행하시겠습니까?</p>
+      </Modal>
+      <Modal
+        title="회원 탈퇴"
+        visible={withdrawModal}
+        onOk={withdrawOk}
+        onCancel={withdrawCancel}
+        footer={[
+          <Button key="ok" type="danger" onClick={withdrawOk}>
+            확인
+          </Button>,
+          <Button key="cancel" onClick={withdrawCancel}>
+            취소
+          </Button>,
+        ]}
+      >
+        <p>
+          회원 탈퇴를 위해 <span style={{ fontWeight: 600 }}>비밀번호</span>를
+          입력해 주십시오.
+        </p>
+        <br />
+        <PasswordInput
+          type="password"
+          value={password}
+          onChange={onChangePassword}
+        />
+      </Modal>
     </Container>
   )
 }
 
-export default MyProfile
+export default withRouter(MyProfile)

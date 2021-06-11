@@ -8,6 +8,7 @@ const AUTH = "/api/users/auth"
 const GET_USER_PRODUCTS = "/api/users/products"
 const AVATAR = "/api/users/avatar"
 const PROFILE = "/api/users/profile"
+const USER_DELETE = "/api/users/delete"
 
 const USER_LIKE = "/api/users/like"
 const USER_TAKE = "/api/users/take"
@@ -33,6 +34,7 @@ const routes = {
   getUserProducts: GET_USER_PRODUCTS,
   avatar: AVATAR,
   profile: PROFILE,
+  userDelete: USER_DELETE,
   userLike: USER_LIKE,
   userTake: USER_TAKE,
   product: PRODUCT,
