@@ -161,6 +161,8 @@ function Comments(props) {
 
   const onDeleteComment = async (commentId) => {
     try {
+      loadMore = false
+      changedSkip = 0
       await axios.delete(
         `/api/product/comments?commentId=${commentId}&productId=${productId}&userId=${user._id}`
       )
