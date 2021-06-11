@@ -4,9 +4,10 @@ const REGISTER_EMAIL = "/api/users/register-email"
 const LOGIN = "/api/users/login"
 const LOGOUT = "/api/users/logout"
 const AUTH = "/api/users/auth"
-const GET_MY_PRODUCTS = "/api/users/getMyProducts"
-const UPLOAD_AVATAR = "/api/users/uploadAvatar"
-const UPDATE_PROFILE = "/api/users/updateProfile"
+
+const GET_USER_PRODUCTS = "/api/users/products"
+const AVATAR = "/api/users/avatar"
+const PROFILE = "/api/users/profile"
 
 const USER_LIKE = "/api/users/like"
 const USER_TAKE = "/api/users/take"
@@ -29,9 +30,9 @@ const routes = {
   login: LOGIN,
   logout: LOGOUT,
   auth: AUTH,
-  getMyProducts: GET_MY_PRODUCTS,
-  uploadAvatar: UPLOAD_AVATAR,
-  updateProfile: UPDATE_PROFILE,
+  getUserProducts: GET_USER_PRODUCTS,
+  avatar: AVATAR,
+  profile: PROFILE,
   userLike: USER_LIKE,
   userTake: USER_TAKE,
   product: PRODUCT,

@@ -3,10 +3,11 @@ import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import routes from "./routes"
 import cors from "cors"
+import helmet from "helmet"
+import hpp from "hpp"
 import path from "path"
 import {
   auth,
-  getMyProduct,
   login,
   logout,
   register,
@@ -16,6 +17,8 @@ import {
   updateUserLike,
   getUserTake,
   updateUserTake,
+  getUserProfile,
+  getUserProducts,
 } from "./controllers/userController"
 import { registerEmail } from "./controllers/userControllers/base/sendEmail"
 import middleAuth from "./middlewares/middleAuth"
@@ -40,6 +43,8 @@ const app = express()
 
 const prod = process.env.NODE_ENV === "production"
 
+app.use(helmet())
+app.use(hpp())
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -54,9 +59,12 @@ app.post(routes.registerEmail, registerEmail)
 app.post(routes.login, login)
 app.get(routes.auth, middleAuth, auth)
 app.get(routes.logout, middleAuth, logout)
-app.get(routes.getMyProducts, middleAuth, getMyProduct)
-app.post(routes.uploadAvatar, uploadAvatarImage, uploadAvatars)
-app.post(routes.updateProfile, middleAuth, updateProfile)
+
+app.get(routes.getUserProducts, middleAuth, getUserProducts)
+
+app.post(routes.avatar, uploadAvatarImage, uploadAvatars)
+app.patch(routes.profile, middleAuth, updateProfile)
+app.get(routes.profile, getUserProfile)
 
 app.patch(routes.userLike, updateUserLike)
 

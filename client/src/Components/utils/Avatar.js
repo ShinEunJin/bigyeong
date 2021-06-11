@@ -8,8 +8,8 @@ import dotenv from "dotenv"
 dotenv.config()
 
 const RealAvatar = styled.img`
-  height: 40px;
-  width: 40px;
+  height: 3rem;
+  width: 3rem;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
@@ -32,7 +32,7 @@ function Avatar() {
       ) : (
         <NoAvatar
           style={{ marginRight: 20 }}
-          size={40}
+          size={48}
           icon={<UserOutlined />}
         />
       )}

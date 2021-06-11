@@ -109,6 +109,7 @@ function Login() {
             placeholder="Name"
             value={name}
             onChange={onChangeName}
+            maxLength={20}
           />
           <Label>비밀번호</Label>
           <Input

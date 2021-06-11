@@ -4,7 +4,6 @@ import {
   REGISTER_USER,
   LOGOUT_USER,
   UPDATE_LIKE,
-  GET_MY_PRODUCTS,
   UPDATE_PROFILE,
   UPDATE_USER_TAKE,
 } from "../_actions/types"
@@ -28,11 +27,6 @@ export default (state = {}, action) => {
       return {
         ...state,
         userData: { ...state.userData, take: action.payload },
-      }
-    case GET_MY_PRODUCTS:
-      return {
-        ...state,
-        userData: { ...state.userData, products: action.payload },
       }
     case UPDATE_PROFILE:
       return { ...state, userData: action.payload }

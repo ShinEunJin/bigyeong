@@ -123,7 +123,7 @@ function Find() {
   const [mouse, setMouse] = useState("")
   const [loadMap, setLoadMap] = useState({})
 
-  const LIMIT = 5
+  const LIMIT = 10
 
   const getProducts = async (filter, skip) => {
     try {
@@ -323,7 +323,7 @@ function Find() {
             <Pagination
               current={defaultPage}
               defaultCurrent={1}
-              pageSize={5}
+              pageSize={LIMIT}
               onChange={(page) => onChangePage(page, filter, loadMap)}
               total={productsLen}
             />

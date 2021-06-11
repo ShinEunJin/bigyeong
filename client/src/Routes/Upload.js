@@ -203,6 +203,7 @@ function Upload(props) {
         <Label>제목</Label>
         <Input
           type="text"
+          maxLength={100}
           placeholder="제목을 적어주십시오."
           defaultValue={name}
           onChange={nameChangeHandler}
@@ -219,6 +220,7 @@ function Upload(props) {
         <Label>위치</Label>
         <Input
           type="text"
+          maxLength={100}
           placeholder="선택 사항. 더 자세한 위치를 적어 주시면 됩니다."
           defaultValue={location}
           onChange={locationChangeHandler}
@@ -226,6 +228,7 @@ function Upload(props) {
         <br />
         <Label>설명</Label>
         <TEXTAREA
+          maxLength={700}
           placeholder="이 장소에 대해 자유롭게 설명해 주시기 바랍니다."
           defaultValue={description}
           onChange={descriptionChangeHandler}

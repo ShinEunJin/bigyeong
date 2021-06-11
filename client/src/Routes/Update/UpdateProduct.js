@@ -217,6 +217,7 @@ function UpdateProduct(props) {
       <Form onSubmit={submitHandler}>
         <Label>제목</Label>
         <Input
+          maxLength={100}
           type="text"
           placeholder="제목을 적어주십시오."
           defaultValue={product.name}
@@ -233,6 +234,7 @@ function UpdateProduct(props) {
         <br />
         <Label>위치</Label>
         <Input
+          maxLength={100}
           type="text"
           placeholder="선택 사항. 더 자세한 위치를 적어 주시면 됩니다."
           defaultValue={product.location}
@@ -241,6 +243,7 @@ function UpdateProduct(props) {
         <br />
         <Label>설명</Label>
         <TEXTAREA
+          maxLength={700}
           placeholder="이 장소에 대해 자유롭게 설명해 주시기 바랍니다."
           defaultValue={product.description}
           onChange={descriptionChangeHandler}

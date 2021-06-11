@@ -123,10 +123,10 @@ export const uploadAvatars = (req, res) => {
 export const updateProfile = async (req, res) => {
   const {
     user: { _id },
-    body: { avatar },
+    body: { avatar, name, email },
   } = req
   try {
-    const user = await User.findOneAndUpdate({ _id }, { avatar })
+    const user = await User.findOneAndUpdate({ _id }, { avatar, name, email })
     await user.save()
     return res.status(200).json({ success: true, user })
   } catch (error) {
@@ -214,6 +214,34 @@ export const updateUserTake = async (req, res) => {
         return res.status(400).json({ success: false, error })
       }
     }
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
+}
+
+export const getUserProfile = async (req, res) => {
+  const {
+    query: { userId },
+  } = req
+  try {
+    const user = await User.findOne({ _id: userId })
+    return res.status(200).json({ success: true, user })
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
+}
+
+export const getUserProducts = async (req, res) => {
+  const {
+    query: { userId, skip, limit },
+  } = req
+  let skipToNum = parseInt(skip, 10)
+  let limitToNum = parseInt(limit, 10)
+  try {
+    const products = await Product.find({ writer: userId })
+      .skip(skipToNum)
+      .limit(limitToNum)
+    return res.status(200).json({ success: true, products })
   } catch (error) {
     return res.status(400).json({ success: false, error })
   }

@@ -15,7 +15,7 @@ import DetailProduct from "../Routes/DetailProduct/DetailProduct"
 import CartPage from "../Routes/Cart/CartPage"
 import MyProfile from "../Routes/Profile/MyProfile"
 import UpdateProfile from "../Routes/Profile/UpdateProfile"
-import Footer from "./Footer"
+import UserProfile from "../Routes/Profile/UserProfile"
 import FindByMap from "../Routes/Find/FindByMap"
 import FindBySearch from "../Routes/Find/FindBySearch"
 import DetailGallery from "../Routes/DetailProduct/DetailGallery"
@@ -62,6 +62,11 @@ function App() {
             exact
             path="/user/update-profile"
             component={Auth(UpdateProfile, true)}
+          />
+          <Route
+            exact
+            path="/user/profile/:id"
+            component={Auth(UserProfile, true)}
           />
           <Redirect from="*" to="/" />
         </Switch>

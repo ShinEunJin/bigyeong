@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import AvatarUpload from "../../Components/utils/AvatarUpload"
 import { useDispatch, useSelector } from "react-redux"
@@ -68,24 +68,45 @@ function UpdateProfile(props) {
   const { userData: user } = useSelector((state) => state.user)
 
   const [avatar, setAvatar] = useState("")
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+
+  useEffect(() => {
+    setName(user.name)
+    setEmail(user.email)
+  }, [])
 
   const updateAvatar = (newAvatar) => {
     setAvatar(newAvatar)
   }
 
   const onClickHandler = async () => {
-    let body = { avatar }
-    const {
-      payload: { success },
-    } = await dispatch(updateProfile(body))
-    if (success) {
-      props.history.push("/user/my-profile")
-      setTimeout(() => {
-        alert("성공적으로 프로필을 수정하였습니다.")
-      }, 1000)
+    if (email.indexOf("@") === -1) {
+      alert("이메일을 다시 확인하여 주십시오.")
+    } else if (name.trim() === "") {
+      alert("이름 칸을 채워주시기 바랍니다.")
     } else {
-      alert("프로필을 수정하는데 오류가 났습니다.")
+      let body = { avatar, name, email }
+      const {
+        payload: { success },
+      } = await dispatch(updateProfile(body))
+      if (success) {
+        props.history.push("/user/my-profile")
+        setTimeout(() => {
+          alert("성공적으로 프로필을 수정하였습니다.")
+        }, 1000)
+      } else {
+        alert("프로필을 수정하는데 오류가 났습니다.")
+      }
     }
+  }
+
+  const onChangeName = (e) => {
+    setName(e.target.value)
+  }
+
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value)
   }
 
   return (
@@ -93,8 +114,24 @@ function UpdateProfile(props) {
       <ProfleColumn>
         <Profile>
           <AvatarUpload refreshFunction={updateAvatar} />
-          <NameColumn>{user.name}</NameColumn>
-          <EmailColumn>{user.email}</EmailColumn>
+          <NameColumn>
+            <input
+              type="text"
+              placeholder="이름"
+              defaultValue={user.name}
+              onChange={onChangeName}
+              maxLength={20}
+            />
+          </NameColumn>
+          <EmailColumn>
+            <input
+              type="email"
+              placeholder="이메일"
+              defaultValue={user.email}
+              onChange={onChangeEmail}
+              maxLength={40}
+            />
+          </EmailColumn>
           <Button onClick={onClickHandler}>
             <Span>프로필 수정 완료</Span>
           </Button>

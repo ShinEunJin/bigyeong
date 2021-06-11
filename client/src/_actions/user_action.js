@@ -4,7 +4,6 @@ import {
   LOGIN_USER,
   REGISTER_USER,
   LOGOUT_USER,
-  GET_MY_PRODUCTS,
   UPDATE_PROFILE,
   UPDATE_LIKE,
   UPDATE_USER_TAKE,
@@ -42,16 +41,8 @@ export const auth = async () => {
   }
 }
 
-export const getMyProducts = async () => {
-  const { data } = await axios.get("/api/users/getMyProducts")
-  return {
-    type: GET_MY_PRODUCTS,
-    payload: data,
-  }
-}
-
 export const updateProfile = async (dataToSubmit) => {
-  const { data } = await axios.post("/api/users/updateProfile", dataToSubmit)
+  const { data } = await axios.patch("/api/users/profile", dataToSubmit)
   return {
     type: UPDATE_PROFILE,
     payload: data,

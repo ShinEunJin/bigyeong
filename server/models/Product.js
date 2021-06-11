@@ -4,7 +4,7 @@ const ProductSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      maxLength: 70,
+      maxLength: 110,
       required: true,
     },
     address: {
@@ -22,6 +22,7 @@ const ProductSchema = new mongoose.Schema(
     coord: Object,
     location: {
       type: String,
+      maxLength: 110,
       required: true,
     },
     description: String,

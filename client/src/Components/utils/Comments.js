@@ -4,7 +4,7 @@ import { FaTimes } from "react-icons/fa"
 import { Input, Avatar as NoAvatar } from "antd"
 import { UserOutlined } from "@ant-design/icons"
 import axios from "axios"
-import { withRouter } from "react-router-dom"
+import { Link, withRouter } from "react-router-dom"
 import { useSelector } from "react-redux"
 import Avatar from "./Avatar"
 import dotenv from "dotenv"
@@ -43,8 +43,8 @@ const CommentsList = styled.div`
 `
 
 const RealAvatar = styled.img`
-  height: 40px;
-  width: 40px;
+  height: 3rem;
+  width: 3rem;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
@@ -205,19 +205,23 @@ function Comments(props) {
           <CommentsList key={index}>
             <AvatarColumn>
               {item.writer && item.writer.avatar ? (
-                <RealAvatar
-                  src={
-                    process.env.NODE_ENV === "development"
-                      ? `http://localhost:5000/${item.writer.avatar}`
-                      : item.writer.avatar
-                  }
-                />
+                <Link to={`/user/profile/${item.writer._id}`}>
+                  <RealAvatar
+                    src={
+                      process.env.NODE_ENV === "development"
+                        ? `http://localhost:5000/${item.writer.avatar}`
+                        : item.writer.avatar
+                    }
+                  />
+                </Link>
               ) : (
-                <NoAvatar
-                  style={{ marginRight: 20 }}
-                  size={40}
-                  icon={<UserOutlined />}
-                />
+                <Link to={`/user/profile/${item.writer._id}`}>
+                  <NoAvatar
+                    style={{ marginRight: 20 }}
+                    size={48}
+                    icon={<UserOutlined />}
+                  />
+                </Link>
               )}
             </AvatarColumn>
             <TextColumn>

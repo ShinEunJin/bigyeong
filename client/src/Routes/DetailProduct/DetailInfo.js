@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 import Fade from "react-reveal/Fade"
 import { AiFillHeart, AiFillEye } from "react-icons/ai"
-import { HeartFilled, CaretUpOutlined } from "@ant-design/icons"
+import { HeartFilled, CaretUpOutlined, UserOutlined } from "@ant-design/icons"
+import { Avatar as NoAvatar } from "antd"
 import { updateUserTake, updateUserLike } from "../../_actions/user_action"
 import { updateProductLike } from "../../_actions/product_action"
 import DetailRevise from "./DetailRevise"
 import dotenv from "dotenv"
+import { Link } from "react-router-dom"
 
 dotenv.config()
 
@@ -27,15 +29,25 @@ const Title = styled.div`
   font-weight: 600;
   font-size: 1.1em;
   margin-bottom: 2rem;
+  width: 60%;
+  line-height: 1.2em;
+  overflow-wrap: break-word;
 `
 
 const Address = styled.div`
+  width: 60%;
   opacity: 0.8;
+  line-height: 1.2em;
   margin-bottom: 2rem;
+  overflow-wrap: break-word;
 `
 
 const WriterColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: absolute;
+  width: 20%;
   top: 1rem;
   right: 1rem;
 `
@@ -139,7 +151,7 @@ function DetailInfo({ trigger }) {
     })
     infowindow.setContent(content)
     infowindow.open(map, marker)
-  }, [product, userData])
+  }, [])
 
   const onClickLikeBtn = async () => {
     if (!userData.isAuth) {
@@ -173,6 +185,7 @@ function DetailInfo({ trigger }) {
           add: true,
         }
         dispatch(updateUserTake(body))
+        alert("찜목록에 등록하였습니다.")
       }
     }
   }
@@ -185,13 +198,25 @@ function DetailInfo({ trigger }) {
           {product.address} - {product.location}
         </Address>
         <WriterColumn>
-          <RealAvatar
-            src={
-              process.env.NODE_ENV === "development"
-                ? `http://localhost:5000/${product.writer.avatar}`
-                : product.writer.avatar
-            }
-          />
+          {product.writer && product.writer.avatar ? (
+            <Link to={`/user/profile/${product.writer._id}`}>
+              <RealAvatar
+                src={
+                  process.env.NODE_ENV === "development"
+                    ? `http://localhost:5000/${product.writer.avatar}`
+                    : product.writer.avatar
+                }
+              />
+            </Link>
+          ) : (
+            <Link to={`/user/profile/${product.writer._id}`}>
+              <NoAvatar
+                style={{ marginBottom: "0.5rem" }}
+                size={48}
+                icon={<UserOutlined />}
+              />
+            </Link>
+          )}
           <Name>{product.writer.name}</Name>
         </WriterColumn>
         <Info>
