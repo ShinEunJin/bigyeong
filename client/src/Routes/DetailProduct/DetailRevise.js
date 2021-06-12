@@ -28,9 +28,7 @@ const Span = styled.span`
 `
 
 function DetailDelete(props) {
-  const {
-    data: { product },
-  } = useSelector((state) => state.product)
+  const { product } = useSelector((state) => state.product)
   const { userData } = useSelector((state) => state.user)
 
   const onClickDelete = async () => {

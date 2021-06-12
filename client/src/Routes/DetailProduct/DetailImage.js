@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import styled from "styled-components"
 import { useSelector } from "react-redux"
 import { LazyLoadImage } from "react-lazy-load-image-component"
@@ -33,9 +33,7 @@ const SLink = styled(Link)`
 `
 
 function DetailImage() {
-  const {
-    data: { product },
-  } = useSelector((state) => state.product)
+  const { product } = useSelector((state) => state.product)
 
   return (
     <>

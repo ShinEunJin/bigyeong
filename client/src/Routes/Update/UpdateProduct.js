@@ -97,9 +97,7 @@ function UpdateProduct(props) {
   }
 
   const user = useSelector((state) => state.user)
-  const {
-    data: { product },
-  } = useSelector((state) => state.product)
+  const { product } = useSelector((state) => state.product)
 
   const submitHandler = async (e) => {
     e.preventDefault()

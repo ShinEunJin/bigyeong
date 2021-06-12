@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getProducts, getProductsMore } from "../../_actions/product_action"
-import { Link, withRouter } from "react-router-dom"
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 import Checkbox from "../../Components/utils/CheckBox"
 import SearchProduct from "../../Components/utils/SearchProduct"
@@ -107,10 +107,10 @@ let searchTerm = ""
 let sortBy = ""
 let changedSkip = 0
 
-function Begin(props) {
+function Begin() {
   const dispatch = useDispatch()
 
-  const { data, loading } = useSelector((state) => state.product)
+  const { products, loading } = useSelector((state) => state.product)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -138,7 +138,7 @@ function Begin(props) {
           })
         )
       }
-    }, 500)
+    }, 300)
   }
 
   const handleCheckFilter = (filters) => {
@@ -245,10 +245,9 @@ function Begin(props) {
           <Loading />
         ) : (
           <Row gutter={[38, 48]}>
-            {data &&
-              data.products &&
-              data.products.length > 0 &&
-              data.products.map((item, index) => (
+            {products &&
+              products.length > 0 &&
+              products.map((item, index) => (
                 <Link key={index} to={`/product/${item._id}`}>
                   <Col lg={6} md={8} xs={24}>
                     <Card>
@@ -280,4 +279,4 @@ function Begin(props) {
   )
 }
 
-export default withRouter(Begin)
+export default Begin

@@ -20,7 +20,6 @@ import FindByMap from "../Routes/Find/FindByMap"
 import FindBySearch from "../Routes/Find/FindBySearch"
 import DetailGallery from "../Routes/DetailProduct/DetailGallery"
 import UpdateProduct from "../Routes/Update/UpdateProduct"
-import UserWithdraw from "../Routes/Profile/UserWithdraw"
 
 function App() {
   return (
@@ -63,11 +62,6 @@ function App() {
             exact
             path="/user/update-profile"
             component={Auth(UpdateProfile, true)}
-          />
-          <Route
-            exact
-            path="/user/withdraw"
-            component={Auth(UserWithdraw, true)}
           />
           <Route
             exact

@@ -1,22 +1,20 @@
 export const reducerUtils = {
   loading: (state = null) => ({
     loading: true,
-    data: state,
     error: null,
   }),
-  success: (payload) => ({
+  success: (payload, key) => ({
     loading: false,
-    data: payload,
+    [key]: payload,
     error: null,
   }),
   failure: (error) => ({
     loading: false,
-    data: null,
     error,
   }),
 }
 
-export const handleAsyncActions = (type) => {
+export const handleAsyncActions = (type, key) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`]
   return (state, action) => {
     switch (action.type) {
@@ -28,12 +26,12 @@ export const handleAsyncActions = (type) => {
       case SUCCESS:
         return {
           ...state,
-          ...reducerUtils.success(action.payload),
+          ...reducerUtils.success(action.payload, key),
         }
       case ERROR:
         return {
           ...state,
-          ...reducerUtils.error(action.error),
+          ...reducerUtils.success(action.error),
         }
       default:
         return state

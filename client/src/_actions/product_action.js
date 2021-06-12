@@ -12,7 +12,8 @@ export const getProducts = asyncThunk(
   ({ sortBy, skip, limit, region, searchTerm }) =>
     axios.get(
       `/api/products?sortBy=${sortBy}&skip=${skip}&limit=${limit}&region=${region}&searchTerm=${searchTerm}`
-    )
+    ),
+  "products"
 )
 
 export const getProductsMore = async ({
@@ -31,8 +32,10 @@ export const getProductsMore = async ({
   }
 }
 
-export const getProduct = asyncThunk(GET_PRODUCT, ({ id }) =>
-  axios.get(`/api/product?id=${id}`)
+export const getProduct = asyncThunk(
+  GET_PRODUCT,
+  ({ id }) => axios.get(`/api/product?id=${id}`),
+  "product"
 )
 
 export const updateProductLike = async (dataToSubmit) => {

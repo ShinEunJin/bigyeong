@@ -19,7 +19,7 @@ const Container = styled.div`
 function DetailProduct(props) {
   const dispatch = useDispatch()
 
-  const { data, loading } = useSelector((state) => state.product)
+  const { product, loading } = useSelector((state) => state.product)
 
   const [height, setHeight] = useState(false)
 
@@ -45,7 +45,7 @@ function DetailProduct(props) {
       ) : (
         <>
           <Container>
-            {data && data.product && (
+            {product && (
               <>
                 <DetailImage />
                 <DetailInfo trigger={height} />

@@ -12,7 +12,8 @@ import {
 
 const initialState = {
   loading: false,
-  data: null,
+  product: null,
+  products: null,
   error: null,
 }
 
@@ -21,25 +22,22 @@ export default (state = initialState, action) => {
     case GET_PRODUCTS:
     case GET_PRODUCTS_SUCCESS:
     case GET_PRODUCTS_FAILURE:
-      return handleAsyncActions(GET_PRODUCTS)(state, action)
+      return handleAsyncActions(GET_PRODUCTS, "products")(state, action)
     case GET_PRODUCTS_MORE:
       return {
         ...state,
-        data: {
-          ...state.data,
-          products: [...state.data.products, ...action.payload],
-        },
+        products: [...state.products, ...action.payload],
       }
     case GET_PRODUCT:
     case GET_PRODUCT_SUCCESS:
     case GET_PRODUCT_FAILURE:
-      return handleAsyncActions(GET_PRODUCT)(state, action)
+      return handleAsyncActions(GET_PRODUCT, "product")(state, action)
     case UPDATE_PRODUCT_LIKE:
       return {
         ...state,
-        data: {
-          ...state.data,
-          product: { ...state.data.product, likes: action.payload },
+        product: {
+          ...state.product,
+          likes: action.payload,
         },
       }
     default:

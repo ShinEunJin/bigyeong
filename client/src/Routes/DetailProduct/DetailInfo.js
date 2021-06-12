@@ -101,9 +101,7 @@ const Span = styled.span`
 function DetailInfo({ trigger }) {
   const dispatch = useDispatch()
 
-  const {
-    data: { product },
-  } = useSelector((state) => state.product)
+  const { product } = useSelector((state) => state.product)
 
   const { userData } = useSelector((state) => state.user)
 
