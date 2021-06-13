@@ -193,7 +193,8 @@ function DetailInfo({ trigger }) {
       <InfoSection>
         <Title>{product.name}</Title>
         <Address>
-          {product.address} - {product.location}
+          {product.address} {product && product.location && "-"}{" "}
+          {product.location}
         </Address>
         <WriterColumn>
           {product.writer && product.writer.avatar ? (

@@ -167,7 +167,7 @@ function UserProfile(props) {
                   />
                 }
               >
-                <Meta title={item.name} description={item.region} />
+                <Meta title={item.name} description={item.address} />
               </Card>
             </Link>
           </Col>

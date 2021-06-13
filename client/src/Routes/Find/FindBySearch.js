@@ -113,6 +113,7 @@ function Begin() {
   const { products, loading } = useSelector((state) => state.product)
 
   useEffect(() => {
+    changedSkip = 0
     window.scrollTo(0, 0)
     window.addEventListener("scroll", handleScroll)
     dispatch(getProducts({ skip: 0, limit: 8, region: "", searchTerm: "" }))
@@ -188,6 +189,7 @@ function Begin() {
   }
 
   const onMenuClick = (e) => {
+    changedSkip = 0
     if (e.key === "1") {
       dispatchUtils("popular")
     } else if (e.key === "2") {

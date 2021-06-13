@@ -20,6 +20,8 @@ const PRODUCT_LIKE = "/api/product/like"
 const PRODUCT_TAKE = "/api/product/take"
 const PRODUCT_COMMENTS = "/api/product/comments"
 
+const PRODUCT_GALLERY = "/api/product/gallery"
+
 const PRODUCT_ALL = "/api/product/products"
 const PRODUCT_DETAIL = "/api/product/detail"
 const PRODUCT_IMAGE = "/api/product/image"
@@ -45,6 +47,7 @@ const routes = {
   productLike: PRODUCT_LIKE,
   productTake: PRODUCT_TAKE,
   productComments: PRODUCT_COMMENTS,
+  productGallery: PRODUCT_GALLERY,
   productFindDetail: PRODUCT_FIND_DETAIL,
 }
 

@@ -32,6 +32,17 @@ const SLink = styled(Link)`
   background-color: black;
 `
 
+const MoreImage = styled.div`
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  border-radius: 5px;
+  background-color: rgba(245, 245, 245, 0.9);
+  font-weight: 600;
+  font-size: 0.9em;
+  padding: 0.5rem;
+`
+
 function DetailImage() {
   const { product } = useSelector((state) => state.product)
 
@@ -39,12 +50,8 @@ function DetailImage() {
     <>
       {product && product.images && product.images.length === 1 && (
         <Container>
-          <SLazyLoadImage
-            src={
-              process.env.NODE_ENV === "development"
-                ? `http://localhost:3000/${product.images[0]}`
-                : product.images[0]
-            }
+          <SLink
+            to={`/product/${product._id}/gallery`}
             style={{
               gridArea: "1 / 1 / 3 / 5",
               borderTopLeftRadius: "1rem",
@@ -52,122 +59,200 @@ function DetailImage() {
               borderTopRightRadius: "1rem",
               borderBottomRightRadius: "1rem",
             }}
-          />
+          >
+            <SLazyLoadImage
+              src={
+                process.env.NODE_ENV === "development"
+                  ? `http://localhost:3000/${product.images[0]}`
+                  : product.images[0]
+              }
+              style={{
+                borderTopLeftRadius: "1rem",
+                borderBottomLeftRadius: "1rem",
+                borderTopRightRadius: "1rem",
+                borderBottomRightRadius: "1rem",
+              }}
+            />
+          </SLink>
         </Container>
       )}
       {product && product.images && product.images.length === 2 && (
         <Container>
-          <SLazyLoadImage
-            src={
-              process.env.NODE_ENV === "development"
-                ? `http://localhost:3000/${product.images[0]}`
-                : product.images[0]
-            }
+          <SLink
+            to={`/product/${product._id}/gallery`}
             style={{
               gridArea: "1 / 1 / 3 / 3",
               borderTopLeftRadius: "1rem",
               borderBottomLeftRadius: "1rem",
             }}
-          />
-          <SLazyLoadImage
-            src={
-              process.env.NODE_ENV === "development"
-                ? `http://localhost:3000/${product.images[1]}`
-                : product.images[1]
-            }
+          >
+            <SLazyLoadImage
+              src={
+                process.env.NODE_ENV === "development"
+                  ? `http://localhost:3000/${product.images[0]}`
+                  : product.images[0]
+              }
+              style={{
+                borderTopLeftRadius: "1rem",
+                borderBottomLeftRadius: "1rem",
+              }}
+            />
+          </SLink>
+          <SLink
+            to={`/product/${product._id}/gallery`}
             style={{
               gridArea: "1 / 3 / 3 / 5",
               borderTopRightRadius: "1rem",
               borderBottomRightRadius: "1rem",
             }}
-          />
+          >
+            <SLazyLoadImage
+              src={
+                process.env.NODE_ENV === "development"
+                  ? `http://localhost:3000/${product.images[1]}`
+                  : product.images[1]
+              }
+              style={{
+                borderTopRightRadius: "1rem",
+                borderBottomRightRadius: "1rem",
+              }}
+            />
+          </SLink>
         </Container>
       )}
       {product && product.images && product.images.length === 3 && (
         <Container>
-          <SLazyLoadImage
-            src={
-              process.env.NODE_ENV === "development"
-                ? `http://localhost:3000/${product.images[0]}`
-                : product.images[0]
-            }
+          <SLink
+            to={`/product/${product._id}/gallery`}
             style={{
               gridArea: "1 / 1 / 3 / 3",
               borderTopLeftRadius: "1rem",
               borderBottomLeftRadius: "1rem",
             }}
-          />
-          <SLazyLoadImage
-            src={
-              process.env.NODE_ENV === "development"
-                ? `http://localhost:3000/${product.images[1]}`
-                : product.images[1]
-            }
+          >
+            <SLazyLoadImage
+              src={
+                process.env.NODE_ENV === "development"
+                  ? `http://localhost:3000/${product.images[0]}`
+                  : product.images[0]
+              }
+              style={{
+                borderTopLeftRadius: "1rem",
+                borderBottomLeftRadius: "1rem",
+              }}
+            />
+          </SLink>
+          <SLink
+            to={`/product/${product._id}/gallery`}
             style={{
               gridArea: "1 / 3 / 2 / 5",
               borderTopRightRadius: "1rem",
             }}
-          />
-          <SLazyLoadImage
-            src={
-              process.env.NODE_ENV === "development"
-                ? `http://localhost:3000/${product.images[2]}`
-                : product.images[2]
-            }
+          >
+            <SLazyLoadImage
+              src={
+                process.env.NODE_ENV === "development"
+                  ? `http://localhost:3000/${product.images[1]}`
+                  : product.images[1]
+              }
+              style={{
+                borderTopRightRadius: "1rem",
+              }}
+            />
+          </SLink>
+          <SLink
+            to={`/product/${product._id}/gallery`}
             style={{
               gridArea: "2 / 3 / 3 / 5",
-
               borderBottomRightRadius: "1rem",
             }}
-          />
+          >
+            <SLazyLoadImage
+              src={
+                process.env.NODE_ENV === "development"
+                  ? `http://localhost:3000/${product.images[2]}`
+                  : product.images[2]
+              }
+              style={{
+                borderBottomRightRadius: "1rem",
+              }}
+            />
+          </SLink>
         </Container>
       )}
       {product && product.images && product.images.length === 4 && (
         <Container>
-          <SLazyLoadImage
-            src={
-              process.env.NODE_ENV === "development"
-                ? `http://localhost:3000/${product.images[0]}`
-                : product.images[0]
-            }
+          <SLink
+            to={`/product/${product._id}/gallery`}
             style={{
               gridArea: "1 / 1 / 3 / 3",
               borderTopLeftRadius: "1rem",
               borderBottomLeftRadius: "1rem",
             }}
-          />
-          <SLazyLoadImage
-            src={
-              process.env.NODE_ENV === "development"
-                ? `http://localhost:3000/${product.images[1]}`
-                : product.images[1]
-            }
+          >
+            <SLazyLoadImage
+              src={
+                process.env.NODE_ENV === "development"
+                  ? `http://localhost:3000/${product.images[0]}`
+                  : product.images[0]
+              }
+              style={{
+                gridArea: "1 / 1 / 3 / 3",
+                borderTopLeftRadius: "1rem",
+                borderBottomLeftRadius: "1rem",
+              }}
+            />
+          </SLink>
+          <SLink
+            to={`/product/${product._id}/gallery`}
             style={{
               gridArea: "1 / 3 / 2 / 4",
             }}
-          />
-          <SLazyLoadImage
-            src={
-              process.env.NODE_ENV === "development"
-                ? `http://localhost:3000/${product.images[2]}`
-                : product.images[2]
-            }
+          >
+            <SLazyLoadImage
+              src={
+                process.env.NODE_ENV === "development"
+                  ? `http://localhost:3000/${product.images[1]}`
+                  : product.images[1]
+              }
+            />
+          </SLink>
+          <SLink
+            to={`/product/${product._id}/gallery`}
             style={{
               gridArea: "1 / 4 / 2 / 5",
               borderTopRightRadius: "1rem",
             }}
-          />
-          <SLazyLoadImage
-            src={
-              process.env.NODE_ENV === "development"
-                ? `http://localhost:3000/${product.images[3]}`
-                : product.images[3]
-            }
+          >
+            <SLazyLoadImage
+              src={
+                process.env.NODE_ENV === "development"
+                  ? `http://localhost:3000/${product.images[2]}`
+                  : product.images[2]
+              }
+              style={{
+                borderTopRightRadius: "1rem",
+              }}
+            />
+          </SLink>
+          <SLink
+            to={`/product/${product._id}/gallery`}
             style={{
               gridArea: "2 / 3 / 3 / 5",
               borderBottomRightRadius: "1rem",
             }}
-          />
+          >
+            <SLazyLoadImage
+              src={
+                process.env.NODE_ENV === "development"
+                  ? `http://localhost:3000/${product.images[3]}`
+                  : product.images[3]
+              }
+              style={{
+                borderBottomRightRadius: "1rem",
+              }}
+            />
+          </SLink>
         </Container>
       )}
       {product && product.images && product.images.length >= 5 && (
@@ -236,6 +321,7 @@ function DetailImage() {
             style={{
               gridArea: "2 / 4 / 3 / 5",
               borderBottomRightRadius: "1rem",
+              position: "relative",
             }}
           >
             <SLazyLoadImage
@@ -248,6 +334,7 @@ function DetailImage() {
                 borderBottomRightRadius: "1rem",
               }}
             />
+            <MoreImage>모든 사진 보기 ➔</MoreImage>
           </SLink>
         </Container>
       )}

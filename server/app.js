@@ -37,6 +37,7 @@ import {
   writeComment,
   deleteProduct,
   updateProduct,
+  getGallery,
 } from "./controllers/productController"
 import { uploadAvatarImage, uploadProductImage } from "./middlewares/multer"
 
@@ -85,6 +86,8 @@ app.post(routes.product, uploadProduct)
 app.get(routes.productAll, deployProduct)
 app.get(routes.productDetail, detailProduct)
 app.post(routes.productImage, uploadProductImage, uploadImages)
+
+app.get(routes.productGallery, getGallery)
 
 app.patch(routes.productLike, middleAuth, likeProduct)
 

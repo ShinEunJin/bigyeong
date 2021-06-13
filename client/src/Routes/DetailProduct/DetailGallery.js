@@ -1,46 +1,50 @@
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import Fade from "react-reveal/Fade"
+import ImageGallery from "react-image-gallery"
+import dotenv from "dotenv"
+import Loading from "../../Components/Loading"
+import axios from "axios"
+import styled from "styled-components"
+
+dotenv.config()
+
+const Container = styled.div`
+  width: 100%;
+  background-color: black;
+`
 
 function DetailGallery() {
-  const [start, setStart] = useState(false)
-  const [photo, setPhoto] = useState(false)
+  const { product } = useSelector((state) => state.product)
 
-  const {
-    data: { product },
-  } = useSelector((state) => state.product)
+  const [loading, setLoading] = useState(true)
+  const [images, setImages] = useState([])
+
+  const getImages = async () => {
+    const { data } = await axios.get(
+      `/api/product/gallery?productId=${product._id}`
+    )
+    setImages(data.gallery)
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    setStart(true)
+    try {
+      getImages()
+    } catch (error) {
+      alert("사진을 불러오는데 실패하였습니다.")
+    } finally {
+      setLoading(false)
+    }
   }, [product])
 
-  const onRevealHandler = () => {
-    setPhoto(true)
-  }
-
   return (
-    <Fade bottom big in={start} mountOnEnter onReveal={onRevealHandler}>
-      <div
-        style={{
-          position: "absolute",
-          top: "3rem",
-          zindex: 50,
-          height: "100vh",
-          width: "100%",
-          backgroundColor: "aqua",
-        }}
-      >
-        <Fade bottom in={photo}>
-          {product.images.map((item, value) => (
-            <img
-              style={{ width: 300, height: 300 }}
-              src={`http://localhost:5000/${item}`}
-            />
-          ))}
-        </Fade>
-      </div>
-    </Fade>
+    <Container>
+      {loading ? (
+        <Loading />
+      ) : (
+        <ImageGallery thumbnailPosition="left" items={images} lazyLoad />
+      )}
+    </Container>
   )
 }
 

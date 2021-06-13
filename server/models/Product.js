@@ -23,7 +23,6 @@ const ProductSchema = new mongoose.Schema(
     location: {
       type: String,
       maxLength: 110,
-      required: true,
     },
     description: String,
     images: {
