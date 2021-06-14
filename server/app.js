@@ -3,7 +3,6 @@ import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import routes from "./routes"
 import cors from "cors"
-import helmet from "helmet"
 import hpp from "hpp"
 import path from "path"
 import {
@@ -45,7 +44,6 @@ const app = express()
 
 const prod = process.env.NODE_ENV === "production"
 
-app.use(helmet())
 app.use(hpp())
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))

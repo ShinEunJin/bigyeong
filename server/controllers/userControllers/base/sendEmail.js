@@ -1,4 +1,7 @@
 import nodemailer from "nodemailer"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 export const registerEmail = async (req, res) => {
   const {
@@ -6,12 +9,13 @@ export const registerEmail = async (req, res) => {
   } = req
   try {
     let transporter = nodemailer.createTransport({
+      service: "gamil",
       host: "smtp.gmail.com",
       port: 587,
       secure: false,
       auth: {
-        user: "sineun5501@gmail.com",
-        pass: "tjdrhd5501!",
+        user: process.env.EMAIL_ID,
+        pass: process.env.EMAIL_PASSWORD,
       },
     })
     await transporter.sendMail({
