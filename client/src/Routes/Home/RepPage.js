@@ -3,6 +3,9 @@ import styled from "styled-components"
 import { Carousel } from "antd"
 import { HashLink } from "react-router-hash-link"
 import Fade from "react-reveal/Fade"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 let images = [
   "logo/repImages/repImage1.jpg",

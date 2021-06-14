@@ -1,6 +1,7 @@
 import React, { useEffect } from "react"
 import RepPage from "./RepPage"
 import Category from "./Category"
+import Footer from "../../Components/Footer"
 
 function Home() {
   useEffect(() => {
@@ -11,6 +12,7 @@ function Home() {
     <>
       <RepPage />
       <Category />
+      <Footer />
     </>
   )
 }

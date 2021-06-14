@@ -54,6 +54,16 @@ app.use(cookieParser())
 app.use("/logo", express.static("logo"))
 app.use("/uploads", express.static("uploads"))
 
+/* app.all("*", (req, res, next) => {
+  let protocol = req.headers["x-forward-proto"] || req.protocol
+  if (protocol === "https") {
+    next()
+  } else {
+    let to = `https://${req.hostname}${req.url}`
+    res.redirect(to)
+  }
+}) */
+
 //User
 app.post(routes.register, register)
 app.get(routes.register, registerCheck)
