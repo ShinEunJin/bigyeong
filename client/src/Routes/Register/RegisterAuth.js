@@ -7,7 +7,7 @@ import { withRouter } from "react-router-dom"
 import axios from "axios"
 
 const Container = styled.div`
-  display: flex
+  display: flex;
   flex-direction: column;
 `
 

@@ -341,6 +341,14 @@ export const getGallery = async (req, res) => {
         }
         gallery.push(object)
       }
+    } else {
+      for (let image of product.images) {
+        const object = {
+          original: `${image}`,
+          thumbnail: `${image}`,
+        }
+        gallery.push(object)
+      }
     }
     return res.status(200).json({ success: true, gallery })
   } catch (error) {

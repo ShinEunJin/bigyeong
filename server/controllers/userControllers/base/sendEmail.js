@@ -9,7 +9,6 @@ export const registerEmail = async (req, res) => {
   } = req
   try {
     let transporter = nodemailer.createTransport({
-      service: "gamil",
       host: "smtp.gmail.com",
       port: 587,
       secure: false,

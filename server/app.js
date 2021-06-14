@@ -66,6 +66,7 @@ app.use("/uploads", express.static("uploads"))
 app.post(routes.register, register)
 app.get(routes.register, registerCheck)
 app.post(routes.registerEmail, registerEmail)
+
 app.post(routes.login, login)
 app.get(routes.auth, middleAuth, auth)
 app.get(routes.logout, middleAuth, logout)
