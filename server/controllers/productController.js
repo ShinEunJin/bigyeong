@@ -12,8 +12,6 @@ export const getProducts = async (req, res) => {
   } = req
   let skipToNum = parseInt(skip, 10)
   let limitToNum = parseInt(limit, 10)
-  /* console.log({ sortBy: sortBy, region: region, searchTerm: searchTerm })
-  console.log(typeof sortBy, typeof region, typeof searchTerm) */
   try {
     if (searchTerm !== "") {
       const products = await Product.find(
