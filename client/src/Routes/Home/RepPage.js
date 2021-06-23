@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
-import { Carousel } from "antd"
-import { HashLink } from "react-router-hash-link"
 import Fade from "react-reveal/Fade"
 import dotenv from "dotenv"
+import Category from "./Category"
 
 dotenv.config()
 
-let images = [
-  "logo/repImages/repImage1.jpg",
-  "logo/repImages/repImage2.jpg",
-  "logo/repImages/repImage3.jpg",
-  "logo/repImages/repImage4.jpg",
-]
-
 const Container = styled.div`
+  width: 100%;
+  height: calc(100vh - 3rem);
   position: relative;
   display: flex;
   justify-content: center;
@@ -24,7 +18,7 @@ const Container = styled.div`
 const Text = styled.div`
   position: absolute;
   z-index: 2;
-  bottom: 20%;
+  bottom: 30%;
   left: 30%;
 `
 
@@ -52,31 +46,21 @@ const Img = styled.img`
 `
 
 function RepPage() {
-  const [icon, setIcon] = useState("")
-  const [repImages, setRepImages] = useState([])
-
-  useEffect(() => {
-    setIcon("logo/font_title.png")
-    setRepImages(images)
-  }, [])
-
   return (
     <Container>
-      {/* <FontImg src={icon}></FontImg> */}
       <Text>
         <Fade top delay={500} distance="1rem">
-          <Span>혹시 아시나요?</Span>
+          <Span style={{ paddingLeft: "1rem" }}>이 곳은</Span>
         </Fade>
         <Fade top delay={2000} distance="1rem">
-          <Span style={{ paddingLeft: "1rem", marginBottom: "1rem" }}>
-            이 곳이 어딘지
-          </Span>
+          <Span style={{ marginBottom: "1rem" }}>어디일까요?</Span>
         </Fade>
         <Fade left delay={4000} distance="0.5rem" duration={200}>
           <SLink to="/register">확인하러 가기 →</SLink>
         </Fade>
       </Text>
       <Img src="/logo/repImages/good.jpg" />
+      <Category />
     </Container>
   )
 }
