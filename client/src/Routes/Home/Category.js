@@ -4,14 +4,12 @@ import styled from "styled-components"
 import Fade from "react-reveal/Fade"
 
 const BackGround = styled.div`
-  width: 100%;
-  height: 100vh;
   background-color: #fafafa;
 `
 
 const Container = styled.div`
-  width: 80%;
-  height: 100%;
+  width: 10%;
+  height: 10%;
   padding: 4% 0;
   margin: 0 auto;
   display: flex;

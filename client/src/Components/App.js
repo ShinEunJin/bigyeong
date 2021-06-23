@@ -30,7 +30,7 @@ function App() {
           <Route exact path="/" component={Auth(Home, null)} />
           <Route exact path="/login" component={Auth(Login, false)} />
           <Route exact path="/register" component={Auth(Register, false)} />
-          <Route exact path="/upload" component={Auth(Upload, true)} />
+          <Route exact path="/upload" component={Auth(Upload, null)} />
           <Route exact path="/find_map" component={Auth(FindByMap, null)} />
           <Route
             exact

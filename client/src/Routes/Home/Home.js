@@ -11,8 +11,6 @@ function Home() {
   return (
     <>
       <RepPage />
-      <Category />
-      <Footer />
     </>
   )
 }

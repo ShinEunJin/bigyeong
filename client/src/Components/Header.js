@@ -2,36 +2,44 @@ import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, withRouter } from "react-router-dom"
 import styled from "styled-components"
-import { Avatar } from "antd"
+import { Avatar, Dropdown, Menu } from "antd"
 import { UserOutlined } from "@ant-design/icons"
+import { MdAddAPhoto, MdCreateNewFolder } from "react-icons/md"
+import { AiOutlineUser } from "react-icons/ai"
 import { logout } from "../_actions/user_action"
 import dotenv from "dotenv"
 dotenv.config()
 
 const HeaderBar = styled.header`
   position: sticky;
+  padding: 0 10%;
+  margin: 0 auto;
   top: 0;
-  width: 100%;
+  width: 80%;
   height: 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 10%;
-  box-shadow: 2px 2px 3px #a6a6a6;
+  box-shadow: 0 5px 3px -5px rgba(255, 255, 255, 1);
   z-index: 5;
-  background-color: #ffffff;
+  background-color: black;
   font-weight: 600;
+  color: white;
 `
 
 const SLink = styled(Link)`
-  font-size: 16px;
+  font-size: 1em;
+  font-weight: 600;
+  &:hover {
+    color: wheat;
+  }
 `
 
 const OnPage = styled.div`
   border-bottom: 2px solid
     ${(props) => (props.current ? "#8597ff" : "transparent")};
   margin: 0px 10px;
-  width: 70px;
+  width: 2.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -62,12 +70,29 @@ function Header(props) {
     })
   }
 
+  const upload = (
+    <Menu style={{ padding: "0.3rem", fontWeight: 600, fontSize: "1em" }}>
+      사진을 직접 올려보세요!
+    </Menu>
+  )
+
+  const loginAndRegister = (
+    <Menu>
+      <Menu.Item>
+        <SLink to="/login">로그인</SLink>
+      </Menu.Item>
+      <Menu.Item>
+        <SLink to="/register">회원가입</SLink>
+      </Menu.Item>
+    </Menu>
+  )
+
   if (user.userData && !user.userData.isAuth) {
     return (
       <HeaderBar>
         <div>
           <OnPage>
-            <SLink to="/">
+            <SLink style={{ color: "white" }} to="/">
               <div style={{ display: "flex", alignItems: "center" }}>
                 <img
                   style={{ height: "3rem", width: "3rem" }}
@@ -81,11 +106,24 @@ function Header(props) {
           </OnPage>
         </div>
         <div style={{ display: "flex" }}>
-          <OnPage current={props.location.pathname === "/login"}>
-            <SLink to="/login">로그인</SLink>
+          <OnPage current={props.location.pathname === "/upload"}>
+            <SLink to="/upload">
+              <Dropdown overlay={upload} placement="topRight" arrow>
+                <MdAddAPhoto style={{ fontSize: "1.4em" }} />
+              </Dropdown>
+            </SLink>
           </OnPage>
-          <OnPage current={props.location.pathname === "/register"}>
-            <SLink to="/register">회원가입</SLink>
+          <OnPage
+            current={
+              props.location.pathname === "/login" ||
+              props.location.pathname === "/register"
+            }
+          >
+            <SLink to="/upload">
+              <Dropdown overlay={loginAndRegister} placement="topRight" arrow>
+                <AiOutlineUser style={{ fontSize: "1.6em" }} />
+              </Dropdown>
+            </SLink>
           </OnPage>
         </div>
       </HeaderBar>
@@ -108,12 +146,18 @@ function Header(props) {
             </SLink>
           </OnPage>
         </div>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", alignItems: "center" }}>
           <OnPage current={props.location.pathname === "/user/cart"}>
-            <SLink to="/user/cart">찜목록</SLink>
+            <SLink to="/user/cart">
+              <MdCreateNewFolder style={{ fontSize: "1.5em" }} />
+            </SLink>
           </OnPage>
           <OnPage current={props.location.pathname === "/upload"}>
-            <SLink to="/upload">업로드</SLink>
+            <SLink to="/upload">
+              <Dropdown overlay={upload} placement="topRight" arrow>
+                <MdAddAPhoto style={{ fontSize: "1.4em" }} />
+              </Dropdown>
+            </SLink>
           </OnPage>
           <OnPage current={props.location.pathname === "/user/my-profile"}>
             <SLink to="/user/my-profile">
@@ -135,7 +179,7 @@ function Header(props) {
               style={{ fontSize: "1em", cursor: "pointer" }}
               onClick={onLogoutHandler}
             >
-              로그아웃
+              Log out
             </div>
           </OnPage>
         </div>
