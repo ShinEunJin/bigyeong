@@ -13,6 +13,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding-bottom: 100px;
+  color: white;
 `
 
 const Form = styled.form`
@@ -32,6 +33,7 @@ const Label = styled.label`
 
 const Input = styled.input`
   width: 100%;
+  color: black;
   border-radius: 5px;
   border: 1px solid gray;
   font-size: 1em;
@@ -43,6 +45,7 @@ const Input = styled.input`
 
 const TEXTAREA = styled.textarea`
   width: 100%;
+  color: black;
   height: 200px;
   border-radius: 5px;
   border: 1px solid gray;
@@ -59,6 +62,8 @@ const Button = styled.button`
   width: 4rem;
   height: 2rem;
   cursor: pointer;
+  color: black;
+  font-weight: 600;
 `
 
 const MapSection = styled.div`
@@ -102,7 +107,6 @@ function Upload(props) {
     e.preventDefault()
     if (!name) return alert("제목을 확인해 주시기 바랍니다.")
     else if (!address) return alert("지도에서 해당 위치를 지정해 주십시오.")
-    else if (!description) return alert("설명을 적어주시기 바랍니다.")
     else if (images.length === 0)
       return alert("한 장 이상의 사진이 필요합니다.")
     let body = {
@@ -204,7 +208,7 @@ function Upload(props) {
         <Input
           type="text"
           maxLength={100}
-          placeholder="제목을 적어주십시오."
+          placeholder="필수. 제목을 적어주십시오."
           defaultValue={name}
           onChange={nameChangeHandler}
         />
@@ -229,7 +233,7 @@ function Upload(props) {
         <Label>설명</Label>
         <TEXTAREA
           maxLength={700}
-          placeholder="이 장소에 대해 자유롭게 설명해 주시기 바랍니다."
+          placeholder="선택사항. 이 장소에 대해 자유롭게 설명해 주시기 바랍니다."
           defaultValue={description}
           onChange={descriptionChangeHandler}
         ></TEXTAREA>

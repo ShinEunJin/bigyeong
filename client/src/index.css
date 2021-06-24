@@ -17,13 +17,16 @@
   background: rgba(255, 255, 255, 0.8);
   z-index: 1;
   padding: 5px;
+  color: black;
 }
 #centerAddr {
   display: block;
   margin-top: 2px;
   font-weight: normal;
+  color: black;
 }
 .bAddr {
+  color: black;
   padding: 5px;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -34,6 +37,7 @@
 .bAddr_info {
   font-weight: normal;
   font-size: 0.9em;
+  color: black;
 }
 
 .card {
@@ -43,6 +47,7 @@
   background-color: white;
   position: relative;
   box-shadow: 1px 1px 7px 1px rgba(141, 141, 141, 0.8);
+  color: black;
 }
 
 .card_image {
@@ -53,6 +58,7 @@
   object-fit: cover;
   object-position: center;
   margin-bottom: 1rem;
+  color: black;
 }
 
 .card_title {
@@ -62,6 +68,7 @@
   margin-bottom: 1rem;
   padding-left: 1rem;
   overflow: hidden;
+  color: black;
   text-overflow: ellipsis;
 }
 
@@ -72,12 +79,14 @@
   padding-left: 1rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: black;
 }
 
 .card_likes {
   position: absolute;
   bottom: 0.5rem;
   left: 1rem;
+  color: black;
 }
 
 .gallery-enter {

@@ -5,6 +5,7 @@ import styled from "styled-components"
 import { Avatar, Dropdown, Menu } from "antd"
 import { UserOutlined } from "@ant-design/icons"
 import { MdAddAPhoto, MdCreateNewFolder } from "react-icons/md"
+import { FaSearch } from "react-icons/fa"
 import { AiOutlineUser } from "react-icons/ai"
 import { logout } from "../_actions/user_action"
 import dotenv from "dotenv"
@@ -70,6 +71,17 @@ function Header(props) {
     })
   }
 
+  const search = (
+    <Menu>
+      <Menu.Item>
+        <SLink to="/find_map">지도로 찾기</SLink>
+      </Menu.Item>
+      <Menu.Item>
+        <SLink to="/find_search">검색으로 찾기</SLink>
+      </Menu.Item>
+    </Menu>
+  )
+
   const upload = (
     <Menu style={{ padding: "0.3rem", fontWeight: 600, fontSize: "1em" }}>
       사진을 직접 올려보세요!
@@ -106,9 +118,19 @@ function Header(props) {
           </OnPage>
         </div>
         <div style={{ display: "flex" }}>
+          <OnPage
+            current={
+              props.location.pathname === "/find_map" ||
+              props.location.pathname === "/find_search"
+            }
+          >
+            <Dropdown overlay={search} placement="bottomRight" arrow>
+              <FaSearch style={{ fontSize: "1.4em" }} />
+            </Dropdown>
+          </OnPage>
           <OnPage current={props.location.pathname === "/upload"}>
             <SLink to="/upload">
-              <Dropdown overlay={upload} placement="topRight" arrow>
+              <Dropdown overlay={upload} placement="bottomRight" arrow>
                 <MdAddAPhoto style={{ fontSize: "1.4em" }} />
               </Dropdown>
             </SLink>
@@ -119,11 +141,9 @@ function Header(props) {
               props.location.pathname === "/register"
             }
           >
-            <SLink to="/upload">
-              <Dropdown overlay={loginAndRegister} placement="topRight" arrow>
-                <AiOutlineUser style={{ fontSize: "1.6em" }} />
-              </Dropdown>
-            </SLink>
+            <Dropdown overlay={loginAndRegister} placement="bottomRight" arrow>
+              <AiOutlineUser style={{ fontSize: "1.6em" }} />
+            </Dropdown>
           </OnPage>
         </div>
       </HeaderBar>

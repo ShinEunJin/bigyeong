@@ -4,6 +4,10 @@ import {
   GET_PRODUCTS,
   UPDATE_PRODUCT_LIKE,
   GET_PRODUCTS_MORE,
+  GET_REP_PRODUCT,
+  PRODUCTS,
+  PRODUCT,
+  REP_PRODUCT,
 } from "./types"
 import { asyncThunk } from "./utils"
 
@@ -13,7 +17,7 @@ export const getProducts = asyncThunk(
     axios.get(
       `/api/products?sortBy=${sortBy}&skip=${skip}&limit=${limit}&region=${region}&searchTerm=${searchTerm}`
     ),
-  "products"
+  PRODUCTS
 )
 
 export const getProductsMore = async ({
@@ -35,7 +39,7 @@ export const getProductsMore = async ({
 export const getProduct = asyncThunk(
   GET_PRODUCT,
   ({ id }) => axios.get(`/api/product?id=${id}`),
-  "product"
+  PRODUCT
 )
 
 export const updateProductLike = async (dataToSubmit) => {
@@ -47,3 +51,9 @@ export const updateProductLike = async (dataToSubmit) => {
     payload: likeNum,
   }
 }
+
+export const getRepProduct = asyncThunk(
+  GET_REP_PRODUCT,
+  () => axios.get(`/api/product/represent`),
+  REP_PRODUCT
+)

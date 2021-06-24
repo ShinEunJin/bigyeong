@@ -17,9 +17,8 @@ const Container = styled.div`
 `
 
 const SLazyLoadImage = styled(LazyLoadImage)`
-  width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   background-color: #b2b2b2;
   transition: 0.2s opacity;
@@ -30,6 +29,8 @@ const SLazyLoadImage = styled(LazyLoadImage)`
 
 const SLink = styled(Link)`
   background-color: black;
+  display: flex;
+  justify-content: center;
 `
 
 const MoreImage = styled.div`

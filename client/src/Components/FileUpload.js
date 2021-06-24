@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
-import { FaPlus } from "react-icons/fa"
+import { MdAddToPhotos } from "react-icons/md"
 import Dropzone from "react-dropzone"
 import axios from "axios"
 import Loader from "react-loader-spinner"
@@ -14,39 +14,52 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-around;
   margin-bottom: 50px;
+  color: white;
 `
 
 const StyleDropZone = styled.div`
   width: 150px;
   height: 100px;
-  border: 1px solid rgba(20, 20, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 `
 
-const SFaPlus = styled(FaPlus)`
+const SMdAddToPhotos = styled(MdAddToPhotos)`
   font-size: 3em;
-  color: rgba(30, 30, 30, 0.4);
+  color: rgba(255, 255, 255, 0.6);
 `
 
 const ImageZone = styled.div`
   display: flex;
-  width: 600px;
+  width: 34vw;
   overflow-x: scroll;
+  &::-webkit-scrollbar {
+    height: 0.7rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    border: 1px solid white;
+    border-radius: 10px;
+  }
 `
 
 const Img = styled.img`
-  min-width: 550px;
-  height: 450px;
-  width: 550px;
+  min-width: 30vw;
+  height: 40vh;
+  width: 30vw;
   object-position: center;
+  cursor: pointer;
 `
 
 const EmptyImg = styled.div`
-  width: 550px;
-  height: 450px;
+  width: 30vw;
+  height: 42vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -102,7 +115,7 @@ function FileUpload(props) {
           <section>
             <StyleDropZone {...getRootProps()}>
               <input {...getInputProps()} />
-              <SFaPlus />
+              <SMdAddToPhotos />
             </StyleDropZone>
           </section>
         )}
@@ -138,7 +151,9 @@ function FileUpload(props) {
             <ImageZone>
               {images.length === 0 ? (
                 <EmptyImg>
-                  이미지를 업로드 하기 위해 옆에 + 버튼을 눌러주십시오.
+                  이미지를 업로드 하기 위해 옆에{" "}
+                  <MdAddToPhotos style={{ marginLeft: 5 }} /> 버튼을
+                  눌러주십시오.
                 </EmptyImg>
               ) : (
                 images.map((image, index) => (

@@ -14,6 +14,8 @@ const USER_LIKE = "/api/users/like"
 const USER_TAKE = "/api/users/take"
 
 //Product
+const REP_PRODUCT = "/api/product/represent"
+
 const PRODUCT = "/api/product"
 const PRODUCTS = "/api/products"
 const PRODUCT_LIKE = "/api/product/like"
@@ -39,6 +41,7 @@ const routes = {
   userDelete: USER_DELETE,
   userLike: USER_LIKE,
   userTake: USER_TAKE,
+  repProduct: REP_PRODUCT,
   product: PRODUCT,
   products: PRODUCTS,
   productAll: PRODUCT_ALL,

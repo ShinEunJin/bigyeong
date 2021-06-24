@@ -53,7 +53,6 @@ function DetailProduct(props) {
             )}
             <Comments />
           </Container>
-          <Footer />
         </>
       )}
     </>

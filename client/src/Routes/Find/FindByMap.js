@@ -5,10 +5,11 @@ import axios from "axios"
 import Loader from "../../Components/Loading"
 import { Pagination } from "antd"
 import { AiFillEye, AiFillHeart } from "react-icons/ai"
+import { useSelector } from "react-redux"
 
 const Container = styled.div`
   width: 100%;
-  background-color: #fafafa;
+  background-color: black;
   display: flex;
 `
 
@@ -57,7 +58,7 @@ const Content = styled.div`
   margin-bottom: 1rem;
   border-radius: 10px;
   &:hover {
-    background-color: rgba(233, 233, 233, 0.8);
+    background-color: rgba(10, 10, 10, 0.5);
   }
 `
 
@@ -101,6 +102,12 @@ const View = styled.div`
   align-items: center;
 `
 
+const SLink = styled(Link)`
+  &:hover {
+    color: wheat;
+  }
+`
+
 const Like = styled.div``
 
 const PageColumn = styled.div`
@@ -113,6 +120,8 @@ const PageColumn = styled.div`
 let markers = []
 
 function Find() {
+  const { repProduct } = useSelector((state) => state.product)
+
   const [products, setProducts] = useState([])
   const [address, setAddress] = useState({})
   const [loading, setLoading] = useState(false)
@@ -249,8 +258,8 @@ function Find() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    loadKakaoMap(37.5642135, 127.0016985, 9)
-  }, [])
+    loadKakaoMap(repProduct.coord.Ma, repProduct.coord.La, 9)
+  }, [repProduct])
 
   return (
     <Container>
@@ -270,6 +279,7 @@ function Find() {
               </span>{" "}
               ]
             </div>
+            <br></br>
             <>
               {products && products.length > 0 && (
                 <div>
@@ -286,13 +296,13 @@ function Find() {
                 {products &&
                   products.length > 0 &&
                   products.map((item, index) => (
-                    <Link key={index} to={`/product/${item._id}`}>
+                    <SLink key={index} to={`/product/${item._id}`}>
                       <Content
                         id={`${item._id}`}
                         style={{
                           backgroundColor: `${
                             item._id === mouse
-                              ? "rgba(233, 233, 233, 0.8)"
+                              ? "rgba(100, 100, 100, 0.7)"
                               : "transparent"
                           }`,
                         }}
@@ -314,7 +324,7 @@ function Find() {
                           </LikeAndView>
                         </Info>
                       </Content>
-                    </Link>
+                    </SLink>
                   ))}
               </>
             )}

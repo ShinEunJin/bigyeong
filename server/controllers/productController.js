@@ -353,3 +353,13 @@ export const getGallery = async (req, res) => {
     return res.status(400).json({ success: false, error })
   }
 }
+
+export const getRepProduct = async (req, res) => {
+  let random = parseInt(Math.random() * 11)
+  try {
+    const product = await Product.find()
+    return res.status(200).json({ success: true, repProduct: product[random] })
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
+}

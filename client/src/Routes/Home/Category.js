@@ -25,6 +25,8 @@ const MapColumn = styled.section`
   &:hover {
     transform: scale(1.005);
   }
+  display: flex;
+  align-items: center;
 `
 
 const RightColumn = styled.div`
@@ -49,13 +51,16 @@ const SearchColumn = styled.section`
     transform: scale(1.005);
   }
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 `
 
 const Title = styled.div``
 
 const Contents = styled.div``
 
-function Category() {
+function Category({ time }) {
   const [loadImage, setLoadImage] = useState([])
 
   useEffect(() => {
@@ -65,7 +70,7 @@ function Category() {
   return (
     <>
       <LeftColumn>
-        <Fade left distance="0.5rem" delay={4000} duration={200}>
+        <Fade when={time} left distance="0.5rem" delay={4000} duration={200}>
           <Link to="/find_map">
             <MapColumn
               style={{
@@ -73,7 +78,7 @@ function Category() {
               }}
             >
               <Contents>
-                <Title>지도로 찾기</Title>
+                <Title>지도로 구경하기</Title>
                 <img
                   style={{
                     marginLeft: "0.5rem",
@@ -88,7 +93,7 @@ function Category() {
         </Fade>
       </LeftColumn>
       <RightColumn>
-        <Fade right distance="0.5rem" delay={4000} duration={200}>
+        <Fade when={time} right distance="0.5rem" delay={4000} duration={200}>
           <Link to="/find_search">
             <SearchColumn
               style={{
@@ -102,7 +107,7 @@ function Category() {
                   alignItems: "flex-end",
                 }}
               >
-                <Title>검색으로 찾기</Title>
+                <Title>검색으로 구경하기</Title>
                 <Contents>
                   <img
                     style={{

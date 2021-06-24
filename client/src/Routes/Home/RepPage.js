@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components"
+import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import Fade from "react-reveal/Fade"
-import dotenv from "dotenv"
 import Category from "./Category"
-
-dotenv.config()
+import Loader from "../../Components/Loading"
 
 const Container = styled.div`
   width: 100%;
@@ -39,28 +38,44 @@ const SLink = styled(Link)`
 `
 
 const Img = styled.img`
+  height: calc(100vh -3rem);
   width: 80%;
-  height: calc(100vh - 3rem);
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
 `
 
 function RepPage() {
+  const { repProduct, loading } = useSelector((state) => state.product)
+
+  const [fade, setFade] = useState(false)
+
+  useEffect(() => {
+    if (!loading) {
+      setFade(true)
+    }
+  }, [repProduct])
+
   return (
     <Container>
       <Text>
-        <Fade top delay={500} distance="1rem">
-          <Span style={{ paddingLeft: "1rem" }}>이 곳은</Span>
+        <Fade when={fade} top delay={1600} distance="1rem">
+          <Span style={{ paddingLeft: "1rem" }}>이곳은</Span>
         </Fade>
-        <Fade top delay={2000} distance="1rem">
+        <Fade when={fade} top delay={2200} distance="1rem">
           <Span style={{ marginBottom: "1rem" }}>어디일까요?</Span>
         </Fade>
-        <Fade left delay={4000} distance="0.5rem" duration={200}>
-          <SLink to="/register">확인하러 가기 →</SLink>
+        <Fade when={fade} left delay={4000} distance="0.5rem" duration={200}>
+          <SLink to={`/product/${repProduct && repProduct._id}`}>
+            확인하러 가기 →
+          </SLink>
         </Fade>
       </Text>
-      <Img src="/logo/repImages/good.jpg" />
-      <Category />
+      {loading ? (
+        <Loader></Loader>
+      ) : (
+        <Img src={repProduct && repProduct.images[0]} />
+      )}
+      <Category time={fade} />
     </Container>
   )
 }
