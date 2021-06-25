@@ -41,6 +41,7 @@ const ProductSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    noWriter: Boolean,
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,

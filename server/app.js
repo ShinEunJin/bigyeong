@@ -40,6 +40,8 @@ import {
   getRepProduct,
 } from "./controllers/productController"
 import { uploadAvatarImage, uploadProductImage } from "./middlewares/multer"
+import productRouter from "./routers/product/productRouter"
+import productsRouter from "./routers/product/productsRouter"
 
 const app = express()
 
@@ -76,27 +78,10 @@ app.patch(routes.userTake, updateUserTake)
 app.delete(routes.userDelete, deleteUser)
 
 //Product
-app.get(routes.repProduct, getRepProduct)
-app.get(routes.products, getProducts)
+/* app.patch(routes.productLike, middleAuth, likeProduct) */
 
-app.get(routes.product, getProduct)
-app.patch(routes.product, updateProduct)
-app.delete(routes.product, deleteProduct)
-
-app.post(routes.product, uploadProduct)
-app.get(routes.productAll, deployProduct)
-app.get(routes.productDetail, detailProduct)
-app.post(routes.productImage, uploadProductImage, uploadImages)
-
-app.get(routes.productGallery, getGallery)
-
-app.patch(routes.productLike, middleAuth, likeProduct)
-
-app.post(routes.productComments, middleAuth, writeComment)
-app.get(routes.productComments, getComments)
-app.delete(routes.productComments, removeComment)
-
-app.get(routes.productFindDetail, findDetailProduct)
+app.use(routes.apiProduct, productRouter)
+app.use(routes.apiProducts, productsRouter)
 
 if (prod) {
   app.use(express.static(path.join(__dirname, "../client/build")))

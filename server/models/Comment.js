@@ -3,6 +3,7 @@ import moment from "moment"
 
 const CommentSchema = new mongoose.Schema(
   {
+    noWriter: Boolean,
     writer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
