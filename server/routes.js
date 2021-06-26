@@ -1,57 +1,48 @@
 //API
 const API_PRODUCT = "/api/product"
-const API_PRODUCTS = "/api/products"
 const API_USER = "/api/user"
-
-const HOME = "/"
+const API_COMMNET = "/api/comment"
 
 //User
-const REGISTER = "/register"
-const AUTH_EMAIL = "/email"
-const LOGIN = "/login"
-const LOGOUT = "/logout"
-const AUTH = "/auth"
-
-const PROFILE = "/api/users/profile"
-
-const USER_LIKE = "/api/users/like"
-const USER_TAKE = "/api/users/take"
+const USER_REGISTER = "/register"
+const USER_EMAIL = "/email"
+const USER_LOGIN = "/login"
+const USER_LOGOUT = "/logout"
+const USER_AUTH = "/auth"
+const USER_PROFILE = "/profile"
+const USER_LIKE = "/like"
+const USER_TAKE = "/take"
 
 //Product
-
-const REP_PRODUCT = "/api/product/represent"
-
-const REPRESENT = "/represent"
-const MAP = "/map"
-const SEARCH = "/search"
-
-const LIKE = "/like"
-const PRODUCT_TAKE = "/api/product/take"
-const PRODUCT_COMMENTS = "/api/product/comments"
-
-const IMAGE = "/image"
+const PRODUCT_REPRESENT = "/represent"
+const PRODUCT_MAP = "/map"
+const PRODUCT_SEARCH = "/search"
+const PRODUCT_LIKE = "/like"
+const PRODUCT_TAKE = "/take"
+const PRODUCT_GALLERY = "/gallery"
+const PRODUCT_IMAGE = "/image"
 
 const routes = {
   apiProduct: API_PRODUCT,
-  apiProducts: API_PRODUCTS,
   apiUser: API_USER,
-  home: HOME,
-  map: MAP,
-  search: SEARCH,
-  represent: REPRESENT,
-  register: REGISTER,
-  authEmail: AUTH_EMAIL,
-  login: LOGIN,
-  logout: LOGOUT,
-  auth: AUTH,
-  profile: PROFILE,
+  apiComment: API_COMMNET,
+  //user
+  userAuthEmail: USER_EMAIL,
+  userRegister: USER_REGISTER,
+  userLogin: USER_LOGIN,
+  userLogout: USER_LOGOUT,
+  userAuth: USER_AUTH,
+  userProfile: USER_PROFILE,
   userLike: USER_LIKE,
   userTake: USER_TAKE,
-  repProduct: REP_PRODUCT,
-  image: IMAGE,
-  like: LIKE,
+  //product
+  findByMap: PRODUCT_MAP,
+  findBySearch: PRODUCT_SEARCH,
+  repProduct: PRODUCT_REPRESENT,
+  productImage: PRODUCT_IMAGE,
+  productGallery: PRODUCT_GALLERY,
+  productLike: PRODUCT_LIKE,
   productTake: PRODUCT_TAKE,
-  productComments: PRODUCT_COMMENTS,
 }
 
 export default routes

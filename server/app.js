@@ -5,43 +5,9 @@ import routes from "./routes"
 import cors from "cors"
 import hpp from "hpp"
 import path from "path"
-import {
-  auth,
-  login,
-  logout,
-  register,
-  uploadAvatars,
-  updateProfile,
-  registerCheck,
-  updateUserLike,
-  getUserTake,
-  updateUserTake,
-  getUserProfile,
-  getUserProducts,
-  deleteUser,
-} from "./controllers/userController"
-import { registerEmail } from "./controllers/userControllers/base/sendEmail"
-import middleAuth from "./middlewares/middleAuth"
-import {
-  deployProduct,
-  detailProduct,
-  findDetailProduct,
-  getComments,
-  getProduct,
-  getProducts,
-  likeProduct,
-  removeComment,
-  uploadImages,
-  uploadProduct,
-  writeComment,
-  deleteProduct,
-  updateProduct,
-  getGallery,
-  getRepProduct,
-} from "./controllers/productController"
-import { uploadAvatarImage, uploadProductImage } from "./middlewares/multer"
-import productRouter from "./routers/product/productRouter"
-import productsRouter from "./routers/product/productsRouter"
+import productRouter from "./routers/productRouter"
+import commentRouter from "./routers/commentRouter"
+import userRouter from "./routers/userRouter"
 
 const app = express()
 
@@ -56,7 +22,7 @@ app.use("/logo", express.static("logo"))
 app.use("/uploads", express.static("uploads"))
 
 //User
-app.post(routes.register, register)
+/* app.post(routes.register, register)
 app.get(routes.register, registerCheck)
 app.post(routes.registerEmail, registerEmail)
 
@@ -75,13 +41,14 @@ app.patch(routes.userLike, updateUserLike)
 app.get(routes.userTake, getUserTake)
 app.patch(routes.userTake, updateUserTake)
 
-app.delete(routes.userDelete, deleteUser)
+app.delete(routes.userDelete, deleteUser) */
 
 //Product
 /* app.patch(routes.productLike, middleAuth, likeProduct) */
 
 app.use(routes.apiProduct, productRouter)
-app.use(routes.apiProducts, productsRouter)
+app.use(routes.apiUser, userRouter)
+app.use(routes.apiComment, commentRouter)
 
 if (prod) {
   app.use(express.static(path.join(__dirname, "../client/build")))

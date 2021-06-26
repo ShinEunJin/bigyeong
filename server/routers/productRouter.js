@@ -14,15 +14,22 @@ import routes from "../routes"
 
 const productRouter = express.Router()
 
-productRouter.get(routes.home, getProduct)
-productRouter.post(routes.home, uploadProduct)
-productRouter.patch(routes.home, updateProduct)
-productRouter.delete(routes.home, deleteProduct)
-productRouter.get(routes.search, getProductsBySearch)
-productRouter.get(routes.map, getProductsByMap)
-productRouter.get(routes.image, getGallery)
+//product
+productRouter.get("/", getProduct)
+productRouter.post("/", uploadProduct)
+productRouter.patch("/", updateProduct)
+productRouter.delete("/", deleteProduct)
+
+//products
+productRouter.get(routes.findBySearch, getProductsBySearch)
+productRouter.get(routes.findByMap, getProductsByMap)
+
+//product gallery
+productRouter.get(routes.productGallery, getGallery)
+
+//
 productRouter.post(routes.image, uploadProductImage, uploadImages)
-productRouter.get(routes.represent, getRepProduct)
-productRouter.patch(routes.like, middleAuth, likeProduct)
+productRouter.get(routes.repProduct, getRepProduct)
+productRouter.patch(routes.productLike, middleAuth, likeProduct)
 
 export default productRouter
