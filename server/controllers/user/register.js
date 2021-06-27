@@ -1,4 +1,4 @@
-import User from "../models/User"
+import User from "../../models/User"
 import nodemailer from "nodemailer"
 import "@babel/polyfill"
 import dotenv from "dotenv"

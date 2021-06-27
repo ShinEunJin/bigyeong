@@ -1,6 +1,6 @@
-import Product from "../models/Product"
-import User from "../models/User"
-import Comment from "../models/Comment"
+import Product from "../../models/Product"
+import User from "../../models/User"
+import Comment from "../../models/Comment"
 import "@babel/polyfill"
 
 export const getComments = async (req, res) => {

@@ -4,10 +4,10 @@ import {
   registerCheck,
   registerEmail,
 } from "../controllers/user/register"
-import { login } from "../controllers/user/login"
+import { login, auth, logout } from "../controllers/user/login"
+import { getUserTake, updateUserTake } from "../controllers/user/take"
 import middleAuth from "../middlewares/middleAuth"
 import routes from "../routes"
-import { getUserTake, updateUserTake } from "../controllers/user/userController"
 
 const userRouter = express.Router()
 
@@ -18,7 +18,7 @@ userRouter.post(routes.userAuthEmail, registerEmail)
 
 userRouter.get(routes.userLogin, login)
 userRouter.get(routes.userAuth, middleAuth, auth)
-userRouter.get(routes.logout, middleAuth, logout)
+userRouter.get(routes.userLogout, middleAuth, logout)
 
 userRouter.get(routes.userTake, getUserTake)
 userRouter.patch(routes.userTake, updateUserTake)

@@ -1,13 +1,16 @@
 import express from "express"
 import {
   deleteProduct,
-  getGallery,
   getProduct,
   getRepProduct,
   updateProduct,
-  uploadImages,
   uploadProduct,
-} from "../../controllers/productController"
+} from "../controllers/product/product"
+import {
+  getProductsBySearch,
+  getProductsByMap,
+} from "../controllers/product/products"
+import { uploadImages, getGallery } from "../controllers/product/image"
 import middleAuth from "../middlewares/middleAuth"
 import { uploadProductImage } from "../middlewares/multer"
 import routes from "../routes"
@@ -28,8 +31,8 @@ productRouter.get(routes.findByMap, getProductsByMap)
 productRouter.get(routes.productGallery, getGallery)
 
 //
-productRouter.post(routes.image, uploadProductImage, uploadImages)
+productRouter.post(routes.productImage, uploadProductImage, uploadImages)
 productRouter.get(routes.repProduct, getRepProduct)
-productRouter.patch(routes.productLike, middleAuth, likeProduct)
+/* productRouter.patch(routes.productLike, middleAuth, likeProduct) */
 
 export default productRouter
