@@ -1,19 +1,19 @@
 import React, { useEffect } from "react"
 
-function Map(props) {
+function UploadMap({ updateMap }) {
   useEffect(() => {
     const container = document.getElementById("kakao_map")
     const options = {
-      center: new kakao.maps.LatLng(
-        props.product.coord.Ma,
-        props.product.coord.Ma
-      ),
+      center: new kakao.maps.LatLng(36.5642135, 128.0016985),
       level: 13,
     }
 
     let map = new kakao.maps.Map(container, options)
 
-    map.setMapTypeId(kakao.maps.MapTypeId.HYBRID)
+    let mapTypeControl = new kakao.maps.MapTypeControl()
+    let zoomControl = new kakao.maps.ZoomControl()
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT)
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT)
 
     let marker = new kakao.maps.Marker()
 
@@ -28,10 +28,12 @@ function Map(props) {
           detailAddr +=
             "<div>지번 주소 : " + result[0].address.address_name + "</div>"
 
-          setRegion1(result[0].address.region_1depth_name)
-          setRegion2(result[0].address.region_2depth_name)
-          setAddress(result[0].address.address_name)
-          setCoord(mouseEvent.latLng)
+          updateMap(
+            result[0].address.region_1depth_name,
+            result[0].address.region_2depth_name,
+            result[0].address.address_name,
+            mouseEvent.latLng
+          )
 
           var content =
             '<div class="bAddr">' +
@@ -52,9 +54,9 @@ function Map(props) {
     function searchDetailAddrFromCoords(coords, callback) {
       geocoder.coord2Address(coords.getLng(), coords.getLat(), callback)
     }
-  }, [props.product])
+  }, [])
 
-  return <div id="kakao_map" style={{ width: "10vw", height: "10vh" }}></div>
+  return <div id="kakao_map" style={{ width: "80%", height: "100%" }}></div>
 }
 
-export default Map
+export default UploadMap

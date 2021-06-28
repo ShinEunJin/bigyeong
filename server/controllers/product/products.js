@@ -56,20 +56,33 @@ export const getProductsBySearch = async (req, res) => {
   }
 }
 
+//countDocument는 너무 느려서 find후 길이를 구하기
 export const getProductsByMap = async (req, res) => {
   let {
-    query: { filter, limit, skip },
+    query: { left, right, top, bottom, limit, skip },
   } = req
-
   skip = parseInt(skip) || 0
   limit = parseInt(limit) || 10
-
   try {
-    const productLen = (await Product.find({ region1: filter })).length
-    const product = await Product.find({ region1: filter })
-      .skip(skip)
-      .limit(limit)
-    return res.status(200).json({ success: true, product, productLen })
+    const [productLen, product] = await Promise.all([
+      Product.find({
+        $and: [
+          { "coord.lng": { $gte: Number(left), $lte: Number(right) } },
+          { "coord.lat": { $gte: Number(bottom), $lte: Number(top) } },
+        ],
+      }).limit(100),
+      Product.find({
+        $and: [
+          { "coord.lng": { $gte: Number(left), $lte: Number(right) } },
+          { "coord.lat": { $gte: Number(bottom), $lte: Number(top) } },
+        ],
+      })
+        .skip(skip)
+        .limit(limit),
+    ])
+    return res
+      .status(200)
+      .json({ success: true, product, productLen: productLen.length })
   } catch (error) {
     return res.status(400).json({ success: false, error })
   }

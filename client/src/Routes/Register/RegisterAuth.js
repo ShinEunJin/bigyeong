@@ -45,6 +45,7 @@ const InputAuth = styled.input`
     text-align: center;
   }
   font-size: 1.2em;
+  color: black;
 `
 
 const InputSubmit = styled.input`
@@ -97,7 +98,7 @@ function RegisterAuth(props) {
     setRandomNum(randomNum)
     let body = { email, randomNum }
     try {
-      axios.post("/api/users/register-email", body)
+      axios.post("/api/user/email", body)
     } catch (error) {
       alert("인증 메일을 보내는데 실패하였습니다.")
     }

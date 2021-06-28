@@ -47,7 +47,7 @@ app.delete(routes.userDelete, deleteUser) */
 /* app.patch(routes.productLike, middleAuth, likeProduct) */
 
 app.use(routes.apiProduct, productRouter)
-/* app.use(routes.apiUser, userRouter) */
+app.use(routes.apiUser, userRouter)
 /* app.use(routes.apiComment, commentRouter) */
 
 if (prod) {

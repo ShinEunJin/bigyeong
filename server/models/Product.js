@@ -19,7 +19,18 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    coord: Object,
+    coord: {
+      lat: {
+        type: Number,
+        default: 0,
+        required: true,
+      },
+      lng: {
+        type: Number,
+        default: 0,
+        required: true,
+      },
+    },
     location: {
       type: String,
       maxLength: 110,

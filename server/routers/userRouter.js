@@ -16,7 +16,7 @@ userRouter.post(routes.userRegister, register)
 userRouter.get(routes.userRegister, registerCheck)
 userRouter.post(routes.userAuthEmail, registerEmail)
 
-userRouter.get(routes.userLogin, login)
+userRouter.post(routes.userLogin, login)
 userRouter.get(routes.userAuth, middleAuth, auth)
 userRouter.get(routes.userLogout, middleAuth, logout)
 

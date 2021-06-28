@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import axios from "axios"
@@ -6,6 +6,7 @@ import Loader from "../../Components/Loading"
 import { Pagination } from "antd"
 import { AiFillEye, AiFillHeart } from "react-icons/ai"
 import { useSelector } from "react-redux"
+import Map from "../../Components/utils/Map/FindMap"
 
 const Container = styled.div`
   width: 100%;
@@ -20,12 +21,6 @@ const MapSection = styled.div`
   position: relative;
   position: sticky;
   top: 3rem;
-`
-
-const Map = styled.div`
-  width: 100%;
-  height: 100%;
-  border: 3px solid black;
 `
 
 const BeginSection = styled.div`
@@ -126,34 +121,57 @@ function Find() {
   const [address, setAddress] = useState({})
   const [loading, setLoading] = useState(false)
   const [start, setStart] = useState(true)
-  const [filter, setFilter] = useState("")
   const [productsLen, setProductsLen] = useState(0)
   const [defaultPage, setDefaultPage] = useState(1)
   const [mouse, setMouse] = useState("")
   const [loadMap, setLoadMap] = useState({})
+  const [position, setPosition] = useState({})
 
-  const LIMIT = 10
+  const LIMIT = 2
 
-  const getProducts = async (filter, skip) => {
+  const mouseEvent = (target) => {
+    setMouse(target)
+  }
+
+  const updateMap = (start, defaultPage, address) => {
+    setStart(start)
+    setDefaultPage(defaultPage)
+    setAddress(address)
+  }
+
+  const reloadMap = (map) => {
+    setLoadMap(map)
+  }
+
+  //지저분하지만 query가 string으로 받아서 방향을 나눔
+  const getProducts = async (top, right, bottom, left, skip) => {
     try {
       setLoading(true)
       const { data } = await axios.get(
-        `/api/product/products?filter=${filter}&limit=${LIMIT}&skip=${skip}`
+        `/api/product/map?left=${left.toFixed(4)}&right=${right.toFixed(
+          4
+        )}&top=${top.toFixed(4)}&bottom=${bottom.toFixed(
+          4
+        )}&limit=${LIMIT}&skip=${skip}`
       )
+      setPosition({ left, right, top, bottom })
       setProductsLen(data.productLen)
-      setFilter(filter)
       setProducts(data.product)
     } catch (error) {
-      console.log(error)
+      alert("데이터를 불러오는데 실패하였습니다.")
     } finally {
       setLoading(false)
     }
   }
 
-  const updateMarkers = async (map, filter, skip) => {
+  const updateMarkers = async (map, top, right, bottom, left, skip) => {
     try {
       const { data } = await axios.get(
-        `/api/product/products?filter=${filter}&limit=${LIMIT}&skip=${skip}`
+        `/api/product/map?left=${left.toFixed(4)}&right=${right.toFixed(
+          4
+        )}&top=${top.toFixed(4)}&bottom=${bottom.toFixed(
+          4
+        )}&limit=${LIMIT}&skip=${skip}`
       )
       for (let i = 0; i < markers.length; i++) {
         markers[i].setMap(null)
@@ -162,8 +180,8 @@ function Find() {
       if (data.product && data.product.length > 0) {
         for (let product of data.product) {
           let markerPosition = new kakao.maps.LatLng(
-            product.coord.Ma,
-            product.coord.La
+            product.coord.lat,
+            product.coord.lng
           )
           let marker = new kakao.maps.Marker({
             position: markerPosition,
@@ -193,10 +211,10 @@ function Find() {
             customOverlay.setMap(null)
           })
           kakao.maps.event.addListener(marker, "mouseover", function () {
-            setMouse(product._id)
+            mouseEvent(product._id)
           })
           kakao.maps.event.addListener(marker, "mouseout", function () {
-            setMouse("")
+            mouseEvent("")
           })
         }
       }
@@ -205,66 +223,35 @@ function Find() {
     }
   }
 
-  const onChangePage = (page, filter, map) => {
+  const onChangePage = (page, map) => {
     setDefaultPage(page)
-    getProducts(filter, (page - 1) * LIMIT)
-    updateMarkers(map, filter, (page - 1) * LIMIT)
+    getProducts(
+      position.top,
+      position.right,
+      position.bottom,
+      position.left,
+      (page - 1) * LIMIT
+    )
+    updateMarkers(
+      map,
+      position.top,
+      position.right,
+      position.bottom,
+      position.left,
+      (page - 1) * LIMIT
+    )
   }
-
-  const loadKakaoMap = (lat, lng, level) => {
-    const container = document.getElementById("kakao_map")
-    const options = {
-      center: new kakao.maps.LatLng(lat, lng),
-      level,
-    }
-    let map = new kakao.maps.Map(container, options)
-
-    let mapTypeControl = new kakao.maps.MapTypeControl()
-    let zoomControl = new kakao.maps.ZoomControl()
-    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT)
-    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT)
-
-    setLoadMap(map)
-    const geocoder = new kakao.maps.services.Geocoder()
-
-    function searchDetailAddrFromCoords(coords, callback) {
-      geocoder.coord2Address(coords.getLng(), coords.getLat(), callback)
-    }
-
-    kakao.maps.event.addListener(map, "dragend", function () {
-      setStart(false)
-
-      searchDetailAddrFromCoords(map.getCenter(), (result, status) => {
-        if (status === kakao.maps.services.Status.OK) {
-          try {
-            setDefaultPage(1)
-            setAddress(result[0].address)
-            setLoading(true)
-            getProducts(result[0].address.region_1depth_name, 0)
-            updateMarkers(map, result[0].address.region_1depth_name, 0)
-          } catch (error) {
-            console.log(error)
-          } finally {
-            setLoading(false)
-          }
-        }
-      })
-    })
-  }
-
-  useCallback(() => {
-    setMarkers(...markers)
-  }, [markers])
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-    loadKakaoMap(repProduct.coord.Ma, repProduct.coord.La, 9)
-  }, [repProduct])
 
   return (
     <Container>
       <MapSection>
-        <Map id="kakao_map"></Map>
+        <Map
+          reloadMap={reloadMap}
+          getProducts={getProducts}
+          updateMap={updateMap}
+          mouseEvent={mouseEvent}
+          updateMarkers={updateMarkers}
+        ></Map>
       </MapSection>
       {start ? (
         <BeginSection>지도를 움직여 주십시오.</BeginSection>
@@ -283,7 +270,8 @@ function Find() {
             <>
               {products && products.length > 0 && (
                 <div>
-                  총 <span>{products.length}</span>건의 컨텐츠
+                  총 <span>{products.length}</span>
+                  {products.length === 100 ? "건 이상의 컨텐츠" : "건의 컨텐츠"}
                 </div>
               )}
             </>
@@ -333,8 +321,8 @@ function Find() {
             <Pagination
               current={defaultPage}
               defaultCurrent={1}
-              pageSize={LIMIT}
-              onChange={(page) => onChangePage(page, filter, loadMap)}
+              pageSize={2}
+              onChange={(page) => onChangePage(page, loadMap)}
               total={productsLen}
             />
           </PageColumn>

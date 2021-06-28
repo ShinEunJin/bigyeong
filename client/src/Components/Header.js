@@ -167,6 +167,16 @@ function Header(props) {
           </OnPage>
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
+          <OnPage
+            current={
+              props.location.pathname === "/find_map" ||
+              props.location.pathname === "/find_search"
+            }
+          >
+            <Dropdown overlay={search} placement="bottomRight" arrow>
+              <FaSearch style={{ fontSize: "1.4em" }} />
+            </Dropdown>
+          </OnPage>
           <OnPage current={props.location.pathname === "/user/cart"}>
             <SLink to="/user/cart">
               <MdCreateNewFolder style={{ fontSize: "1.5em" }} />
@@ -177,21 +187,6 @@ function Header(props) {
               <Dropdown overlay={upload} placement="topRight" arrow>
                 <MdAddAPhoto style={{ fontSize: "1.4em" }} />
               </Dropdown>
-            </SLink>
-          </OnPage>
-          <OnPage current={props.location.pathname === "/user/my-profile"}>
-            <SLink to="/user/my-profile">
-              {user && user.userData && user.userData.avatar ? (
-                <RealAvatar
-                  src={
-                    process.env.NODE_ENV === "development"
-                      ? `http://localhost:5000/${user.userData.avatar}`
-                      : user.userData.avatar
-                  }
-                />
-              ) : (
-                <Avatar size={40} icon={<UserOutlined />} />
-              )}
             </SLink>
           </OnPage>
           <OnPage>

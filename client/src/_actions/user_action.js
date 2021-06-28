@@ -10,7 +10,7 @@ import {
 } from "./types"
 
 export const loginUser = async (dataToSubmit) => {
-  const { data } = await axios.post("/api/users/login", dataToSubmit)
+  const { data } = await axios.post("/api/user/login", dataToSubmit)
   return {
     type: LOGIN_USER,
     payload: data,
@@ -18,7 +18,7 @@ export const loginUser = async (dataToSubmit) => {
 }
 
 export const registerUser = async (dataToSubmit) => {
-  const { data } = await axios.post("/api/users/register", dataToSubmit)
+  const { data } = await axios.post("/api/user/register", dataToSubmit)
   return {
     type: REGISTER_USER,
     payload: data,
@@ -26,7 +26,7 @@ export const registerUser = async (dataToSubmit) => {
 }
 
 export const logout = async () => {
-  const { data } = await axios.get("/api/users/logout")
+  const { data } = await axios.get("/api/user/logout")
   return {
     type: LOGOUT_USER,
     payload: data,
@@ -34,7 +34,7 @@ export const logout = async () => {
 }
 
 export const auth = async () => {
-  const { data } = await axios.get("/api/users/auth")
+  const { data } = await axios.get("/api/user/auth")
   return {
     type: AUTH_USER,
     payload: data,
@@ -42,7 +42,7 @@ export const auth = async () => {
 }
 
 export const updateProfile = async (dataToSubmit) => {
-  const { data } = await axios.patch("/api/users/profile", dataToSubmit)
+  const { data } = await axios.patch("/api/user/profile", dataToSubmit)
   return {
     type: UPDATE_PROFILE,
     payload: data,
@@ -52,7 +52,7 @@ export const updateProfile = async (dataToSubmit) => {
 export const updateUserLike = async (dataToSubmit) => {
   const {
     data: { like },
-  } = await axios.patch("/api/users/like", dataToSubmit)
+  } = await axios.patch("/api/user/like", dataToSubmit)
   return {
     type: UPDATE_LIKE,
     payload: like,
@@ -62,7 +62,7 @@ export const updateUserLike = async (dataToSubmit) => {
 export const updateUserTake = async (dataToSubmit) => {
   const {
     data: { take },
-  } = await axios.patch("/api/users/take", dataToSubmit)
+  } = await axios.patch("/api/user/take", dataToSubmit)
   return {
     type: UPDATE_USER_TAKE,
     payload: take,

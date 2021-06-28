@@ -76,7 +76,7 @@ function Login() {
     else if (!confirmPassword)
       return alert("비밀번호 확인칸을 채워주시기 바랍니다.")
     if (password === confirmPassword) {
-      const { data } = await axios.get(`/api/users/register?email=${email}`)
+      const { data } = await axios.get(`/api/user/register?email=${email}`)
       if (data.isExisted) {
         alert("이미 회원 가입된 이메일 입니다.")
       } else {

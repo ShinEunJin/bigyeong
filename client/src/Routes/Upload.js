@@ -4,6 +4,7 @@ import { useSelector } from "react-redux"
 import { withRouter } from "react-router-dom"
 import styled from "styled-components"
 import FileUpload from "../Components/FileUpload"
+import Map from "../Components/utils/Map/UploadMap"
 
 const Container = styled.div`
   padding-top: 100px;
@@ -101,6 +102,13 @@ function Upload(props) {
     setImages(newImages)
   }
 
+  const updateMap = (region1, region2, address, coord) => {
+    setRegion1(region1)
+    setRegion2(region2)
+    setAddress(address)
+    setCoord(coord)
+  }
+
   const user = useSelector((state) => state.user)
 
   const submitHandler = async (e) => {
@@ -117,7 +125,7 @@ function Upload(props) {
       location,
       description,
       images,
-      coord,
+      coord: { lat: coord.Ma, lng: coord.La },
       writer: user.userData._id,
     }
     const {
@@ -133,57 +141,6 @@ function Upload(props) {
     }
   }
 
-  useEffect(() => {
-    const container = document.getElementById("kakao_map")
-    const options = {
-      center: new kakao.maps.LatLng(36.5642135, 128.0016985),
-      level: 13,
-    }
-
-    let map = new kakao.maps.Map(container, options)
-
-    let marker = new kakao.maps.Marker()
-
-    let mapTypeControl = new kakao.maps.MapTypeControl()
-    let zoomControl = new kakao.maps.ZoomControl()
-    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT)
-    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT)
-
-    kakao.maps.event.addListener(map, "click", function (mouseEvent) {
-      searchDetailAddrFromCoords(mouseEvent.latLng, function (result, status) {
-        if (status === kakao.maps.services.Status.OK) {
-          var detailAddr = !!result[0].road_address
-            ? "<div><span class='bAddr'>도로명주소<span> : " +
-              result[0].road_address.address_name +
-              "</div>"
-            : ""
-          detailAddr +=
-            "<div><span class='bAddr_info'>지번 주소</span> : " +
-            result[0].address.address_name +
-            "</div>"
-
-          setRegion1(result[0].address.region_1depth_name)
-          setRegion2(result[0].address.region_2depth_name)
-          setAddress(result[0].address.address_name)
-          setCoord(mouseEvent.latLng)
-
-          var content = '<div class="bAddr">' + detailAddr + "</div>"
-
-          marker.setPosition(mouseEvent.latLng)
-          marker.setMap(map)
-
-          infowindow.setContent(content)
-          infowindow.open(map, marker)
-        }
-      })
-    })
-    const infowindow = new kakao.maps.InfoWindow({ zindex: 1 })
-    const geocoder = new kakao.maps.services.Geocoder()
-    function searchDetailAddrFromCoords(coords, callback) {
-      geocoder.coord2Address(coords.getLng(), coords.getLat(), callback)
-    }
-  }, [])
-
   return (
     <Container>
       <FileUpload refreshFunction={updateImages} />
@@ -198,9 +155,8 @@ function Upload(props) {
       >
         지도에서 해당 위치를 지정해 주십시오.
       </Label>
-
       <MapSection>
-        <div id="kakao_map" style={{ width: "80%", height: "100%" }}></div>
+        <Map updateMap={updateMap} />
       </MapSection>
 
       <Form onSubmit={submitHandler}>
