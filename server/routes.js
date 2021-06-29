@@ -38,7 +38,7 @@ const routes = {
   //product
   findByMap: PRODUCT_MAP,
   findBySearch: PRODUCT_SEARCH,
-  repProduct: PRODUCT_REPRESENT,
+  productRepresent: PRODUCT_REPRESENT,
   productImage: PRODUCT_IMAGE,
   productGallery: PRODUCT_GALLERY,
   productLike: PRODUCT_LIKE,

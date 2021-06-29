@@ -17,8 +17,9 @@ const Container = styled.div`
 `
 
 const SLazyLoadImage = styled(LazyLoadImage)`
+  width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   background-color: #b2b2b2;
   transition: 0.2s opacity;
@@ -34,6 +35,7 @@ const SLink = styled(Link)`
 `
 
 const MoreImage = styled.div`
+  color: black;
   position: absolute;
   bottom: 1rem;
   right: 1rem;
@@ -42,6 +44,9 @@ const MoreImage = styled.div`
   font-weight: 600;
   font-size: 0.9em;
   padding: 0.5rem;
+  &:hover {
+    opacity: 0.9;
+  }
 `
 
 function DetailImage() {

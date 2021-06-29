@@ -7,7 +7,6 @@ import Comments from "../../Components/utils/Comments"
 import Loading from "../../Components/Loading"
 import { useDispatch, useSelector } from "react-redux"
 import { getProduct } from "../../_actions/product_action"
-import Footer from "../../Components/Footer"
 
 const Container = styled.div`
   width: 80%;

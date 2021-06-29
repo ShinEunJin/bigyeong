@@ -8,6 +8,7 @@ import { Link, withRouter } from "react-router-dom"
 import { useSelector } from "react-redux"
 import Avatar from "./Avatar"
 import dotenv from "dotenv"
+import routes from "../../routes"
 
 dotenv.config()
 
@@ -131,7 +132,7 @@ function Comments(props) {
     let body = { text, productId }
     if (user.isAuth) {
       try {
-        await axios.post("/api/product/comments", body)
+        await axios.post(routes.apiComment, body)
         await getComments(skip, limit)
         setText("")
       } catch (error) {
@@ -145,7 +146,7 @@ function Comments(props) {
   const getComments = async (skip, limit) => {
     try {
       const { data } = await axios.get(
-        `/api/product/comments?productId=${productId}&skip=${skip}&limit=${limit}`
+        `${routes.apiComment}?productId=${productId}&skip=${skip}&limit=${limit}`
       )
       if (loadMore) {
         setComments([...comments, ...data.comments])
@@ -164,7 +165,7 @@ function Comments(props) {
       loadMore = false
       changedSkip = 0
       await axios.delete(
-        `/api/product/comments?commentId=${commentId}&productId=${productId}&userId=${user._id}`
+        `${routes.apiComment}?commentId=${commentId}&productId=${productId}&userId=${user._id}`
       )
       await getComments(skip, limit)
       alert("해당 댓글을 삭제하였습니다.")
@@ -203,27 +204,6 @@ function Comments(props) {
         comments.length > 0 &&
         comments.map((item, index) => (
           <CommentsList key={index}>
-            <AvatarColumn>
-              {item.writer && item.writer.avatar ? (
-                <Link to={`/user/profile/${item.writer._id}`}>
-                  <RealAvatar
-                    src={
-                      process.env.NODE_ENV === "development"
-                        ? `http://localhost:5000/${item.writer.avatar}`
-                        : item.writer.avatar
-                    }
-                  />
-                </Link>
-              ) : (
-                <Link to={`/user/profile/${item.writer._id}`}>
-                  <NoAvatar
-                    style={{ marginRight: 20 }}
-                    size={48}
-                    icon={<UserOutlined />}
-                  />
-                </Link>
-              )}
-            </AvatarColumn>
             <TextColumn>
               <div style={{ display: "flex" }}>
                 <CommentName>{item.writer && item.writer.name}</CommentName>

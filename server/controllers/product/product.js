@@ -39,31 +39,6 @@ export const getProduct = async (req, res) => {
   }
 }
 
-/* export const likeProduct = async (req, res) => {
-  const {
-    body: { productId, alreadyLike },
-  } = req
-  try {
-    if (!alreadyLike) {
-      const product = await Product.findOneAndUpdate(
-        { _id: productId },
-        { $inc: { likes: 1 } },
-        { new: true }
-      )
-      return res.status(200).json({ success: true, likeNum: product.likes })
-    } else {
-      const product = await Product.findOneAndUpdate(
-        { _id: productId },
-        { $inc: { likes: -1 } },
-        { new: true }
-      )
-      return res.status(200).json({ success: true, likeNum: product.likes })
-    }
-  } catch (error) {
-    return res.status(400).json({ success: false, error })
-  }
-} */
-
 export const deleteProduct = async (req, res) => {
   const {
     query: { productId, userId },
@@ -115,10 +90,26 @@ export const updateProduct = async (req, res) => {
 }
 
 export const getRepProduct = async (req, res) => {
-  let random = parseInt(Math.random() * 11)
   try {
-    const product = await Product.find()
+    const product = await Product.find({ isRepresent: true })
+    let random = Math.floor(Math.random() * product.length)
     return res.status(200).json({ success: true, repProduct: product[random] })
+  } catch (error) {
+    return res.status(400).json({ success: false, error })
+  }
+}
+
+export const chooseRepProduct = async (req, res) => {
+  const {
+    body: { productId },
+  } = req
+  try {
+    await Product.findOneAndUpdate(
+      { _id: productId },
+      { $set: { isRepresent: true } },
+      { new: true }
+    )
+    return res.status(200).json({ success: true })
   } catch (error) {
     return res.status(400).json({ success: false, error })
   }

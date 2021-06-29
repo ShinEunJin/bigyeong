@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import Fade from "react-reveal/Fade"
+import routes from "../../routes"
 
 const LeftColumn = styled.div`
   opacity: 0.3;
@@ -71,7 +72,7 @@ function Category({ time }) {
     <>
       <LeftColumn>
         <Fade when={time} left distance="0.5rem" delay={4000} duration={200}>
-          <Link to="/find_map">
+          <Link to={routes.findByMap}>
             <MapColumn
               style={{
                 background: `linear-gradient(to right, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%), url(${loadImage[0]}) center/cover`,
@@ -94,7 +95,7 @@ function Category({ time }) {
       </LeftColumn>
       <RightColumn>
         <Fade when={time} right distance="0.5rem" delay={4000} duration={200}>
-          <Link to="/find_search">
+          <Link to={routes.findBySearch}>
             <SearchColumn
               style={{
                 background: `linear-gradient(to left, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%), url(${loadImage[1]}) center/cover`,

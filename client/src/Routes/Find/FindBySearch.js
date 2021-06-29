@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getProducts, getProductsMore } from "../../_actions/product_action"
 import { Link } from "react-router-dom"
@@ -8,6 +8,7 @@ import SearchProduct from "../../Components/utils/SearchProduct"
 import Loading from "../../Components/Loading"
 import { Row, Col, Menu, Carousel } from "antd"
 import { AiFillHeart, AiFillEye, AiOutlineUnorderedList } from "react-icons/ai"
+import routes from "../../routes"
 
 const { SubMenu } = Menu
 
@@ -262,29 +263,33 @@ function Begin() {
           </div>
         </SearchColumn>
         <CategoryColumn>
-          <RepCard>
-            <Carousel autoplay>
-              {repProduct.images &&
-                repProduct.images.length > 0 &&
-                repProduct.images.map((item, index) => (
-                  <div>
-                    <Img src={item} key={index} />
-                  </div>
-                ))}
-            </Carousel>
-            <Title>{repProduct.name}</Title>
-            <Address>{repProduct.address || repProduct.region}</Address>
-            <Likes>
-              <Icon>
-                <AiFillHeart style={{ color: "red", marginRight: "0.1rem" }} />{" "}
-                {repProduct.likes}
-              </Icon>
-              <Icon>
-                <AiFillEye style={{ color: "gray", marginRight: "0.1rem" }} />{" "}
-                {repProduct.views}
-              </Icon>
-            </Likes>
-          </RepCard>
+          {repProduct && (
+            <RepCard>
+              <Carousel autoplay>
+                {repProduct.images &&
+                  repProduct.images.length > 0 &&
+                  repProduct.images.map((item, index) => (
+                    <div>
+                      <Img src={item} key={index} />
+                    </div>
+                  ))}
+              </Carousel>
+              <Title>{repProduct.name}</Title>
+              <Address>{repProduct.address || repProduct.region}</Address>
+              <Likes>
+                <Icon>
+                  <AiFillHeart
+                    style={{ color: "red", marginRight: "0.1rem" }}
+                  />{" "}
+                  {repProduct.likes}
+                </Icon>
+                <Icon>
+                  <AiFillEye style={{ color: "gray", marginRight: "0.1rem" }} />{" "}
+                  {repProduct.views}
+                </Icon>
+              </Likes>
+            </RepCard>
+          )}
         </CategoryColumn>
       </SearchSection>
       <ProductSection>
@@ -298,7 +303,7 @@ function Begin() {
             {products &&
               products.length > 0 &&
               products.map((item, index) => (
-                <Link key={index} to={`/product/${item._id}`}>
+                <Link key={index} to={routes.product(item._id)}>
                   <Col lg={8} md={12} xs={24}>
                     <Card>
                       <Img src={item.images[0]} />

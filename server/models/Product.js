@@ -53,6 +53,7 @@ const ProductSchema = new mongoose.Schema(
       ref: "User",
     },
     noWriter: Boolean,
+    isRepresent: Boolean,
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,

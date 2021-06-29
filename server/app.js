@@ -48,7 +48,7 @@ app.delete(routes.userDelete, deleteUser) */
 
 app.use(routes.apiProduct, productRouter)
 app.use(routes.apiUser, userRouter)
-/* app.use(routes.apiComment, commentRouter) */
+app.use(routes.apiComment, commentRouter)
 
 if (prod) {
   app.use(express.static(path.join(__dirname, "../client/build")))

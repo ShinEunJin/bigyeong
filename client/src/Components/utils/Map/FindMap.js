@@ -1,7 +1,4 @@
 import React, { useEffect } from "react"
-import axios from "axios"
-
-let markers = []
 
 function FindMap({ updateMap, reloadMap, getProducts, updateMarkers }) {
   const loadKakaoMap = (lat, lng, level) => {

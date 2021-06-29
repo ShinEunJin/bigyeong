@@ -1,4 +1,5 @@
 import axios from "axios"
+import routes from "../routes"
 import {
   GET_PRODUCT,
   GET_PRODUCTS,
@@ -15,7 +16,7 @@ export const getProducts = asyncThunk(
   GET_PRODUCTS,
   ({ sortBy, skip, limit, region, searchTerm }) =>
     axios.get(
-      `/api/products?sortBy=${sortBy}&skip=${skip}&limit=${limit}&region=${region}&searchTerm=${searchTerm}`
+      `${routes.apiProductSearch}?sortBy=${sortBy}&skip=${skip}&limit=${limit}&region=${region}&searchTerm=${searchTerm}`
     ),
   PRODUCTS
 )
@@ -28,7 +29,7 @@ export const getProductsMore = async ({
   searchTerm,
 }) => {
   const { data } = await axios.get(
-    `/api/products?sortBy=${sortBy}&skip=${skip}&limit=${limit}&region=${region}&searchTerm=${searchTerm}`
+    `${routes.apiProductSearch}?sortBy=${sortBy}&skip=${skip}&limit=${limit}&region=${region}&searchTerm=${searchTerm}`
   )
   return {
     type: GET_PRODUCTS_MORE,
@@ -38,7 +39,7 @@ export const getProductsMore = async ({
 
 export const getProduct = asyncThunk(
   GET_PRODUCT,
-  ({ id }) => axios.get(`/api/product?id=${id}`),
+  ({ id }) => axios.get(`${routes.apiProduct}?id=${id}`),
   PRODUCT
 )
 

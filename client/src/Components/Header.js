@@ -88,6 +88,12 @@ function Header(props) {
     </Menu>
   )
 
+  const take = (
+    <Menu style={{ padding: "0.3rem", fontWeight: 600, fontSize: "1em" }}>
+      찜목록 보기
+    </Menu>
+  )
+
   const loginAndRegister = (
     <Menu>
       <Menu.Item>
@@ -179,7 +185,9 @@ function Header(props) {
           </OnPage>
           <OnPage current={props.location.pathname === "/user/cart"}>
             <SLink to="/user/cart">
-              <MdCreateNewFolder style={{ fontSize: "1.5em" }} />
+              <Dropdown overlay={take} placement="bottomRight" arrow>
+                <MdCreateNewFolder style={{ fontSize: "1.5em" }} />
+              </Dropdown>
             </SLink>
           </OnPage>
           <OnPage current={props.location.pathname === "/upload"}>

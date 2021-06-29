@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux"
 import { registerUser } from "../../_actions/user_action"
 import { withRouter } from "react-router-dom"
 import axios from "axios"
+import routes from "../../routes"
 
 const Container = styled.div`
   display: flex;
@@ -98,7 +99,7 @@ function RegisterAuth(props) {
     setRandomNum(randomNum)
     let body = { email, randomNum }
     try {
-      axios.post("/api/user/email", body)
+      axios.post(routes.apiUserEmail, body)
     } catch (error) {
       alert("인증 메일을 보내는데 실패하였습니다.")
     }

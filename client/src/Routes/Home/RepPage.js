@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import Fade from "react-reveal/Fade"
 import Category from "./Category"
 import Loader from "../../Components/Loading"
+import routes from "../../routes"
 
 const Container = styled.div`
   width: 100%;
@@ -65,7 +66,7 @@ function RepPage() {
           <Span style={{ marginBottom: "1rem" }}>어디일까요?</Span>
         </Fade>
         <Fade when={fade} left delay={4000} distance="0.5rem" duration={200}>
-          <SLink to={`/product/${repProduct && repProduct._id}`}>
+          <SLink to={routes.product(repProduct && repProduct._id)}>
             확인하러 가기 →
           </SLink>
         </Fade>

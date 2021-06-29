@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 import Fade from "react-reveal/Fade"
 import { AiFillHeart, AiFillEye } from "react-icons/ai"
-import { HeartFilled, CaretUpOutlined, UserOutlined } from "@ant-design/icons"
-import { Avatar as NoAvatar } from "antd"
-import { updateUserTake, updateUserLike } from "../../_actions/user_action"
-import { updateProductLike } from "../../_actions/product_action"
+import { CaretUpOutlined } from "@ant-design/icons"
+import { updateUserTake } from "../../_actions/user_action"
+import Map from "../../Components/utils/Map/DetailMap"
 import DetailRevise from "./DetailRevise"
 import dotenv from "dotenv"
-import { Link } from "react-router-dom"
+import axios from "axios"
+import routes from "../../routes"
 
 dotenv.config()
 
@@ -18,9 +18,12 @@ const Container = styled.div`
   margin-bottom: 4rem;
 `
 
+const MapSection = styled.div``
+
 const InfoSection = styled.section`
   border-top: 1px solid rgba(0, 0, 0, 0.2);
   width: 60%;
+  height: 45vh;
   padding: 1rem;
   position: relative;
 `
@@ -32,6 +35,7 @@ const Title = styled.div`
   width: 60%;
   line-height: 1.2em;
   overflow-wrap: break-word;
+  color: whitesmoke;
 `
 
 const Address = styled.div`
@@ -52,29 +56,12 @@ const WriterColumn = styled.div`
   right: 1rem;
 `
 
-const RealAvatar = styled.img`
-  height: 3rem;
-  width: 3rem;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center;
-  margin-bottom: 0.5rem;
-`
-
-const Name = styled.div`
-  font-weight: 600;
-`
-
-const Info = styled.div`
-  font-size: 1.2em;
-  font-weight: 600;
-  display: flex;
-`
-
-const Like = styled.div`
+const View = styled.div`
   margin-right: 3rem;
   display: flex;
   align-items: center;
+  font-size: 1.2em;
+  font-weight: 600;
 `
 
 const ButtonColumn = styled.div`
@@ -98,6 +85,18 @@ const Span = styled.span`
   opacity: 0.9;
 `
 
+const Description = styled.div`
+  width: 70%;
+`
+
+const ShowMoreBtn = styled.button`
+  opacity: 0.6;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background-color: black;
+`
+
 function DetailInfo({ trigger }) {
   const dispatch = useDispatch()
 
@@ -105,19 +104,12 @@ function DetailInfo({ trigger }) {
 
   const { userData } = useSelector((state) => state.user)
 
-  const [alreadyLike, setAlreadyLike] = useState(false)
   const [alreadyTake, setAlreadyTake] = useState(false)
+  const [showMore, setShowMore] = useState(235)
+
+  const showMoreBtn = useRef()
 
   useEffect(() => {
-    if (userData.likes && userData.likes.length > 0) {
-      for (let like of userData.likes) {
-        if (like === product._id) {
-          setAlreadyLike(true)
-          break
-        }
-      }
-    }
-
     if (userData.take && userData.take.length > 0) {
       for (let take of userData.take) {
         if (take === product._id) {
@@ -126,49 +118,7 @@ function DetailInfo({ trigger }) {
         }
       }
     }
-
-    const container = document.getElementById("kakao_map")
-    const options = {
-      center: new kakao.maps.LatLng(product.coord.Ma, product.coord.La),
-      level: 6,
-    }
-    let markerPosition = new kakao.maps.LatLng(
-      product.coord.Ma,
-      product.coord.La
-    )
-    let map = new kakao.maps.Map(container, options)
-    let mapTypeControl = new kakao.maps.MapTypeControl()
-    let zoomControl = new kakao.maps.ZoomControl()
-    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT)
-    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT)
-    let marker = new kakao.maps.Marker({ position: markerPosition })
-    marker.setMap(map)
-    let content = '<div class="bAddr">' + product.address + "</div>"
-    let infowindow = new kakao.maps.InfoWindow({
-      zindex: 1,
-    })
-    infowindow.setContent(content)
-    infowindow.open(map, marker)
   }, [])
-
-  const onClickLikeBtn = async () => {
-    if (!userData.isAuth) {
-      alert("로그인이 필요한 서비스입니다.")
-    } else {
-      let body = {
-        userId: userData._id,
-        productId: product._id,
-        alreadyLike,
-      }
-      dispatch(updateUserLike(body))
-      dispatch(updateProductLike(body))
-      if (alreadyLike) {
-        setAlreadyLike(false)
-      } else {
-        setAlreadyLike(true)
-      }
-    }
-  }
 
   const onClickTakeBtn = async () => {
     if (!userData.isAuth) {
@@ -188,88 +138,81 @@ function DetailInfo({ trigger }) {
     }
   }
 
+  const pushRepProduct = async () => {
+    let body = { productId: product._id }
+    try {
+      const { data } = await axios.patch(routes.apiPRoductRepresent, body)
+      if (data.success) alert("성공")
+    } catch (error) {
+      alert("대표 사진 실패!")
+    }
+  }
+
+  const onClickShowMore = () => {
+    setShowMore(720)
+    showMoreBtn.current.innerText = ""
+  }
+
   return (
     <Container>
       <InfoSection>
+        {/* 제목 */}
         <Title>{product.name}</Title>
+        {/* 주소 */}
         <Address>
           {product.address} {product && product.location && "-"}{" "}
           {product.location}
         </Address>
+        {/* 조회수 및 관리자(role = 3)만 볼 수 있는 버튼 */}
         <WriterColumn>
-          {product.writer && product.writer.avatar ? (
-            <Link to={`/user/profile/${product.writer._id}`}>
-              <RealAvatar
-                src={
-                  process.env.NODE_ENV === "development"
-                    ? `http://localhost:5000/${product.writer.avatar}`
-                    : product.writer.avatar
-                }
-              />
-            </Link>
-          ) : (
-            <Link to={`/user/profile/${product.writer._id}`}>
-              <NoAvatar
-                style={{ marginBottom: "0.5rem" }}
-                size={48}
-                icon={<UserOutlined />}
-              />
-            </Link>
+          {userData && userData.role === 3 && (
+            <Button style={{ color: "black" }} onClick={pushRepProduct}>
+              대표 사진 설정하기
+            </Button>
           )}
-          <Name>{product.writer.name}</Name>
-        </WriterColumn>
-        <Info>
-          <Like>
-            <AiFillHeart style={{ color: "red", marginRight: "0.3rem" }} />{" "}
-            {product.likes}
-          </Like>
-          <Like>
+          <View>
             <AiFillEye style={{ marginRight: "0.3rem" }} /> {product.views}
-          </Like>
-        </Info>
-        {product.writer && userData._id === product.writer._id ? (
-          <DetailRevise />
+          </View>
+        </WriterColumn>
+        {/* 로그인한 사람은 찜하기 버튼 볼 수 있고 자기가 올린 컨텐츠에는 수정하기 삭제하기 버튼 있음 둘 다 아니면 아무 것도 안보임 */}
+        {userData.isAuth ? (
+          product.writer && userData._id === product.writer._id ? (
+            <DetailRevise />
+          ) : (
+            <ButtonColumn>
+              <Button
+                onClick={onClickTakeBtn}
+                style={{ marginRight: "1rem", backgroundColor: "#80bfff" }}
+              >
+                <CaretUpOutlined
+                  style={{
+                    marginRight: "0.2rem",
+                    color: `${alreadyTake ? "blue" : "white"}`,
+                  }}
+                />
+                <Span>찜하기</Span>
+              </Button>
+            </ButtonColumn>
+          )
         ) : (
-          <ButtonColumn>
-            <Button
-              onClick={onClickTakeBtn}
-              style={{ marginRight: "1rem", backgroundColor: "#80bfff" }}
-            >
-              <CaretUpOutlined
-                style={{
-                  marginRight: "0.2rem",
-                  color: `${alreadyTake ? "blue" : "white"}`,
-                }}
-              />
-              <Span>찜하기</Span>
-            </Button>
-            <Button
-              onClick={onClickLikeBtn}
-              style={{ backgroundColor: "#ff8080" }}
-            >
-              <HeartFilled
-                style={{
-                  marginRight: "0.2rem",
-                  color: `${alreadyLike ? "red" : "white"}`,
-                }}
-              />
-              <Span>좋아요</Span>
-            </Button>
-          </ButtonColumn>
+          <></>
         )}
+        {/* 설명란 및 더보기 버튼 */}
+        <Description>
+          {product.description.substr(0, showMore)}
+          {product.description && product.description.length > 235 && (
+            <ShowMoreBtn ref={showMoreBtn} onClick={onClickShowMore}>
+              ...더보기
+            </ShowMoreBtn>
+          )}
+        </Description>
       </InfoSection>
-      <Fade right when={trigger}>
-        <div
-          id="kakao_map"
-          style={{
-            width: 500,
-            height: 400,
-            borderRadius: 15,
-            boxShadow: "1px 1px 7px 1px gray",
-            marginLeft: 100,
-          }}
-        ></div>
-      </Fade>
+      {/* 지도 부분 */}
+      <MapSection>
+        <Fade right distance="3rem" when={trigger}>
+          <Map product={product} />
+        </Fade>
+      </MapSection>
     </Container>
   )
 }

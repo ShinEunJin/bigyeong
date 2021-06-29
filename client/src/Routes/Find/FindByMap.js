@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import axios from "axios"
@@ -7,6 +7,7 @@ import { Pagination } from "antd"
 import { AiFillEye, AiFillHeart } from "react-icons/ai"
 import { useSelector } from "react-redux"
 import Map from "../../Components/utils/Map/FindMap"
+import routes from "../../routes"
 
 const Container = styled.div`
   width: 100%;
@@ -148,7 +149,7 @@ function Find() {
     try {
       setLoading(true)
       const { data } = await axios.get(
-        `/api/product/map?left=${left.toFixed(4)}&right=${right.toFixed(
+        `${routes.apiProductMap}?left=${left.toFixed(4)}&right=${right.toFixed(
           4
         )}&top=${top.toFixed(4)}&bottom=${bottom.toFixed(
           4
@@ -167,7 +168,7 @@ function Find() {
   const updateMarkers = async (map, top, right, bottom, left, skip) => {
     try {
       const { data } = await axios.get(
-        `/api/product/map?left=${left.toFixed(4)}&right=${right.toFixed(
+        `${routes.apiProductMap}?left=${left.toFixed(4)}&right=${right.toFixed(
           4
         )}&top=${top.toFixed(4)}&bottom=${bottom.toFixed(
           4
