@@ -29,12 +29,10 @@ export const getComments = async (req, res) => {
 export const writeComment = async (req, res) => {
   const {
     body: { text, productId },
-    user: writer,
   } = req
-  try {
+  /* try {
     const comment = new Comment({
       text,
-      writer,
       product: productId,
     })
     await comment.save()
@@ -61,7 +59,7 @@ export const writeComment = async (req, res) => {
     return res.status(200).json({ success: true, comment })
   } catch (error) {
     return res.status(400).json({ success: false, error })
-  }
+  } */
 }
 
 export const removeComment = async (req, res) => {

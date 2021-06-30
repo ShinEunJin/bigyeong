@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import { FaTimes } from "react-icons/fa"
-import { Input, Avatar as NoAvatar } from "antd"
-import { UserOutlined } from "@ant-design/icons"
+import { Input } from "antd"
 import axios from "axios"
 import { Link, withRouter } from "react-router-dom"
 import { useSelector } from "react-redux"
-import Avatar from "./Avatar"
 import dotenv from "dotenv"
 import routes from "../../routes"
 
@@ -43,17 +41,22 @@ const CommentsList = styled.div`
   justify-content: space-between;
 `
 
-const RealAvatar = styled.img`
-  height: 3rem;
-  width: 3rem;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center;
-`
-
 const Form = styled.form`
   align-self: flex-end;
   width: 90%;
+`
+
+const InputName = styled(Input)`
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
+  width: 10vw;
+  color: black;
+`
+
+const InputPassword = styled(Input.Password)`
+  width: 10vw;
+  margin-bottom: 0.5rem;
+  color: black;
 `
 
 const InputText = styled(TextArea)`
@@ -68,11 +71,6 @@ const InputSubmit = styled.input`
   background-color: inherit;
   border: 1px solid rgba(0, 0, 0, 0.7);
   cursor: pointer;
-`
-
-const AvatarColumn = styled.div`
-  min-width: 10%;
-  max-width: 88px;
 `
 
 const TextColumn = styled.div`
@@ -119,6 +117,8 @@ function Comments(props) {
   const productId = props.match.params.id
 
   const [text, setText] = useState("")
+  const [name, setName] = useState("")
+  const [password, setPassword] = useState("")
   const [comments, setComments] = useState([])
   const [commentNumber, setCommentNumber] = useState(0)
   const [commentLastNumber, setCommentLastNumer] = useState(0)
@@ -129,17 +129,13 @@ function Comments(props) {
 
   const onSubmitHandler = async (e) => {
     await e.preventDefault()
-    let body = { text, productId }
-    if (user.isAuth) {
-      try {
-        await axios.post(routes.apiComment, body)
-        await getComments(skip, limit)
-        setText("")
-      } catch (error) {
-        alert("댓글을 등록하는데 실패하였습니다.")
-      }
-    } else {
-      alert("댓글을 등록하기 위해서는 로그인을 해야합니다.")
+    let body = { text, productId, name }
+    try {
+      axios.post(routes.apiComment, body)
+      setText("")
+      /* await getComments(skip, limit) */
+    } catch (error) {
+      alert("댓글을 등록하는데 실패하였습니다.")
     }
   }
 
@@ -188,8 +184,9 @@ function Comments(props) {
     <CommentsColumn>
       <CommetsHead>댓글 ({commentNumber})</CommetsHead>
       <FormColumn>
-        <Avatar />
         <Form onSubmit={onSubmitHandler}>
+          <InputName size="small" placeholder="이름" />
+          <InputPassword size="small" placeholder="비밀번호" />
           <InputText
             placeholder="댓글 작성하기"
             showCount
