@@ -4,8 +4,15 @@ import moment from "moment"
 
 const CommentSchema = new mongoose.Schema(
   {
-    noWriter: Boolean,
     password: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    text: {
       type: String,
       required: true,
     },
@@ -21,7 +28,6 @@ const CommentSchema = new mongoose.Schema(
       type: String,
       default: moment().format("YYYY년 MM월 DD일"),
     },
-    text: String,
   },
   { timestamps: true }
 )
@@ -29,7 +35,7 @@ const CommentSchema = new mongoose.Schema(
 CommentSchema.pre("save", function (next) {
   const saltRounds = 10
   const comment = this
-  if (Comment.isModified("password")) {
+  if (comment.isModified("password")) {
     bcrypt.genSalt(saltRounds, function (err, salt) {
       if (err) return next(err)
       bcrypt.hash(comment.password, salt, function (err, hash) {

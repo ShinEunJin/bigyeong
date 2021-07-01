@@ -47,12 +47,6 @@ const UserSchema = new mongoose.Schema(
         ref: "Product",
       },
     ],
-    comments: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment",
-      },
-    ],
   },
   { timestamps: true }
 )
