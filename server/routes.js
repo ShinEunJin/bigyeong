@@ -10,15 +10,12 @@ const USER_LOGIN = "/login"
 const USER_LOGOUT = "/logout"
 const USER_AUTH = "/auth"
 const USER_PROFILE = "/profile"
-const USER_LIKE = "/like"
 const USER_TAKE = "/take"
 
 //Product
 const PRODUCT_REPRESENT = "/represent"
 const PRODUCT_MAP = "/map"
 const PRODUCT_SEARCH = "/search"
-const PRODUCT_LIKE = "/like"
-const PRODUCT_TAKE = "/take"
 const PRODUCT_GALLERY = "/gallery"
 const PRODUCT_IMAGE = "/image"
 
@@ -33,7 +30,6 @@ const routes = {
   userLogout: USER_LOGOUT,
   userAuth: USER_AUTH,
   userProfile: USER_PROFILE,
-  userLike: USER_LIKE,
   userTake: USER_TAKE,
   //product
   findByMap: PRODUCT_MAP,
@@ -41,8 +37,6 @@ const routes = {
   productRepresent: PRODUCT_REPRESENT,
   productImage: PRODUCT_IMAGE,
   productGallery: PRODUCT_GALLERY,
-  productLike: PRODUCT_LIKE,
-  productTake: PRODUCT_TAKE,
 }
 
 export default routes

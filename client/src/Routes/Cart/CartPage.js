@@ -4,8 +4,11 @@ import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
 import { FiShoppingBag } from "react-icons/fi"
 import { FaTrashAlt } from "react-icons/fa"
+import { CgEnter } from "react-icons/cg"
 import dotenv from "dotenv"
 import { updateUserTake } from "../../_actions/user_action"
+import { Link } from "react-router-dom"
+import routes from "../../routes"
 
 dotenv.config()
 
@@ -36,7 +39,7 @@ const Tr = styled.tr`
 
 const Th = styled.th`
   border: 1px solid #dddddd;
-  background-color: #adf2ff;
+  background-color: gray;
   padding: 10px;
   text-align: center;
   vertical-align: middle;
@@ -76,7 +79,7 @@ function CartPage() {
   const [product, setProduct] = useState([])
 
   const getUserTake = async (productList) => {
-    const { data } = await axios.get(`/api/users/take?productId=${productList}`)
+    const { data } = await axios.get(`/api/user/take?productId=${productList}`)
     setProduct(data.product)
   }
 
@@ -110,7 +113,7 @@ function CartPage() {
               <Th>이미지</Th>
               <Th>제목</Th>
               <Th>위치</Th>
-              <Th>작성자</Th>
+              <Th>링크</Th>
               <Th>삭제</Th>
             </Tr>
           </thead>
@@ -132,9 +135,16 @@ function CartPage() {
                     }
                   />
                 </Td>
-                <Td style={{ width: "30%" }}>{item.name}</Td>
-                <Td style={{ width: "30%" }}>{item.location}</Td>
-                <Td style={{ width: "20%" }}>{item.writer.name}</Td>
+                <Td style={{ width: "25%" }}>{item.name}</Td>
+                <Td style={{ width: "35%" }}>
+                  {item.address} / {item.location}
+                </Td>
+                <Td style={{ width: "10%", textAlign: "center" }}>
+                  <Link to={`${routes.apiProduct}?productId=${item._id}`}>
+                    보러 가기
+                    <CgEnter />
+                  </Link>
+                </Td>
                 <Td style={{ width: "5%", textAlign: "center" }}>
                   <SFaTrashAlt onClick={() => onDeleteBtn(item._id)} />
                 </Td>

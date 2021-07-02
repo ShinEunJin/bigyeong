@@ -5,7 +5,6 @@ import {
   REGISTER_USER,
   LOGOUT_USER,
   UPDATE_PROFILE,
-  UPDATE_LIKE,
   UPDATE_USER_TAKE,
 } from "./types"
 
@@ -46,16 +45,6 @@ export const updateProfile = async (dataToSubmit) => {
   return {
     type: UPDATE_PROFILE,
     payload: data,
-  }
-}
-
-export const updateUserLike = async (dataToSubmit) => {
-  const {
-    data: { like },
-  } = await axios.patch("/api/user/like", dataToSubmit)
-  return {
-    type: UPDATE_LIKE,
-    payload: like,
   }
 }
 
