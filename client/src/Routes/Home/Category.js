@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import styled from "styled-components"
 import Fade from "react-reveal/Fade"
 import routes from "../../routes"
+import { useSelector } from "react-redux"
 
 const LeftColumn = styled.div`
   opacity: 0.3;
@@ -62,17 +63,21 @@ const Title = styled.div``
 const Contents = styled.div``
 
 function Category({ time }) {
+  const { repProduct } = useSelector((state) => state.product)
+
   const [loadImage, setLoadImage] = useState([])
+  const [coord, setCoord] = useState({}) //repProduct 좌표로 이동
 
   useEffect(() => {
     setLoadImage(["logo/menu/menu1.jpg", "logo/menu/menu2.jpg"])
-  }, [])
+    setCoord({ lat: repProduct.coord.lat, lng: repProduct.coord.lng })
+  }, [repProduct])
 
   return (
     <>
       <LeftColumn>
         <Fade when={time} left distance="0.5rem" delay={4000} duration={200}>
-          <Link to={routes.findByMap}>
+          <Link to={`${routes.findByMap}?lat=${coord.lat}&lng=${coord.lng}`}>
             <MapColumn
               style={{
                 background: `linear-gradient(to right, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%), url(${loadImage[0]}) center/cover`,

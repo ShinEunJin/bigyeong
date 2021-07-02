@@ -1,6 +1,16 @@
 import React, { useEffect } from "react"
+import { withRouter } from "react-router-dom"
+import queryString from "query-string"
 
-function FindMap({ updateMap, reloadMap, getProducts, updateMarkers }) {
+function FindMap({
+  updateMap,
+  reloadMap,
+  getProducts,
+  updateMarkers,
+  location,
+}) {
+  let repCoord = queryString.parse(location.search) // repProduct 좌표가 있을때만 처음 지도가 그쪽 좌표에 위치하기
+
   const loadKakaoMap = (lat, lng, level) => {
     const container = document.getElementById("kakao_map")
     const options = {
@@ -41,7 +51,12 @@ function FindMap({ updateMap, reloadMap, getProducts, updateMarkers }) {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    loadKakaoMap(37.525, 126.734086, 9)
+    //Header를 통해서 오면 서울 중심 좌표가 보이게 하고 Category Component를 통해 오면 repProduct 좌표 중심
+    if (repCoord.lat && repCoord.lng) {
+      loadKakaoMap(repCoord.lat, repCoord.lng, 9)
+    } else {
+      loadKakaoMap(37.5642135, 127.0016985, 9)
+    }
   }, [])
 
   return (
@@ -52,4 +67,4 @@ function FindMap({ updateMap, reloadMap, getProducts, updateMarkers }) {
   )
 }
 
-export default FindMap
+export default withRouter(FindMap)

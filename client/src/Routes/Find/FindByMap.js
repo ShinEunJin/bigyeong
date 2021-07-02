@@ -5,7 +5,6 @@ import axios from "axios"
 import Loader from "../../Components/Loading"
 import { Pagination } from "antd"
 import { AiFillEye, AiFillHeart } from "react-icons/ai"
-import { useSelector } from "react-redux"
 import Map from "../../Components/utils/Map/FindMap"
 import routes from "../../routes"
 
@@ -116,8 +115,6 @@ const PageColumn = styled.div`
 let markers = []
 
 function Find() {
-  const { repProduct } = useSelector((state) => state.product)
-
   const [products, setProducts] = useState([])
   const [address, setAddress] = useState({})
   const [loading, setLoading] = useState(false)

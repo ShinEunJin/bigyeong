@@ -264,31 +264,35 @@ function Begin() {
         </SearchColumn>
         <CategoryColumn>
           {repProduct && (
-            <RepCard>
-              <Carousel autoplay>
-                {repProduct.images &&
-                  repProduct.images.length > 0 &&
-                  repProduct.images.map((item, index) => (
-                    <div>
-                      <Img src={item} key={index} />
-                    </div>
-                  ))}
-              </Carousel>
-              <Title>{repProduct.name}</Title>
-              <Address>{repProduct.address || repProduct.region}</Address>
-              <Likes>
-                <Icon>
-                  <AiFillHeart
-                    style={{ color: "red", marginRight: "0.1rem" }}
-                  />{" "}
-                  {repProduct.likes}
-                </Icon>
-                <Icon>
-                  <AiFillEye style={{ color: "gray", marginRight: "0.1rem" }} />{" "}
-                  {repProduct.views}
-                </Icon>
-              </Likes>
-            </RepCard>
+            <Link to={routes.product(repProduct._id)}>
+              <RepCard>
+                <Carousel autoplay>
+                  {repProduct.images &&
+                    repProduct.images.length > 0 &&
+                    repProduct.images.map((item, index) => (
+                      <div>
+                        <Img src={item} key={index} />
+                      </div>
+                    ))}
+                </Carousel>
+                <Title>{repProduct.name}</Title>
+                <Address>{repProduct.address || repProduct.region}</Address>
+                <Likes>
+                  <Icon>
+                    <AiFillHeart
+                      style={{ color: "red", marginRight: "0.1rem" }}
+                    />{" "}
+                    {repProduct.likes}
+                  </Icon>
+                  <Icon>
+                    <AiFillEye
+                      style={{ color: "gray", marginRight: "0.1rem" }}
+                    />{" "}
+                    {repProduct.views}
+                  </Icon>
+                </Likes>
+              </RepCard>
+            </Link>
           )}
         </CategoryColumn>
       </SearchSection>

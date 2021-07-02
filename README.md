@@ -14,7 +14,7 @@ JWT, redux, redux-thunk, redux-persist, antd, styled-component, nodemailer, kaka
 
 ### 해야 할 것들
 
-홈 화면 버튼 링크 수정, 디테일 이미지 개선, 자유게시판 만들기, 찜목록
+홈 화면 버튼 링크 수정, 디테일 이미지 개선, 자유게시판 만들기
 
 코드 정리
 
