@@ -27,7 +27,7 @@ const CommentSchema = new mongoose.Schema(
     report: Boolean,
     date: {
       type: String,
-      default: moment().format("YYYY년 MM월 DD일"),
+      default: moment().format("YYYY-MM-DD"),
     },
   },
   { timestamps: true }

@@ -1,4 +1,6 @@
 import mongoose from "mongoose"
+import bcrypt from "bcrypt"
+import moment from "moment"
 
 const PostSchema = new mongoose.Schema(
   {
@@ -16,7 +18,11 @@ const PostSchema = new mongoose.Schema(
     },
     date: {
       type: String,
-      default: moment().format("YYYY년 MM월 DD일"),
+      default: moment().format("YYYY-MM-DD"),
+    },
+    views: {
+      type: Number,
+      default: 0,
     },
   },
   { timestamps: true }

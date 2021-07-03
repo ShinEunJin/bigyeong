@@ -167,9 +167,11 @@ function Comments(props) {
     await e.preventDefault()
     let body = { text, productId, name, password }
     try {
-      if (!text) return alert("댓글을 입력해주십시오.")
-      else if (!name) return alert("이름(닉네임)을 입력해주십시오.")
-      else if (!password) return alert("비밀번호를 입력해주십시오.")
+      if (text.trim() === "") return alert("댓글을 입력해주십시오.")
+      else if (name.trim() === "")
+        return alert("이름(닉네임)을 입력해주십시오.")
+      else if (password.trim() === "")
+        return alert("비밀번호를 입력해주십시오.")
       await axios.post(routes.apiComment, body)
       //댓글 생성 후 처음 상태로 돌리기 위해 loadMore, changedSkip, skip 초기화
       loadMore = false
@@ -264,6 +266,7 @@ function Comments(props) {
           <InputText
             placeholder="댓글 작성하기"
             showCount
+            autoSize={{ minRows: 5 }}
             maxLength={500}
             value={text}
             onChange={onTextChange}

@@ -20,10 +20,14 @@ const PRODUCT_SEARCH = "/search"
 const PRODUCT_GALLERY = "/gallery"
 const PRODUCT_IMAGE = "/image"
 
+//Post
+const POST_POSTS = "/posts"
+
 const routes = {
   apiProduct: API_PRODUCT,
   apiUser: API_USER,
   apiComment: API_COMMNET,
+  apiPost: API_POST,
   //user
   userAuthEmail: USER_EMAIL,
   userRegister: USER_REGISTER,
@@ -38,6 +42,8 @@ const routes = {
   productRepresent: PRODUCT_REPRESENT,
   productImage: PRODUCT_IMAGE,
   productGallery: PRODUCT_GALLERY,
+  //post
+  posts: POST_POSTS,
 }
 
 export default routes

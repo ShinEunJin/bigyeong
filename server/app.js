@@ -7,6 +7,7 @@ import path from "path"
 import productRouter from "./routers/productRouter"
 import commentRouter from "./routers/commentRouter"
 import userRouter from "./routers/userRouter"
+import postRouter from "./routers/postRouter"
 
 const app = express()
 
@@ -23,6 +24,7 @@ app.use("/uploads", express.static("uploads"))
 app.use(routes.apiProduct, productRouter)
 app.use(routes.apiUser, userRouter)
 app.use(routes.apiComment, commentRouter)
+app.use(routes.apiPost, postRouter)
 
 if (prod) {
   app.use(express.static(path.join(__dirname, "../client/build")))

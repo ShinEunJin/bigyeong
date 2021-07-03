@@ -1,14 +1,20 @@
 import express from "express"
 import {
-  getComments,
-  removeComment,
-  writeComment,
-} from "../controllers/comment/comment"
+  createPost,
+  getPost,
+  getPosts,
+  updatePost,
+  deletePost,
+} from "../controllers/post/post"
+import routes from "../routes"
 
-const commentRouter = express.Router()
+const postRouter = express.Router()
 
-commentRouter.get("/", getComments)
-commentRouter.post("/", writeComment)
-commentRouter.delete("/", removeComment)
+postRouter.get("/", getPost)
+postRouter.post("/", createPost)
+postRouter.patch("/", updatePost)
+postRouter.delete("/", deletePost)
 
-export default commentRouter
+postRouter.get(routes.posts, getPosts)
+
+export default postRouter
