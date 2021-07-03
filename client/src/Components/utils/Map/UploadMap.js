@@ -1,11 +1,15 @@
 import React, { useEffect } from "react"
 
-function UploadMap({ updateMap }) {
+function UploadMap({ updateMap, nowCoord }) {
+  //nowCoord는 product update에서 받은 좌표 위치
   useEffect(() => {
     const container = document.getElementById("kakao_map")
     const options = {
-      center: new kakao.maps.LatLng(36.5642135, 128.0016985),
-      level: 13,
+      center: new kakao.maps.LatLng(
+        nowCoord ? nowCoord.lat : 36.5642135,
+        nowCoord ? nowCoord.lng : 128.0016985
+      ),
+      level: nowCoord ? 10 : 13,
     }
 
     let map = new kakao.maps.Map(container, options)
@@ -16,6 +20,12 @@ function UploadMap({ updateMap }) {
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT)
 
     let marker = new kakao.maps.Marker()
+    //product update 즉, nowCoord 있을때만 적용
+    if (nowCoord) {
+      let markerPosition = new kakao.maps.LatLng(nowCoord.lat, nowCoord.lng)
+      marker.setPosition(markerPosition)
+      marker.setMap(map)
+    }
 
     kakao.maps.event.addListener(map, "click", function (mouseEvent) {
       searchDetailAddrFromCoords(mouseEvent.latLng, function (result, status) {

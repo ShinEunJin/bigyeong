@@ -2,6 +2,7 @@
 const API_PRODUCT = "/api/product"
 const API_USER = "/api/user"
 const API_COMMNET = "/api/comment"
+const API_POST = "/api/post"
 
 //User
 const USER_REGISTER = "/register"

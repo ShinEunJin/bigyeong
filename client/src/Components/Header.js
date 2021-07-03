@@ -2,10 +2,9 @@ import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, withRouter } from "react-router-dom"
 import styled from "styled-components"
-import { Avatar, Dropdown, Menu } from "antd"
-import { UserOutlined } from "@ant-design/icons"
+import { Dropdown, Menu } from "antd"
 import { MdAddAPhoto, MdCreateNewFolder } from "react-icons/md"
-import { FaSearch } from "react-icons/fa"
+import { FaSearch, FaClipboardList } from "react-icons/fa"
 import { AiOutlineUser } from "react-icons/ai"
 import { logout } from "../_actions/user_action"
 import dotenv from "dotenv"
@@ -48,14 +47,6 @@ const OnPage = styled.div`
   transition: border-bottom 0.1s linear;
 `
 
-const RealAvatar = styled.img`
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center;
-`
-
 function Header(props) {
   const user = useSelector((state) => state.user)
 
@@ -84,13 +75,21 @@ function Header(props) {
 
   const upload = (
     <Menu style={{ padding: "0.3rem", fontWeight: 600, fontSize: "1em" }}>
-      사진을 직접 올려보세요!
+      {user.userData && !user.userData.isAuth
+        ? "로그인 하고 사진을 직접 올려보세요!"
+        : "사진 업로드 하기"}
     </Menu>
   )
 
   const take = (
     <Menu style={{ padding: "0.3rem", fontWeight: 600, fontSize: "1em" }}>
       찜목록 보기
+    </Menu>
+  )
+
+  const board = (
+    <Menu style={{ padding: "0.3rem", fontWeight: 600, fontSize: "1em" }}>
+      자유게시판
     </Menu>
   )
 
@@ -106,8 +105,10 @@ function Header(props) {
   )
 
   if (user.userData && !user.userData.isAuth) {
+    /* 로그인 안한 상태 */
     return (
       <HeaderBar>
+        {/* 로고 부분 */}
         <div>
           <OnPage>
             <SLink style={{ color: "white" }} to="/">
@@ -123,7 +124,9 @@ function Header(props) {
             </SLink>
           </OnPage>
         </div>
+        {/* 아이콘 부분 */}
         <div style={{ display: "flex" }}>
+          {/* 찾기 */}
           <OnPage
             current={
               props.location.pathname === "/find_map" ||
@@ -134,6 +137,7 @@ function Header(props) {
               <FaSearch style={{ fontSize: "1.4em" }} />
             </Dropdown>
           </OnPage>
+          {/* 업로드 */}
           <OnPage current={props.location.pathname === "/upload"}>
             <SLink to="/upload">
               <Dropdown overlay={upload} placement="bottomRight" arrow>
@@ -141,6 +145,15 @@ function Header(props) {
               </Dropdown>
             </SLink>
           </OnPage>
+          {/* 자유게시판 */}
+          <OnPage current={props.location.pathname === "/board"}>
+            <SLink to="/board">
+              <Dropdown overlay={board} placement="bottomRight" arrow>
+                <FaClipboardList style={{ fontSize: "1.4em" }} />
+              </Dropdown>
+            </SLink>
+          </OnPage>
+          {/* 로그인 및 회원가입 */}
           <OnPage
             current={
               props.location.pathname === "/login" ||
@@ -155,8 +168,10 @@ function Header(props) {
       </HeaderBar>
     )
   } else {
+    /* 로그인 상태 */
     return (
       <HeaderBar>
+        {/* 로고 부분 */}
         <div>
           <OnPage>
             <SLink to="/">
@@ -172,7 +187,9 @@ function Header(props) {
             </SLink>
           </OnPage>
         </div>
+        {/* 아이콘 부분 */}
         <div style={{ display: "flex", alignItems: "center" }}>
+          {/* 찾기 */}
           <OnPage
             current={
               props.location.pathname === "/find_map" ||
@@ -183,6 +200,7 @@ function Header(props) {
               <FaSearch style={{ fontSize: "1.4em" }} />
             </Dropdown>
           </OnPage>
+          {/* 찜목록 */}
           <OnPage current={props.location.pathname === "/user/cart"}>
             <SLink to="/user/cart">
               <Dropdown overlay={take} placement="bottomRight" arrow>
@@ -190,6 +208,7 @@ function Header(props) {
               </Dropdown>
             </SLink>
           </OnPage>
+          {/* 업로드 */}
           <OnPage current={props.location.pathname === "/upload"}>
             <SLink to="/upload">
               <Dropdown overlay={upload} placement="topRight" arrow>
@@ -197,6 +216,15 @@ function Header(props) {
               </Dropdown>
             </SLink>
           </OnPage>
+          {/* 자유게시판 */}
+          <OnPage current={props.location.pathname === "/board"}>
+            <SLink to="/board">
+              <Dropdown overlay={board} placement="bottomRight" arrow>
+                <FaClipboardList style={{ fontSize: "1.4em" }} />
+              </Dropdown>
+            </SLink>
+          </OnPage>
+          {/* 로그아웃 */}
           <OnPage>
             <div
               style={{ fontSize: "1em", cursor: "pointer" }}

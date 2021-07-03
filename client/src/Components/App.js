@@ -20,6 +20,7 @@ import FindByMap from "../Routes/Find/FindByMap"
 import FindBySearch from "../Routes/Find/FindBySearch"
 import DetailGallery from "../Routes/DetailProduct/DetailGallery"
 import UpdateProduct from "../Routes/Update/UpdateProduct"
+import Board from "../Routes/Board/Board"
 
 function App() {
   return (
@@ -30,7 +31,8 @@ function App() {
           <Route exact path="/" component={Auth(Home, null)} />
           <Route exact path="/login" component={Auth(Login, false)} />
           <Route exact path="/register" component={Auth(Register, false)} />
-          <Route exact path="/upload" component={Auth(Upload, null)} />
+          <Route exact path="/upload" component={Auth(Upload, true)} />
+          <Route exact path="/board" component={Auth(Board, null)} />
           <Route exact path="/find_map" component={Auth(FindByMap, null)} />
           <Route
             exact

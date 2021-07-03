@@ -24,6 +24,7 @@ const CommentSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    report: Boolean,
     date: {
       type: String,
       default: moment().format("YYYY년 MM월 DD일"),

@@ -1,5 +1,5 @@
 import axios from "axios"
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { useSelector } from "react-redux"
 import { withRouter } from "react-router-dom"
 import styled from "styled-components"
