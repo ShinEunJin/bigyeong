@@ -144,7 +144,7 @@ function Comments(props) {
 
   //댓글 닉네임
   const onNameChange = (e) => {
-    setName(e.target.value.replace(/\s/gi, ""))
+    setName(e.target.value)
   }
 
   //댓글 비밀번호
@@ -290,6 +290,7 @@ function Comments(props) {
             <DeleteColumn>
               {toggleDeleteBtn === index ? (
                 <form style={{ position: "absolute", right: "5%" }}>
+                  {/* 이름만 InputName으로 함 */}
                   <InputName
                     type="password"
                     size="middle"

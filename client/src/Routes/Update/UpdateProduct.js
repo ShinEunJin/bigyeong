@@ -118,7 +118,12 @@ function UpdateProduct(props) {
       location,
       description,
       images,
-      coord: { lat: coord.Ma, lng: coord.La },
+      //coord는 만약 지도를 선택하지 않고 업데이트하면 원래 좌표 coord.lat로 저장되고
+      //지도를 선택한다면 카카오 맵 좌표인 coord.Ma가 저장되도록 해준다.
+      coord: {
+        lat: coord.Ma ? coord.Ma : coord.lat,
+        lng: coord.La ? coord.La : coord.lng,
+      },
       writer: user.userData._id,
     }
     const {

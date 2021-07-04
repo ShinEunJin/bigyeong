@@ -112,11 +112,18 @@ const PageColumn = styled.div`
   padding-bottom: 1rem;
 `
 
+const Empty = styled.div`
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+`
+
 let markers = []
 
 function Find() {
   const [products, setProducts] = useState([])
-  const [address, setAddress] = useState({})
   const [loading, setLoading] = useState(false)
   const [start, setStart] = useState(true)
   const [productsLen, setProductsLen] = useState(0)
@@ -125,7 +132,7 @@ function Find() {
   const [loadMap, setLoadMap] = useState({})
   const [position, setPosition] = useState({})
 
-  const LIMIT = 2
+  const LIMIT = 10
 
   const mouseEvent = (target) => {
     setMouse(target)
@@ -134,7 +141,6 @@ function Find() {
   const updateMap = (start, defaultPage, address) => {
     setStart(start)
     setDefaultPage(defaultPage)
-    setAddress(address)
   }
 
   const reloadMap = (map) => {
@@ -256,20 +262,11 @@ function Find() {
       ) : (
         <IndexSection>
           <TitleColumn>
-            <div style={{ opacity: 0.6 }}>
-              지도 중심 [{" "}
-              <span style={{ fontSize: "1.1em", fontWeight: 600 }}>
-                {address.region_1depth_name} {address.region_2depth_name}{" "}
-                {address.region_3depth_name}
-              </span>{" "}
-              ]
-            </div>
-            <br></br>
             <>
               {products && products.length > 0 && (
                 <div>
-                  총 <span>{products.length}</span>
-                  {products.length === 100 ? "건 이상의 컨텐츠" : "건의 컨텐츠"}
+                  총 <span>{productsLen}</span>
+                  {productsLen === 100 ? "건 이상의 컨텐츠" : "건의 컨텐츠"}
                 </div>
               )}
             </>
@@ -279,10 +276,9 @@ function Find() {
               <Loader />
             ) : (
               <>
-                {products &&
-                  products.length > 0 &&
+                {products && products.length > 0 ? (
                   products.map((item, index) => (
-                    <SLink key={index} to={`/product/${item._id}`}>
+                    <SLink key={index} to={routes.product(item._id)}>
                       <Content
                         id={`${item._id}`}
                         style={{
@@ -311,7 +307,12 @@ function Find() {
                         </Info>
                       </Content>
                     </SLink>
-                  ))}
+                  ))
+                ) : (
+                  <Empty>
+                    사진이 없습니다. 경치 좋은 사진 많이 올려주세요~ (ノ^∇^)
+                  </Empty>
+                )}
               </>
             )}
           </Column>
@@ -319,7 +320,7 @@ function Find() {
             <Pagination
               current={defaultPage}
               defaultCurrent={1}
-              pageSize={2}
+              pageSize={LIMIT}
               onChange={(page) => onChangePage(page, loadMap)}
               total={productsLen}
             />

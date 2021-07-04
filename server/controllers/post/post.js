@@ -18,7 +18,11 @@ export const getPost = async (req, res) => {
     query: { postId },
   } = req
   try {
-    const post = await Post.findOne({ _id: postId })
+    const post = await Post.findOneAndUpdate(
+      { _id: postId },
+      { $inc: { views: 1 } },
+      { new: true }
+    )
     return res.status(200).json({ success: true, post })
   } catch (error) {
     return res.status(400).json({ success: false })

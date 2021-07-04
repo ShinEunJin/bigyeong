@@ -18,6 +18,9 @@ const API_USER_EMAIL = "/api/user/email"
 const API_COMMENT = "/api/comment"
 
 //post
+const POST = "/post/:id"
+const BOARD = "/board"
+
 const API_POST = "/api/post"
 const API_POSTS = "/api/post/posts"
 
@@ -25,11 +28,8 @@ const routes = {
   findByMap: FIND_BY_MAP,
   findBySearch: FIND_BY_SEARCH,
   product: (id) => {
-    if (id) {
-      return `/product/${id}`
-    } else {
-      return PRODUCT
-    }
+    if (id) return `/product/${id}`
+    else return PRODUCT
   },
   apiProduct: API_PRODUCT,
   apiProductMap: API_PRODUCT_MAP,
@@ -40,6 +40,11 @@ const routes = {
   apiComment: API_COMMENT,
   apiPost: API_POST,
   apiPosts: API_POSTS,
+  post: (id) => {
+    if (id) return `/post/${id}`
+    else return POST
+  },
+  board: BOARD,
 }
 
 export default routes

@@ -61,7 +61,7 @@ const Submit = styled.input`
   font-weight: 600;
 `
 
-function Write({ takeReveal }) {
+function Write({ takeReveal, refreshBoard }) {
   const [title, setTitle] = useState("")
   const [password, setPassword] = useState("")
   const [text, setText] = useState("")
@@ -96,6 +96,7 @@ function Write({ takeReveal }) {
     try {
       const { data } = await axios.post(routes.apiPost, body)
       if (data.success) {
+        refreshBoard() // 글 작성한다음 게시판 새로고침
         takeReveal(false)
         alert("게시글 작성을 완료하였습니다.")
       } else {
@@ -139,6 +140,7 @@ function Write({ takeReveal }) {
         onClick={onClickX}
         style={{
           color: "black",
+          cursor: "pointer",
           fontSize: "1.5em",
           position: "absolute",
           top: "2rem",

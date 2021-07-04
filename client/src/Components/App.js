@@ -21,6 +21,7 @@ import FindBySearch from "../Routes/Find/FindBySearch"
 import DetailGallery from "../Routes/DetailProduct/DetailGallery"
 import UpdateProduct from "../Routes/Update/UpdateProduct"
 import Board from "../Routes/Board/Board"
+import Post from "../Routes/Board/Post"
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route exact path="/register" component={Auth(Register, false)} />
           <Route exact path="/upload" component={Auth(Upload, true)} />
           <Route exact path="/board" component={Auth(Board, null)} />
+          <Route exact path="/post/:id" component={Auth(Post, null)} />
           <Route exact path="/find_map" component={Auth(FindByMap, null)} />
           <Route
             exact

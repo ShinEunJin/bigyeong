@@ -270,8 +270,8 @@ function Begin() {
                   {repProduct.images &&
                     repProduct.images.length > 0 &&
                     repProduct.images.map((item, index) => (
-                      <div>
-                        <Img src={item} key={index} />
+                      <div key={index}>
+                        <Img src={item} />
                       </div>
                     ))}
                 </Carousel>
