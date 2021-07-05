@@ -67,11 +67,11 @@ function App() {
             path="/user/update-profile"
             component={Auth(UpdateProfile, true)}
           />
-          <Route
+          {/* <Route
             exact
             path="/user/profile/:id"
             component={Auth(UserProfile, null)}
-          />
+          /> */}
           <Redirect from="*" to="/" />
         </Switch>
       </Router>

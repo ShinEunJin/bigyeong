@@ -12,6 +12,7 @@ const USER_LOGOUT = "/logout"
 const USER_AUTH = "/auth"
 const USER_PROFILE = "/profile"
 const USER_TAKE = "/take"
+const USER_AVATAR = "/avatar"
 
 //Product
 const PRODUCT_REPRESENT = "/represent"
@@ -36,6 +37,7 @@ const routes = {
   userAuth: USER_AUTH,
   userProfile: USER_PROFILE,
   userTake: USER_TAKE,
+  userAvatar: USER_AVATAR,
   //product
   findByMap: PRODUCT_MAP,
   findBySearch: PRODUCT_SEARCH,

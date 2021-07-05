@@ -13,6 +13,11 @@ const API_PRODUCT_REPRESENT = "/api/product/represent"
 //user
 const API_USER_REGISTER = "/api/user/register"
 const API_USER_EMAIL = "/api/user/email"
+const API_USER_TAKE = "/api/user/take"
+const API_USER_PROFILE = "/api/user/profile"
+
+const USER_CART = "/user/cart"
+const USER_MYPROFILE = "/user/my-profile"
 
 //comment
 const API_COMMENT = "/api/comment"
@@ -37,6 +42,10 @@ const routes = {
   apiPRoductRepresent: API_PRODUCT_REPRESENT,
   apiUserRegister: API_USER_REGISTER,
   apiUserEmail: API_USER_EMAIL,
+  apiUserTake: API_USER_TAKE,
+  apiUserProfile: API_USER_PROFILE,
+  userCart: USER_CART,
+  userMyProfile: USER_MYPROFILE,
   apiComment: API_COMMENT,
   apiPost: API_POST,
   apiPosts: API_POSTS,

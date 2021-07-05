@@ -8,6 +8,7 @@ import { Link, withRouter } from "react-router-dom"
 import dotenv from "dotenv"
 import { FaPlus } from "react-icons/fa"
 import axios from "axios"
+import routes from "../../routes"
 
 dotenv.config()
 
@@ -17,6 +18,7 @@ const Container = styled.div`
   padding-top: 100px;
   width: 70%;
   margin: 0 auto;
+  color: black;
 `
 
 const ProfleColumn = styled.div`
@@ -131,7 +133,7 @@ function MyProfile(props) {
 
   const getProducts = async (skip, limit) => {
     const { data } = await axios.get(
-      `/api/users/products?userId=${user._id}&skip=${skip}&limit=${limit}`
+      `${routes.apiUserProfile}?userId=${user._id}&skip=${skip}&limit=${limit}`
     )
     if (data.success) {
       if (loadMore) {
@@ -170,7 +172,7 @@ function MyProfile(props) {
 
   const withdrawOk = async () => {
     const { data } = await axios.delete(
-      `/api/users/delete?userId=${user._id}&password=${password}`
+      `${routes.apiUserProfile}?userId=${user._id}&password=${password}`
     )
     if (data.success) {
       props.history.push("/")
@@ -244,7 +246,14 @@ function MyProfile(props) {
                   />
                 }
               >
-                <Meta title={item.name} description={item.address} />
+                <Meta
+                  title={item.name}
+                  description={
+                    item.address.length >= 20
+                      ? `${item.address.substring(0, 20)}...`
+                      : item.address
+                  }
+                />
               </Card>
             </Link>
           </Col>

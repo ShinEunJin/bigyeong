@@ -79,7 +79,9 @@ function CartPage() {
   const [product, setProduct] = useState([])
 
   const getUserTake = async (productList) => {
-    const { data } = await axios.get(`/api/user/take?productId=${productList}`)
+    const { data } = await axios.get(
+      `${routes.apiUserTake}?productId=${productList}`
+    )
     setProduct(data.product)
   }
 

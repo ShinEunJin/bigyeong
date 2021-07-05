@@ -9,6 +9,7 @@ const Container = styled.div`
   padding-top: 100px;
   width: 70%;
   margin: 0 auto;
+  color: black;
 `
 
 const ProfleColumn = styled.div`

@@ -4,10 +4,11 @@ import { Link, withRouter } from "react-router-dom"
 import styled from "styled-components"
 import { Dropdown, Menu } from "antd"
 import { MdAddAPhoto, MdCreateNewFolder } from "react-icons/md"
-import { FaSearch, FaClipboardList } from "react-icons/fa"
+import { FaSearch, FaClipboardList, FaUser } from "react-icons/fa"
 import { AiOutlineUser } from "react-icons/ai"
 import { logout } from "../_actions/user_action"
 import dotenv from "dotenv"
+import routes from "../routes"
 dotenv.config()
 
 const HeaderBar = styled.header`
@@ -65,10 +66,10 @@ function Header(props) {
   const search = (
     <Menu>
       <Menu.Item>
-        <SLink to="/find_map">지도로 찾기</SLink>
+        <SLink to={routes.findByMap}>지도로 찾기</SLink>
       </Menu.Item>
       <Menu.Item>
-        <SLink to="/find_search">검색으로 찾기</SLink>
+        <SLink to={routes.findBySearch}>검색으로 찾기</SLink>
       </Menu.Item>
     </Menu>
   )
@@ -82,8 +83,13 @@ function Header(props) {
   )
 
   const take = (
-    <Menu style={{ padding: "0.3rem", fontWeight: 600, fontSize: "1em" }}>
-      찜목록 보기
+    <Menu>
+      <Menu.Item>
+        <SLink to={routes.userCart}>찜목록</SLink>
+      </Menu.Item>
+      <Menu.Item>
+        <SLink to={routes.userMyProfile}>프로필</SLink>
+      </Menu.Item>
     </Menu>
   )
 
@@ -202,11 +208,9 @@ function Header(props) {
           </OnPage>
           {/* 찜목록 */}
           <OnPage current={props.location.pathname === "/user/cart"}>
-            <SLink to="/user/cart">
-              <Dropdown overlay={take} placement="bottomRight" arrow>
-                <MdCreateNewFolder style={{ fontSize: "1.5em" }} />
-              </Dropdown>
-            </SLink>
+            <Dropdown overlay={take} placement="bottomRight" arrow>
+              <FaUser style={{ fontSize: "1.5em" }} />
+            </Dropdown>
           </OnPage>
           {/* 업로드 */}
           <OnPage current={props.location.pathname === "/upload"}>

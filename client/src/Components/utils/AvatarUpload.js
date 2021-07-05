@@ -45,7 +45,7 @@ function AvatarUpload(props) {
     formData.append("avatarFile", avatarFile[0])
     const {
       data: { filePath },
-    } = await axios.post("/api/users/avatar", formData, config)
+    } = await axios.post("/api/user/avatar", formData, config)
     if (filePath) {
       setAvatar(filePath)
       props.refreshFunction(filePath)
