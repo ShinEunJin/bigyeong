@@ -95,7 +95,7 @@ function Board() {
       </Fade>
 
       <Content>
-        <List posts={posts} />
+        <List posts={posts} page={currentPage} length={length} />
       </Content>
       <Pagination
         style={{

@@ -30,17 +30,17 @@ export const getPost = async (req, res) => {
 }
 
 export const getPosts = async (req, res) => {
-  const {
+  let {
     query: { skip, limit },
   } = req
-  let skipToNum = parseInt(skip, 10)
-  let limitToNum = parseInt(limit, 10)
+  skip = parseInt(skip, 10)
+  limit = parseInt(limit, 10)
   try {
-    const [posts, postsLength] = await Promise.all([
-      Post.find().sort({ createdAt: -1 }).skip(skipToNum).limit(limitToNum),
+    const [posts, postsLength, index] = await Promise.all([
+      Post.find().sort({ createdAt: -1 }).skip(skip).limit(limit),
       Post.estimatedDocumentCount(),
     ])
-    return res.status(200).json({ success: true, posts, postsLength })
+    return res.status(200).json({ success: true, posts, postsLength, index })
   } catch (error) {
     return res.status(400).json({ success: false })
   }

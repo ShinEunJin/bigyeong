@@ -4,17 +4,17 @@ import bcrypt from "bcrypt"
 import "@babel/polyfill"
 
 export const getComments = async (req, res) => {
-  const {
+  let {
     query: { productId, skip, limit },
   } = req
-  let skipToNum = parseInt(skip, 10)
-  let limitToNum = parseInt(limit, 10)
+  skip = parseInt(skip, 10)
+  limit = parseInt(limit, 10)
   try {
     const [comments, commentsLength] = await Promise.all([
       Comment.find({ product: productId })
         .sort({ createdAt: -1 })
-        .skip(skipToNum)
-        .limit(limitToNum),
+        .skip(skip)
+        .limit(limit),
       Comment.find({ product: productId }),
     ])
     return res

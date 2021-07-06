@@ -70,7 +70,11 @@ function Category({ time }) {
 
   useEffect(() => {
     setLoadImage(["logo/menu/menu1.jpg", "logo/menu/menu2.jpg"])
-    setCoord({ lat: repProduct.coord.lat, lng: repProduct.coord.lng })
+    //배포시 맨 처음 화면띄울때 에러를 방지하기 위해 coord를 이렇게 조작해줌
+    setCoord({
+      lat: repProduct && repProduct.coord ? repProduct.coord.lat : 37.5642135,
+      lng: repProduct && repProduct.coord ? repProduct.coord.lng : 127.0016985,
+    })
   }, [repProduct])
 
   return (

@@ -1,11 +1,11 @@
 import Product from "../../models/Product"
 
 export const getProductsBySearch = async (req, res) => {
-  const {
+  let {
     query: { sortBy, skip, limit, region, searchTerm },
   } = req
-  let skipToNum = parseInt(skip, 10)
-  let limitToNum = parseInt(limit, 10)
+  skip = parseInt(skip, 10)
+  limit = parseInt(limit, 10)
   try {
     if (searchTerm !== "") {
       const products = await Product.find(
@@ -27,8 +27,8 @@ export const getProductsBySearch = async (req, res) => {
             ? { createdAt: -1 }
             : { views: -1 }
         )
-        .skip(skipToNum)
-        .limit(limitToNum)
+        .skip(skip)
+        .limit(limit)
       return res.status(200).json({ success: true, products })
     } else {
       const products = await Product.find(
@@ -47,8 +47,8 @@ export const getProductsBySearch = async (req, res) => {
             ? { createdAt: -1 }
             : { views: -1 }
         )
-        .skip(skipToNum)
-        .limit(limitToNum)
+        .skip(skip)
+        .limit(limit)
       return res.status(200).json({ success: true, products })
     }
   } catch (error) {

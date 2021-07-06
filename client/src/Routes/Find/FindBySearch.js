@@ -278,12 +278,12 @@ function Begin() {
                 <Title>{repProduct.name}</Title>
                 <Address>{repProduct.address || repProduct.region}</Address>
                 <Likes>
-                  <Icon>
+                  {/* <Icon>
                     <AiFillHeart
                       style={{ color: "red", marginRight: "0.1rem" }}
                     />{" "}
                     {repProduct.likes}
-                  </Icon>
+                  </Icon> */}
                   <Icon>
                     <AiFillEye
                       style={{ color: "gray", marginRight: "0.1rem" }}
@@ -314,12 +314,12 @@ function Begin() {
                       <Title>{item.name}</Title>
                       <Address>{item.address || item.region}</Address>
                       <Likes>
-                        <Icon>
+                        {/* <Icon>
                           <AiFillHeart
                             style={{ color: "red", marginRight: "0.1rem" }}
                           />{" "}
                           {item.likes}
-                        </Icon>
+                        </Icon> */}
                         <Icon>
                           <AiFillEye
                             style={{ color: "gray", marginRight: "0.1rem" }}

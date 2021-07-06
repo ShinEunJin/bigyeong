@@ -46,7 +46,7 @@ const Title = styled.div`
   text-overflow: ellipsis;
 `
 
-function List({ posts }) {
+function List({ posts, page, length }) {
   return (
     <Container>
       <Table>
@@ -64,7 +64,7 @@ function List({ posts }) {
             posts.map((item, index) => (
               <Tr key={index}>
                 <Td style={{ width: "10%", textAlign: "center" }}>
-                  {index + 1}
+                  {length - index - (page - 1) * 10}
                 </Td>
                 <Td style={{ width: "60%" }}>
                   <SLink to={routes.post(item._id)}>

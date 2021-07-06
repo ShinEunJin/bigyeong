@@ -55,15 +55,15 @@ export const uploadAvatars = (req, res) => {
 
 //getMyProfile이지만 사진들만 불러옴, 이름 같은건 이미 미들웨어로 전달
 export const getMyProfile = async (req, res) => {
-  const {
+  let {
     query: { userId, skip, limit },
   } = req
-  let skipToNum = parseInt(skip, 10)
-  let limitToNum = parseInt(limit, 10)
+  skip = parseInt(skip, 10)
+  limit = parseInt(limit, 10)
   try {
     const products = await Product.find({ writer: userId })
-      .skip(skipToNum)
-      .limit(limitToNum)
+      .skip(skip)
+      .limit(limit)
     return res.status(200).json({ success: true, products })
   } catch (error) {
     return res.status(400).json({ success: false, error })

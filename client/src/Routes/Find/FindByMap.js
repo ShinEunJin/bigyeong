@@ -299,10 +299,10 @@ function Find() {
                               <AiFillEye style={{ marginRight: 3 }} />
                               {item.views}
                             </View>
-                            <Like>
+                            {/* <Like>
                               <AiFillHeart style={{ marginRight: 3 }} />
                               {item.likes}
-                            </Like>
+                            </Like> */}
                           </LikeAndView>
                         </Info>
                       </Content>
