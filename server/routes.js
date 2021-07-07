@@ -3,6 +3,7 @@ const API_PRODUCT = "/api/product"
 const API_USER = "/api/user"
 const API_COMMNET = "/api/comment"
 const API_POST = "/api/post"
+const API_REPORT = "/api/report"
 
 //User
 const USER_REGISTER = "/register"
@@ -29,6 +30,7 @@ const routes = {
   apiUser: API_USER,
   apiComment: API_COMMNET,
   apiPost: API_POST,
+  apiReport: API_REPORT,
   //user
   userAuthEmail: USER_EMAIL,
   userRegister: USER_REGISTER,

@@ -29,6 +29,9 @@ const BOARD = "/board"
 const API_POST = "/api/post"
 const API_POSTS = "/api/post/posts"
 
+//report
+const API_REPORT = "/api/report"
+
 const routes = {
   findByMap: FIND_BY_MAP,
   findBySearch: FIND_BY_SEARCH,
@@ -54,6 +57,7 @@ const routes = {
     else return POST
   },
   board: BOARD,
+  apiReport: API_REPORT,
 }
 
 export default routes

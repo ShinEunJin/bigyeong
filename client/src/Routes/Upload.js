@@ -1,5 +1,5 @@
 import axios from "axios"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { withRouter } from "react-router-dom"
 import styled from "styled-components"
@@ -140,6 +140,10 @@ function Upload(props) {
       alert("컨텐츠 업로드에 실패 했습니다.")
     }
   }
+
+  useEffect(() => {
+    console.log("hi")
+  })
 
   return (
     <Container>

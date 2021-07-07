@@ -19,10 +19,17 @@ const PostSchema = new mongoose.Schema(
     date: {
       type: String,
       default: moment().format("YYYY-MM-DD"),
+      required: true,
     },
     views: {
       type: Number,
       default: 0,
+      required: true,
+    },
+    number: {
+      type: Number,
+      default: 0,
+      required: true,
     },
   },
   { timestamps: true }

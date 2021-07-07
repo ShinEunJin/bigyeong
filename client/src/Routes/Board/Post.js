@@ -3,9 +3,9 @@ import axios from "axios"
 import routes from "../../routes"
 import { withRouter } from "react-router-dom"
 import styled from "styled-components"
-import { AiTwotoneAlert } from "react-icons/ai"
 import { FaTimes } from "react-icons/fa"
 import { Input } from "antd"
+import Report from "../../Components/utils/Report"
 
 const Container = styled.div`
   width: 70%;
@@ -78,6 +78,10 @@ function Post(props) {
   const [post, setPost] = useState({})
   const [display, setDisplay] = useState(false) // 삭제 토글 버튼에 사용
   const [password, setPassword] = useState("")
+  const [report, setReport] = useState({
+    id: postId,
+    category: "post",
+  })
 
   const getPost = async () => {
     const { data } = await axios.get(`${routes.apiPost}?postId=${postId}`)
@@ -170,7 +174,7 @@ function Post(props) {
               )}
             </Td>
             <Td style={{ width: "8%", textAlign: "center" }}>
-              <AiTwotoneAlert />
+              <Report report={report} />
             </Td>
           </Tr>
         </tbody>

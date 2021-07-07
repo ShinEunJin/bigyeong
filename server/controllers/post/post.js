@@ -1,4 +1,5 @@
 import Post from "../../models/Post"
+import Counter from "../../models/Counter"
 import bcrypt from "bcrypt"
 import "@babel/polyfill"
 
@@ -6,7 +7,18 @@ export const createPost = async (req, res) => {
   const { body } = req
   try {
     const post = new Post(body)
-    await post.save()
+    let counter = await Counter.findOne({ category: "post" })
+    if (!counter) {
+      counter = new Counter({ category: "post", number: 1 })
+      await counter.save()
+      post.number = counter.number
+      await post.save()
+    } else {
+      counter.number++
+      post.number = counter.number
+      await counter.save()
+      await post.save()
+    }
     return res.status(200).json({ success: true })
   } catch (error) {
     return res.status(400).json({ success: false })

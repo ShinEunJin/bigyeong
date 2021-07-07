@@ -8,6 +8,7 @@ import productRouter from "./routers/productRouter"
 import commentRouter from "./routers/commentRouter"
 import userRouter from "./routers/userRouter"
 import postRouter from "./routers/postRouter"
+import { report } from "./controllers/report/report"
 
 const app = express()
 
@@ -25,6 +26,7 @@ app.use(routes.apiProduct, productRouter)
 app.use(routes.apiUser, userRouter)
 app.use(routes.apiComment, commentRouter)
 app.use(routes.apiPost, postRouter)
+app.post(routes.apiReport, report)
 
 if (prod) {
   app.use(express.static(path.join(__dirname, "../client/build")))

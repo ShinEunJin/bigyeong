@@ -64,7 +64,7 @@ function List({ posts, page, length }) {
             posts.map((item, index) => (
               <Tr key={index}>
                 <Td style={{ width: "10%", textAlign: "center" }}>
-                  {length - index - (page - 1) * 10}
+                  {item.number}
                 </Td>
                 <Td style={{ width: "60%" }}>
                   <SLink to={routes.post(item._id)}>
