@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useCallback, useState } from "react"
 import styled from "styled-components"
 import { Input } from "antd"
 import { FaTimes } from "react-icons/fa"
@@ -67,10 +67,12 @@ function Write({ takeReveal, refreshBoard }) {
   const [text, setText] = useState("")
 
   const onClickX = () => {
+    console.log("usecal")
     takeReveal(false) //x 버튼 눌러서 글쓰기 창 닫기 - 부모 컴포넌트에 reveal 상태 주기
   }
 
   const onTitleChange = (e) => {
+    console.log("hi")
     setTitle(e.target.value)
   }
 

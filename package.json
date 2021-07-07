@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "babel server/index.js",
-    "server": "nodemon server/index.js --exec babel-node --delay 2",
+    "server": "nodemon server/index.js --exec babel-node --delay 1",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run start --prefix client\"",
     "test": "echo \"Error: no test specified\" && exit 1",
