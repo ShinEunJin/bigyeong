@@ -5,6 +5,7 @@ import { Input } from "antd"
 import axios from "axios"
 import { withRouter } from "react-router-dom"
 import routes from "../../routes"
+import Report from "../utils/Report"
 
 const { TextArea } = Input
 
@@ -136,6 +137,9 @@ function Comments(props) {
   const [commentLastNumber, setCommentLastNumer] = useState(0) //댓글 더보기란을 컨트롤 하기 위해 만든 상태
   const [toggleDeleteBtn, setToggleDeleteBtn] = useState(-1) // 댓글 삭제 및 취소
   const [deletePassword, setDeletePassword] = useState("")
+  const [report, setReport] = useState({
+    category: "comment",
+  })
 
   //댓글 내용
   const onTextChange = (e) => {
@@ -312,10 +316,13 @@ function Comments(props) {
                   />
                 </form>
               ) : (
-                <FaTimes
-                  style={{ cursor: "pointer" }}
-                  onClick={() => onToggleDeleteBtn(index)}
-                />
+                <>
+                  <FaTimes
+                    style={{ cursor: "pointer" }}
+                    onClick={() => onToggleDeleteBtn(index)}
+                  />
+                  <Report report={report} />
+                </>
               )}
             </DeleteColumn>
           </CommentsList>
