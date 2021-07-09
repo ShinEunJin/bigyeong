@@ -78,10 +78,6 @@ function Post(props) {
   const [post, setPost] = useState({})
   const [display, setDisplay] = useState(false) // 삭제 토글 버튼에 사용
   const [password, setPassword] = useState("")
-  const [report, setReport] = useState({
-    id: postId,
-    category: "post",
-  })
 
   const getPost = async () => {
     const { data } = await axios.get(`${routes.apiPost}?postId=${postId}`)
@@ -174,7 +170,7 @@ function Post(props) {
               )}
             </Td>
             <Td style={{ width: "8%", textAlign: "center" }}>
-              <Report report={report} />
+              <Report report={{ category: "post", id: postId }} />
             </Td>
           </Tr>
         </tbody>

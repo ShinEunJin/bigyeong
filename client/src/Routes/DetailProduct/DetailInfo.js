@@ -10,6 +10,7 @@ import DetailRevise from "./DetailRevise"
 import dotenv from "dotenv"
 import axios from "axios"
 import routes from "../../routes"
+import Report from "../../Components/utils/Report"
 
 dotenv.config()
 
@@ -62,6 +63,14 @@ const View = styled.div`
   align-items: center;
   font-size: 1.2em;
   font-weight: 600;
+  margin-bottom: 1rem;
+`
+
+const ReportColumn = styled.div`
+  margin-right: 2rem;
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
 `
 
 const ButtonColumn = styled.div`
@@ -173,6 +182,9 @@ function DetailInfo({ trigger }) {
           <View>
             <AiFillEye style={{ marginRight: "0.3rem" }} /> {product.views}
           </View>
+          <ReportColumn>
+            <Report report={{ category: "product", id: product._id }} />
+          </ReportColumn>
         </WriterColumn>
         {/* 로그인한 사람은 찜하기 버튼 볼 수 있고 자기가 올린 컨텐츠에는 수정하기 삭제하기 버튼 있음 둘 다 아니면 아무 것도 안보임 */}
         {userData.isAuth ? (
