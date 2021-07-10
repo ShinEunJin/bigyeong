@@ -8,14 +8,13 @@ import GlobalStyle from "../Components/GlobalStyle"
 import Header from "./Header"
 import Auth from "../hoc/auth"
 import Home from "../Routes/Home/Home"
-import Login from "../Routes/Login"
+import Login from "../Routes/Login/Login"
 import Register from "../Routes/Register/Register"
-import Upload from "../Routes/Upload"
+import Upload from "../Routes/Upload/Upload"
 import DetailProduct from "../Routes/DetailProduct/DetailProduct"
 import CartPage from "../Routes/Cart/CartPage"
 import MyProfile from "../Routes/Profile/MyProfile"
 import UpdateProfile from "../Routes/Profile/UpdateProfile"
-import UserProfile from "../Routes/Profile/UserProfile"
 import FindByMap from "../Routes/Find/FindByMap"
 import FindBySearch from "../Routes/Find/FindBySearch"
 import DetailGallery from "../Routes/DetailProduct/DetailGallery"
@@ -67,11 +66,6 @@ function App() {
             path="/user/update-profile"
             component={Auth(UpdateProfile, true)}
           />
-          {/* <Route
-            exact
-            path="/user/profile/:id"
-            component={Auth(UserProfile, null)}
-          /> */}
           <Redirect from="*" to="/" />
         </Switch>
       </Router>

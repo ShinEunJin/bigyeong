@@ -71,11 +71,7 @@ function RepPage() {
           </SLink>
         </Fade>
       </Text>
-      {loading ? (
-        <Loader></Loader>
-      ) : (
-        <Img src={repProduct && repProduct.images[0]} />
-      )}
+      {loading ? <Loader /> : <Img src={repProduct && repProduct.images[0]} />}
       <Category time={fade} />
     </Container>
   )

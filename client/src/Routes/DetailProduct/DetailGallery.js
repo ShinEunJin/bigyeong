@@ -5,6 +5,7 @@ import dotenv from "dotenv"
 import Loading from "../../Components/Loading"
 import axios from "axios"
 import styled from "styled-components"
+import routes from "../../routes"
 
 dotenv.config()
 
@@ -21,7 +22,7 @@ function DetailGallery() {
 
   const getImages = async () => {
     const { data } = await axios.get(
-      `/api/product/gallery?productId=${product._id}`
+      `${routes.apiProduct}${routes.gallery}?productId=${product._id}`
     )
     setImages(data.gallery)
   }

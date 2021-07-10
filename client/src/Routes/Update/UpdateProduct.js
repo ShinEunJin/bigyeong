@@ -3,7 +3,7 @@ import axios from "axios"
 import { useSelector } from "react-redux"
 import { withRouter } from "react-router-dom"
 import styled from "styled-components"
-import FileUpload from "../../Components/FileUpload"
+import FileUpload from "../../Components/utils/FileUpload"
 import Map from "../../Components/utils/Map/UploadMap"
 
 const Container = styled.div`

@@ -46,7 +46,7 @@ const Title = styled.div`
   text-overflow: ellipsis;
 `
 
-function List({ posts, page, length }) {
+function List({ posts }) {
   return (
     <Container>
       <Table>

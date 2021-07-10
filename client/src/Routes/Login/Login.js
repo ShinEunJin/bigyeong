@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { useDispatch } from "react-redux"
-import { loginUser } from "../_actions/user_action"
+import { loginUser } from "../../_actions/user_action"
 import { withRouter } from "react-router-dom"
 
 const Div = styled.div`
@@ -59,16 +59,15 @@ function Login(props) {
     setPassword(e.target.value)
   }
 
-  const onSumbitHandler = (e) => {
+  const onSumbitHandler = async (e) => {
     e.preventDefault()
     let body = { email, password }
-    dispatch(loginUser(body)).then((res) => {
-      if (res.payload.success) {
-        props.history.push("/")
-      } else {
-        alert(res.payload.message)
-      }
-    })
+    const { payload } = await dispatch(loginUser(body))
+    if (payload.success) {
+      props.history.push("/")
+    } else {
+      alert(res.payload.message)
+    }
   }
 
   return (

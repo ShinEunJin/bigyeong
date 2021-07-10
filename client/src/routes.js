@@ -9,6 +9,7 @@ const API_PRODUCT = "/api/product"
 const API_PRODUCT_MAP = "/api/product/map"
 const API_PRODUCT_SEARCH = "/api/product/search"
 const API_PRODUCT_REPRESENT = "/api/product/represent"
+const GALLERY = "/gallery"
 
 //user
 const API_USER_REGISTER = "/api/user/register"
@@ -43,6 +44,7 @@ const routes = {
   apiProductMap: API_PRODUCT_MAP,
   apiProductSearch: API_PRODUCT_SEARCH,
   apiPRoductRepresent: API_PRODUCT_REPRESENT,
+  gallery: GALLERY,
   apiUserRegister: API_USER_REGISTER,
   apiUserEmail: API_USER_EMAIL,
   apiUserTake: API_USER_TAKE,

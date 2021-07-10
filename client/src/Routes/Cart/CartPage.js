@@ -71,6 +71,13 @@ const EmptyDiv = styled.div`
   font-size: 1.5em;
 `
 
+const Img = styled.img`
+  width: 6.25rem;
+  height: 6.25rem;
+  object-fit: cover;
+  object-position: center;
+`
+
 function CartPage() {
   const dispatch = useDispatch()
 
@@ -123,13 +130,7 @@ function CartPage() {
             {product.map((item, index) => (
               <Tr key={index}>
                 <Td style={{ width: "15%", textAlign: "center" }}>
-                  <img
-                    style={{
-                      width: 100,
-                      height: 100,
-                      objectFit: "cover",
-                      objectPosition: "center",
-                    }}
+                  <Img
                     src={
                       process.env.NODE_ENV === "development"
                         ? `http://localhost:5000/${item.images[0]}`

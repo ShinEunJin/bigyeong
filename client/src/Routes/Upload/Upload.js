@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { withRouter } from "react-router-dom"
 import styled from "styled-components"
-import FileUpload from "../Components/FileUpload"
-import Map from "../Components/utils/Map/UploadMap"
+import FileUpload from "../../Components/utils/FileUpload"
+import Map from "../../Components/utils/Map/UploadMap"
 
 const Container = styled.div`
   padding-top: 100px;

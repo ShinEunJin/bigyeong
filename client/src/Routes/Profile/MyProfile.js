@@ -117,12 +117,14 @@ const PasswordInput = styled.input`
   width: 50%;
 `
 
-let skip = 0
+/* let skip = 0
 let limit = 4
 let changedSkip = 0
-let loadMore = false
+let loadMore = false */
 
 function MyProfile(props) {
+  const LIMIT = 4
+
   const { userData: user } = useSelector((state) => state.user)
 
   const [products, setProducts] = useState([])
@@ -130,10 +132,13 @@ function MyProfile(props) {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [withdrawModal, setWithdrawModal] = useState(false)
   const [password, setPassword] = useState("")
+  const [skip, setSkip] = useState(0)
+  const [changedSkip, setChangedSkip] = useState(0)
+  const [loadMore, setLoadMore] = useState(false)
 
-  const getProducts = async (skip, limit) => {
+  const getProducts = async (skip) => {
     const { data } = await axios.get(
-      `${routes.apiUserProfile}?userId=${user._id}&skip=${skip}&limit=${limit}`
+      `${routes.apiUserProfile}?userId=${user._id}&skip=${skip}&limit=${LIMIT}`
     )
     if (data.success) {
       if (loadMore) {
@@ -148,13 +153,13 @@ function MyProfile(props) {
   }
 
   useEffect(() => {
-    getProducts(skip, limit)
+    getProducts(skip)
   }, [])
 
   const loadMoreHandler = () => {
-    loadMore = true
-    changedSkip = changedSkip + limit
-    getProducts(changedSkip, limit)
+    setLoadMore(true)
+    setChangedSkip(changedSkip + LIMIT)
+    getProducts(changedSkip)
   }
 
   const showModal = () => {
@@ -259,7 +264,7 @@ function MyProfile(props) {
           </Col>
         ))}
       </Row>
-      {productsNum === limit && (
+      {productsNum === LIMIT && (
         <LoadMoreBtn onClick={loadMoreHandler}>
           <FaPlus />
         </LoadMoreBtn>
