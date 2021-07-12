@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import axios from "axios"
 import Loader from "../../Components/Loading"
 import { Pagination } from "antd"
-import { AiFillEye, AiFillHeart } from "react-icons/ai"
+import { AiFillEye } from "react-icons/ai"
 import Map from "../../Components/utils/Map/FindMap"
 import routes from "../../routes"
 
@@ -12,25 +12,22 @@ const Container = styled.div`
   width: 100%;
   background-color: black;
   display: flex;
+  @media ${(props) => props.theme.tablet} {
+    display: unset;
+  }
 `
 
 const MapSection = styled.div`
   width: 50%;
   height: calc(100vh - 3rem);
-  display: flex;
+  top: 3rem;
   position: relative;
   position: sticky;
-  top: 3rem;
-`
-
-const BeginSection = styled.div`
-  width: 50%;
-  height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 600;
-  font-size: 1.2rem;
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+    height: calc(100vh - 3rem);
+    top: 3rem;
+  }
 `
 
 const IndexSection = styled.div`
@@ -38,6 +35,9 @@ const IndexSection = styled.div`
   flex-direction: column;
   padding: 0 1rem;
   width: 50%;
+  @media ${(props) => props.theme.tablet} {
+    display: none;
+  }
 `
 
 const TitleColumn = styled.div`
@@ -122,7 +122,7 @@ const Empty = styled.div`
 
 let markers = []
 
-function Find() {
+function Find(props) {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
   const [start, setStart] = useState(true)
@@ -138,7 +138,7 @@ function Find() {
     setMouse(target)
   }
 
-  const updateMap = (start, defaultPage, address) => {
+  const updateMap = (start, defaultPage) => {
     setStart(start)
     setDefaultPage(defaultPage)
   }
@@ -191,12 +191,14 @@ function Find() {
             position: markerPosition,
           })
           let content =
+            `<a href=${routes.product(product._id)}>` +
             `<div class='card'>` +
             `<img class="card_image" src=${product.images[0]} />` +
             `<div class="card_title">${product.name}</div>` +
             `<div class="card_address">${product.address}</div>` +
             `<div class="card_likes">♥  ${product.likes}</div>` +
-            "</div>"
+            "</div>" +
+            "</a>"
           let customOverlay = new kakao.maps.CustomOverlay({
             position: markerPosition,
             content,
@@ -206,10 +208,11 @@ function Find() {
           marker.setMap(map)
           markers.push(marker)
           kakao.maps.event.addListener(marker, "click", function () {
-            customOverlay.setMap(map)
-          })
-          kakao.maps.event.addListener(map, "click", function () {
-            customOverlay.setMap(null)
+            if (customOverlay.getMap()) {
+              customOverlay.setMap(null)
+            } else {
+              customOverlay.setMap(map)
+            }
           })
           kakao.maps.event.addListener(map, "dragend", function () {
             customOverlay.setMap(null)
@@ -247,8 +250,8 @@ function Find() {
   }
 
   return (
-    <Container>
-      <MapSection>
+    <Container theme={props.theme}>
+      <MapSection theme={props.theme}>
         <Map
           reloadMap={reloadMap}
           getProducts={getProducts}
@@ -257,76 +260,73 @@ function Find() {
           updateMarkers={updateMarkers}
         ></Map>
       </MapSection>
-      {start ? (
-        <BeginSection>지도를 움직여 주십시오.</BeginSection>
-      ) : (
-        <IndexSection>
-          <TitleColumn>
+      {/* 오른쪽 컨텐츠들 */}
+      <IndexSection theme={props.theme}>
+        <TitleColumn>
+          <>
+            {products && products.length > 0 && (
+              <div>
+                총 <span>{productsLen}</span>
+                {productsLen === 100 ? "건 이상의 컨텐츠" : "건의 컨텐츠"}
+              </div>
+            )}
+          </>
+        </TitleColumn>
+        <Column>
+          {loading ? (
+            <Loader />
+          ) : (
             <>
-              {products && products.length > 0 && (
-                <div>
-                  총 <span>{productsLen}</span>
-                  {productsLen === 100 ? "건 이상의 컨텐츠" : "건의 컨텐츠"}
-                </div>
-              )}
-            </>
-          </TitleColumn>
-          <Column>
-            {loading ? (
-              <Loader />
-            ) : (
-              <>
-                {products && products.length > 0 ? (
-                  products.map((item, index) => (
-                    <SLink key={index} to={routes.product(item._id)}>
-                      <Content
-                        id={`${item._id}`}
-                        style={{
-                          backgroundColor: `${
-                            item._id === mouse
-                              ? "rgba(100, 100, 100, 0.7)"
-                              : "transparent"
-                          }`,
-                        }}
-                      >
-                        <Img src={item.images[0]} />
-                        <Info>
-                          <Title>{item.name}</Title>
-                          <Address>{item.address}</Address>
-                          <Address>{item.location}</Address>
-                          <LikeAndView>
-                            <View>
-                              <AiFillEye style={{ marginRight: 3 }} />
-                              {item.views}
-                            </View>
-                            {/* <Like>
+              {products && products.length > 0 ? (
+                products.map((item, index) => (
+                  <SLink key={index} to={routes.product(item._id)}>
+                    <Content
+                      id={`${item._id}`}
+                      style={{
+                        backgroundColor: `${
+                          item._id === mouse
+                            ? "rgba(100, 100, 100, 0.7)"
+                            : "transparent"
+                        }`,
+                      }}
+                    >
+                      <Img src={item.images[0]} />
+                      <Info>
+                        <Title>{item.name}</Title>
+                        <Address>{item.address}</Address>
+                        <Address>{item.location}</Address>
+                        <LikeAndView>
+                          <View>
+                            <AiFillEye style={{ marginRight: 3 }} />
+                            {item.views}
+                          </View>
+                          {/* <Like>
                               <AiFillHeart style={{ marginRight: 3 }} />
                               {item.likes}
                             </Like> */}
-                          </LikeAndView>
-                        </Info>
-                      </Content>
-                    </SLink>
-                  ))
-                ) : (
-                  <Empty>
-                    사진이 없습니다. 경치 좋은 사진 많이 올려주세요~ (ノ^∇^)
-                  </Empty>
-                )}
-              </>
-            )}
-          </Column>
-          <PageColumn>
-            <Pagination
-              current={defaultPage}
-              defaultCurrent={1}
-              pageSize={LIMIT}
-              onChange={(page) => onChangePage(page, loadMap)}
-              total={productsLen}
-            />
-          </PageColumn>
-        </IndexSection>
-      )}
+                        </LikeAndView>
+                      </Info>
+                    </Content>
+                  </SLink>
+                ))
+              ) : (
+                <Empty>
+                  사진이 없습니다. 경치 좋은 사진 많이 올려주세요~ (ノ^∇^)
+                </Empty>
+              )}
+            </>
+          )}
+        </Column>
+        <PageColumn>
+          <Pagination
+            current={defaultPage}
+            defaultCurrent={1}
+            pageSize={LIMIT}
+            onChange={(page) => onChangePage(page, loadMap)}
+            total={productsLen}
+          />
+        </PageColumn>
+      </IndexSection>
     </Container>
   )
 }

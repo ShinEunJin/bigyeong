@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { auth } from "../_actions/user_action"
 import { withRouter } from "react-router-dom"
+import theme from "./theme"
 
 export default (SpecificComponent, option, adminRoute = null) => {
   function AuthenticationCheck(props) {
@@ -33,7 +34,7 @@ export default (SpecificComponent, option, adminRoute = null) => {
       })
     }, [])
 
-    return <SpecificComponent {...props} user={user} />
+    return <SpecificComponent {...props} user={user} theme={theme} />
   }
   return withRouter(AuthenticationCheck)
 }

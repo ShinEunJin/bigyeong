@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link, withRouter } from "react-router-dom"
 import styled from "styled-components"
 import { Dropdown, Menu } from "antd"
-import { MdAddAPhoto, MdCreateNewFolder } from "react-icons/md"
+import { MdAddAPhoto, MdMenu } from "react-icons/md"
 import { FaSearch, FaClipboardList, FaUser } from "react-icons/fa"
 import { AiOutlineUser } from "react-icons/ai"
 import { logout } from "../_actions/user_action"
+import { useMediaQuery } from "react-responsive"
+import theme from "../hoc/theme"
 import dotenv from "dotenv"
 import routes from "../routes"
 dotenv.config()
@@ -26,6 +28,11 @@ const HeaderBar = styled.header`
   background-color: black;
   font-weight: 600;
   color: white;
+  @media ${(props) => props.theme.laptop} {
+    width: 100%;
+    margin: 0;
+    padding-left: 20%;
+  }
 `
 
 const SLink = styled(Link)`
@@ -46,6 +53,11 @@ const OnPage = styled.div`
   align-items: center;
   height: 3rem;
   transition: border-bottom 0.1s linear;
+`
+
+const IconSection = styled.section`
+  display: flex;
+  justify-content: center;
 `
 
 function Header(props) {
@@ -110,28 +122,40 @@ function Header(props) {
     </Menu>
   )
 
-  if (user.userData && !user.userData.isAuth) {
-    /* 로그인 안한 상태 */
-    return (
-      <HeaderBar>
-        {/* 로고 부분 */}
-        <div>
-          <OnPage>
-            <SLink style={{ color: "white" }} to="/">
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <img
-                  style={{ height: "3rem", width: "3rem" }}
-                  src="/logo/logo1.png"
-                />
-                <span style={{ paddingLeft: 3, fontSize: "1.5em" }}>
-                  BGyeong
-                </span>
-              </div>
-            </SLink>
-          </OnPage>
-        </div>
-        {/* 아이콘 부분 */}
-        <div style={{ display: "flex" }}>
+  // 모바일 전용
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <FaSearch style={{ fontSize: "1.4em" }} />
+      </Menu.Item>
+    </Menu>
+  )
+
+  const isLaptopOrDesktop = useMediaQuery({ query: theme.laptop })
+
+  return (
+    <HeaderBar theme={props.theme}>
+      {/* 로고 부분 */}
+      <div>
+        <OnPage>
+          <SLink to="/">
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <img
+                style={{ height: "3rem", width: "3rem" }}
+                src="/logo/logo1.png"
+              />
+              <span style={{ paddingLeft: 3, fontSize: "1.5em" }}>BGyeong</span>
+            </div>
+          </SLink>
+        </OnPage>
+      </div>
+      {/* 아이콘 부분 */}
+      {isLaptopOrDesktop ? (
+        <Dropdown overlay={menu} trigger={["click"]}>
+          <MdMenu style={{ fontSize: "2rem" }} placement="bottomRight" />
+        </Dropdown>
+      ) : (
+        <IconSection>
           {/* 찾기 */}
           <OnPage
             current={
@@ -143,6 +167,14 @@ function Header(props) {
               <FaSearch style={{ fontSize: "1.4em" }} />
             </Dropdown>
           </OnPage>
+          {/* 찜목록 */}
+          {user.userData && user.userData.isAuth && (
+            <OnPage current={props.location.pathname === "/user/cart"}>
+              <Dropdown overlay={take} placement="bottomRight" arrow>
+                <FaUser style={{ fontSize: "1.5em" }} />
+              </Dropdown>
+            </OnPage>
+          )}
           {/* 업로드 */}
           <OnPage current={props.location.pathname === "/upload"}>
             <SLink to="/upload">
@@ -159,88 +191,36 @@ function Header(props) {
               </Dropdown>
             </SLink>
           </OnPage>
-          {/* 로그인 및 회원가입 */}
-          <OnPage
-            current={
-              props.location.pathname === "/login" ||
-              props.location.pathname === "/register"
-            }
-          >
-            <Dropdown overlay={loginAndRegister} placement="bottomRight" arrow>
-              <AiOutlineUser style={{ fontSize: "1.6em" }} />
-            </Dropdown>
-          </OnPage>
-        </div>
-      </HeaderBar>
-    )
-  } else {
-    /* 로그인 상태 */
-    return (
-      <HeaderBar>
-        {/* 로고 부분 */}
-        <div>
-          <OnPage>
-            <SLink to="/">
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <img
-                  style={{ height: "3rem", width: "3rem" }}
-                  src="/logo/logo1.png"
-                />
-                <span style={{ paddingLeft: 3, fontSize: "1.5em" }}>
-                  BGyeong
-                </span>
-              </div>
-            </SLink>
-          </OnPage>
-        </div>
-        {/* 아이콘 부분 */}
-        <div style={{ display: "flex", alignItems: "center" }}>
-          {/* 찾기 */}
-          <OnPage
-            current={
-              props.location.pathname === "/find_map" ||
-              props.location.pathname === "/find_search"
-            }
-          >
-            <Dropdown overlay={search} placement="bottomRight" arrow>
-              <FaSearch style={{ fontSize: "1.4em" }} />
-            </Dropdown>
-          </OnPage>
-          {/* 찜목록 */}
-          <OnPage current={props.location.pathname === "/user/cart"}>
-            <Dropdown overlay={take} placement="bottomRight" arrow>
-              <FaUser style={{ fontSize: "1.5em" }} />
-            </Dropdown>
-          </OnPage>
-          {/* 업로드 */}
-          <OnPage current={props.location.pathname === "/upload"}>
-            <SLink to="/upload">
-              <Dropdown overlay={upload} placement="topRight" arrow>
-                <MdAddAPhoto style={{ fontSize: "1.4em" }} />
-              </Dropdown>
-            </SLink>
-          </OnPage>
-          {/* 자유게시판 */}
-          <OnPage current={props.location.pathname === "/board"}>
-            <SLink to="/board">
-              <Dropdown overlay={board} placement="bottomRight" arrow>
-                <FaClipboardList style={{ fontSize: "1.4em" }} />
-              </Dropdown>
-            </SLink>
-          </OnPage>
           {/* 로그아웃 */}
-          <OnPage>
-            <div
-              style={{ fontSize: "1em", cursor: "pointer" }}
-              onClick={onLogoutHandler}
+          {user.userData && user.userData.isAuth ? (
+            <OnPage>
+              <div
+                style={{ fontSize: "1em", cursor: "pointer" }}
+                onClick={onLogoutHandler}
+              >
+                Log out
+              </div>
+            </OnPage>
+          ) : (
+            <OnPage
+              current={
+                props.location.pathname === "/login" ||
+                props.location.pathname === "/register"
+              }
             >
-              Log out
-            </div>
-          </OnPage>
-        </div>
-      </HeaderBar>
-    )
-  }
+              <Dropdown
+                overlay={loginAndRegister}
+                placement="bottomRight"
+                arrow
+              >
+                <AiOutlineUser style={{ fontSize: "1.6em" }} />
+              </Dropdown>
+            </OnPage>
+          )}
+        </IconSection>
+      )}
+    </HeaderBar>
+  )
 }
 
 export default withRouter(Header)

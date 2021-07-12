@@ -21,12 +21,13 @@ import DetailGallery from "../Routes/DetailProduct/DetailGallery"
 import UpdateProduct from "../Routes/Update/UpdateProduct"
 import Board from "../Routes/Board/Board"
 import Post from "../Routes/Board/Post"
+import theme from "../hoc/theme"
 
 function App() {
   return (
     <>
       <Router>
-        <Header />
+        <Header theme={theme} />
         <Switch>
           <Route exact path="/" component={Auth(Home, null)} />
           <Route exact path="/login" component={Auth(Login, false)} />

@@ -31,6 +31,10 @@ function FindMap({
       geocoder.coord2Address(coords.getLng(), coords.getLat(), callback)
     }
 
+    let area = map.getBounds()
+    getProducts(area.pa, area.oa, area.qa, area.ha, 0)
+    updateMarkers(map, area.pa, area.oa, area.qa, area.ha, 0)
+
     kakao.maps.event.addListener(map, "dragend", function () {
       searchDetailAddrFromCoords(map.getCenter(), (result, status) => {
         if (status === kakao.maps.services.Status.OK) {

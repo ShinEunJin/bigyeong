@@ -1,4 +1,5 @@
 @import "~react-image-gallery/styles/css/image-gallery.css";
+@import "react-slideshow-image/dist/styles.css";
 .map_wrap {
   position: relative;
   width: 100%;

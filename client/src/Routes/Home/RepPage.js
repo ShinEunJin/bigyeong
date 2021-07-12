@@ -6,6 +6,8 @@ import Fade from "react-reveal/Fade"
 import Category from "./Category"
 import Loader from "../../Components/Loading"
 import routes from "../../routes"
+import device from "../../hoc/theme"
+import { useMediaQuery } from "react-responsive"
 
 const Container = styled.div`
   width: 100%;
@@ -20,6 +22,11 @@ const Text = styled.div`
   z-index: 2;
   bottom: 30%;
   left: 30%;
+  @media ${(props) => props.theme.laptop} {
+    position: absolute;
+    top: 5%;
+    left: 40%;
+  }
 `
 
 const Span = styled.span`
@@ -28,6 +35,11 @@ const Span = styled.span`
   font-size: 2.3em;
   font-weight: 600;
   color: white;
+  @media ${(props) => props.theme.laptop} {
+    font-size: 0.9em;
+    font-weight: 400;
+    margin-bottom: 2px;
+  }
 `
 
 const SLink = styled(Link)`
@@ -36,6 +48,9 @@ const SLink = styled(Link)`
   &:hover {
     color: rgba(245, 245, 245, 0.8);
   }
+  @media ${(props) => props.theme.laptop} {
+    font-size: 0.9em;
+  }
 `
 
 const Img = styled.img`
@@ -43,12 +58,19 @@ const Img = styled.img`
   width: 80%;
   object-fit: contain;
   object-position: center;
+  @media ${(props) => props.theme.laptop} {
+    object-fit: cover;
+    width: 80%;
+    height: 90vh;
+  }
 `
 
-function RepPage() {
+function RepPage({ theme }) {
   const { repProduct, loading } = useSelector((state) => state.product)
 
   const [fade, setFade] = useState(false)
+
+  const isMobileOrLaptop = useMediaQuery({ query: device.mobile })
 
   useEffect(() => {
     if (!loading) {
@@ -58,12 +80,26 @@ function RepPage() {
 
   return (
     <Container>
-      <Text>
-        <Fade when={fade} top delay={1600} distance="1rem">
-          <Span style={{ paddingLeft: "1rem" }}>이곳은</Span>
+      <Text theme={theme}>
+        <Fade
+          when={fade}
+          top
+          delay={1600}
+          distance={isMobileOrLaptop ? "0.2rem" : "1rem"}
+        >
+          <Span theme={theme} style={{ paddingLeft: "1rem" }}>
+            이곳은
+          </Span>
         </Fade>
-        <Fade when={fade} top delay={2200} distance="1rem">
-          <Span style={{ marginBottom: "1rem" }}>어디일까요?</Span>
+        <Fade
+          when={fade}
+          top
+          delay={2200}
+          distance={isMobileOrLaptop ? "0.2rem" : "1rem"}
+        >
+          <Span theme={theme} style={{ marginBottom: "1rem" }}>
+            어디일까요?
+          </Span>
         </Fade>
         <Fade when={fade} left delay={4000} distance="0.5rem" duration={200}>
           <SLink to={routes.product(repProduct && repProduct._id)}>
@@ -71,8 +107,12 @@ function RepPage() {
           </SLink>
         </Fade>
       </Text>
-      {loading ? <Loader /> : <Img src={repProduct && repProduct.images[0]} />}
-      <Category time={fade} />
+      {loading ? (
+        <Loader />
+      ) : (
+        <Img theme={theme} src={repProduct && repProduct.images[0]} />
+      )}
+      <Category theme={theme} time={fade} />
     </Container>
   )
 }

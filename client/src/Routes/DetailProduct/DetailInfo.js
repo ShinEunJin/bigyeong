@@ -7,12 +7,9 @@ import { CaretUpOutlined } from "@ant-design/icons"
 import { updateUserTake } from "../../_actions/user_action"
 import Map from "../../Components/utils/Map/DetailMap"
 import DetailRevise from "./DetailRevise"
-import dotenv from "dotenv"
 import axios from "axios"
 import routes from "../../routes"
 import Report from "../../Components/utils/Report"
-
-dotenv.config()
 
 const Container = styled.div`
   display: flex;

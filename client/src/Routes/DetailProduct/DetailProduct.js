@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react"
 import { withRouter } from "react-router"
 import styled from "styled-components"
+import { useMediaQuery } from "react-responsive"
+import theme from "../../hoc/theme"
 import DetailImage from "./DetailImage"
 import DetailInfo from "./DetailInfo"
 import Comments from "../../Components/utils/Comments"
 import Loading from "../../Components/Loading"
 import { useDispatch, useSelector } from "react-redux"
 import { getProduct } from "../../_actions/product_action"
+import DetailMobileImage from "./DetailMobileImage"
+import DetailMobileInfo from "./DetailMobileInfo"
 
 const Container = styled.div`
   width: 80%;
@@ -37,6 +41,8 @@ function DetailProduct(props) {
     setHeight(window.scrollY > window.outerHeight * 0.3)
   }
 
+  const isTabletOrLaptop = useMediaQuery({ query: theme.tablet })
+
   return (
     <>
       {loading ? (
@@ -46,8 +52,17 @@ function DetailProduct(props) {
           <Container>
             {product && (
               <>
-                <DetailImage />
-                <DetailInfo trigger={height} />
+                {isTabletOrLaptop ? (
+                  <>
+                    <DetailMobileImage trigger={height} />
+                    <DetailMobileInfo />
+                  </>
+                ) : (
+                  <>
+                    <DetailImage />
+                    <DetailInfo trigger={height} />
+                  </>
+                )}
               </>
             )}
             <Comments />

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import ImageGallery from "react-image-gallery"
 import dotenv from "dotenv"
+import { useMediaQuery } from "react-responsive"
+import theme from "../../hoc/theme"
 import Loading from "../../Components/Loading"
 import axios from "axios"
 import styled from "styled-components"
@@ -38,12 +40,34 @@ function DetailGallery() {
     }
   }, [product])
 
+  const isTabletOrLaptop = useMediaQuery({ query: theme.tablet })
+
   return (
     <Container>
       {loading ? (
         <Loading />
       ) : (
-        <ImageGallery thumbnailPosition="left" items={images} lazyLoad />
+        <>
+          {isTabletOrLaptop ? (
+            <>
+              {product.images &&
+                product.images.length > 0 &&
+                product.images.map((item, index) => (
+                  <img
+                    style={{ width: "100%" }}
+                    key={index}
+                    src={
+                      process.env.NODE_ENV === "development"
+                        ? `http://localhost:3000/${item}`
+                        : `${item}`
+                    }
+                  />
+                ))}
+            </>
+          ) : (
+            <ImageGallery thumbnailPosition="left" items={images} lazyLoad />
+          )}
+        </>
       )}
     </Container>
   )

@@ -3,9 +3,8 @@ import RepPage from "./RepPage"
 import { useDispatch } from "react-redux"
 import { getRepProduct } from "../../_actions/product_action"
 
-function Home() {
+function Home(props) {
   const dispatch = useDispatch()
-
   useEffect(() => {
     window.scrollTo(0, 0)
     dispatch(getRepProduct())
@@ -13,7 +12,7 @@ function Home() {
 
   return (
     <>
-      <RepPage />
+      <RepPage theme={props.theme} />
     </>
   )
 }
