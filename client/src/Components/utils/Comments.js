@@ -4,6 +4,8 @@ import { FaTimes } from "react-icons/fa"
 import { Input } from "antd"
 import axios from "axios"
 import { withRouter } from "react-router-dom"
+import theme from "../../hoc/theme"
+import { useMediaQuery } from "react-responsive"
 import routes from "../../routes"
 import Report from "../utils/Report"
 
@@ -36,6 +38,9 @@ const CommentsList = styled.div`
   display: flex;
   margin-bottom: 2rem;
   justify-content: space-between;
+  @media ${(props) => props.theme.tablet} {
+    width: 80vw;
+  }
 `
 
 const Form = styled.form`
@@ -48,12 +53,19 @@ const InputName = styled(Input)`
   margin-right: 0.5rem;
   width: 10vw;
   color: black;
+  @media ${(props) => props.theme.tablet} {
+    width: 60vw;
+    margin-right: 0;
+  }
 `
 
 const InputPassword = styled(Input.Password)`
   width: 10vw;
   margin-bottom: 0.5rem;
   color: black;
+  @media ${(props) => props.theme.tablet} {
+    width: 60vw;
+  }
 `
 
 const InputText = styled(TextArea)`
@@ -62,6 +74,9 @@ const InputText = styled(TextArea)`
   background-color: inherit;
   border-bottom: solid 1px rgba(0, 0, 0, 0.3);
   margin-bottom: 1rem;
+  @media ${(props) => props.theme.tablet} {
+    width: 80vw;
+  }
 `
 
 const InputSubmit = styled.input`
@@ -110,6 +125,9 @@ const LoadMoreBtn = styled.button`
   cursor: pointer;
   justify-self: center;
   margin: 0 auto;
+  @media ${(props) => props.theme.tablet} {
+    width: 80vw;
+  }
 `
 
 const Btn = styled.button`
@@ -251,6 +269,7 @@ function Comments(props) {
       <FormColumn>
         <Form onSubmit={onSubmitHandler}>
           <InputName
+            theme={theme}
             size="small"
             placeholder="이름(닉네임)"
             maxLength={20}
@@ -258,6 +277,7 @@ function Comments(props) {
             onChange={onNameChange}
           />
           <InputPassword
+            theme={theme}
             size="small"
             placeholder="비밀번호"
             maxLength={20}
@@ -265,6 +285,7 @@ function Comments(props) {
             onChange={onPasswordChange}
           />
           <InputText
+            theme={theme}
             placeholder="댓글 작성하기"
             showCount
             autoSize={{ minRows: 5 }}
@@ -280,7 +301,7 @@ function Comments(props) {
         comments.length > 0 &&
         comments.map((item, index) => (
           <CommentsList key={index}>
-            <TextColumn>
+            <TextColumn theme={theme}>
               <div style={{ display: "flex" }}>
                 <CommentName>{item.name}</CommentName>
                 <CommentDate>{item.date}</CommentDate>
@@ -326,7 +347,9 @@ function Comments(props) {
         ))}
       {/* 더보기 버튼 */}
       {commentLastNumber === LIMIT && (
-        <LoadMoreBtn onClick={loadMoreHandler}>더보기</LoadMoreBtn>
+        <LoadMoreBtn theme={theme} onClick={loadMoreHandler}>
+          더보기
+        </LoadMoreBtn>
       )}
     </CommentsColumn>
   )

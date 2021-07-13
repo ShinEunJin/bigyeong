@@ -8,6 +8,7 @@ const size = {
 const theme = {
   mobile: `(max-width: ${size.mobile})`,
   tablet: `(max-width: ${size.tablet})`,
+  minTablet: `(min-width: ${size.tablet})`,
   laptop: `(max-width: ${size.laptop})`,
   desktop: `(min-width: ${size.desktop})`,
 }

@@ -196,7 +196,7 @@ function Find(props) {
             `<img class="card_image" src=${product.images[0]} />` +
             `<div class="card_title">${product.name}</div>` +
             `<div class="card_address">${product.address}</div>` +
-            `<div class="card_likes">♥  ${product.likes}</div>` +
+            `<div class="card_likes">👁   ${product.views}</div>` +
             "</div>" +
             "</a>"
           let customOverlay = new kakao.maps.CustomOverlay({

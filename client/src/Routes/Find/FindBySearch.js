@@ -2,12 +2,14 @@ import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getProducts, getProductsMore } from "../../_actions/product_action"
 import { Link } from "react-router-dom"
+import { Row, Col, Menu, Carousel } from "antd"
+import { AiFillEye, AiOutlineUnorderedList } from "react-icons/ai"
 import styled from "styled-components"
+import { useMediaQuery } from "react-responsive"
+import theme from "../../hoc/theme"
 import Checkbox from "../../Components/utils/CheckBox"
 import SearchProduct from "../../Components/utils/SearchProduct"
 import Loading from "../../Components/Loading"
-import { Row, Col, Menu, Carousel } from "antd"
-import { AiFillHeart, AiFillEye, AiOutlineUnorderedList } from "react-icons/ai"
 import routes from "../../routes"
 
 const { SubMenu } = Menu
@@ -23,16 +25,33 @@ const SearchSection = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 3vh;
+  @media ${(props) => props.theme.tablet} {
+    display: inline;
+  }
 `
 
 const SearchColumn = styled.div`
   width: 40%;
+  @media ${(props) => props.theme.tablet} {
+    width: 70vw;
+    margin-bottom: 2rem;
+  }
 `
 
-const CategoryColumn = styled.div`
+const Category = styled.div`
+  @media ${(props) => props.theme.minTablet} {
+    height: 6rem;
+    margin-bottom: 8rem;
+  }
+`
+
+const RepColumn = styled.div`
   width: 50%;
   display: flex;
   justify-content: center;
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+  }
 `
 
 const Label = styled.label`
@@ -51,6 +70,10 @@ const RepCard = styled.div`
   border: 1px solid rgba(180, 180, 180, 0.3);
   position: relative;
   color: black;
+  @media ${(props) => props.theme.tablet} {
+    width: 80vw;
+    height: 45vh;
+  }
 `
 
 const Card = styled.div`
@@ -63,6 +86,9 @@ const Card = styled.div`
   &:hover {
     transform: scale(1.01);
   }
+  @media ${(props) => props.theme.tablet} {
+    height: 47vh;
+  }
 `
 
 const Img = styled.img`
@@ -71,6 +97,9 @@ const Img = styled.img`
   object-fit: cover;
   object-position: center;
   margin-bottom: 0.5rem;
+  @media ${(props) => props.theme.tablet} {
+    height: 36vh;
+  }
 `
 
 const Title = styled.div`
@@ -223,18 +252,18 @@ function Begin() {
 
   return (
     <Container>
-      <SearchSection>
-        <SearchColumn>
+      <SearchSection theme={theme}>
+        <SearchColumn theme={theme}>
           <div>
             <Label>검색하기</Label>
             <SearchProduct handleSearchFilter={handleSearchFilter} />
           </div>
-          <div style={{ height: "6rem", marginBottom: "8rem" }}>
+          <Category theme={theme}>
             <Label>지역 선택</Label>
             <Checkbox
               handleCheckFilter={(filters) => handleCheckFilter(filters)}
             />
-          </div>
+          </Category>
           <div>
             <SMenu
               triggerSubMenuAction="click"
@@ -262,16 +291,16 @@ function Begin() {
             </SMenu>
           </div>
         </SearchColumn>
-        <CategoryColumn>
+        <RepColumn theme={theme}>
           {repProduct && (
             <Link to={routes.product(repProduct._id)}>
-              <RepCard>
+              <RepCard theme={theme}>
                 <Carousel autoplay>
                   {repProduct.images &&
                     repProduct.images.length > 0 &&
                     repProduct.images.map((item, index) => (
                       <div key={index}>
-                        <Img src={item} />
+                        <Img theme={theme} src={item} />
                       </div>
                     ))}
                 </Carousel>
@@ -294,32 +323,23 @@ function Begin() {
               </RepCard>
             </Link>
           )}
-        </CategoryColumn>
+        </RepColumn>
       </SearchSection>
       <ProductSection>
         {loading ? (
           <Loading />
         ) : (
-          <Row
-            gutter={[38, 48]}
-            style={{ display: "flex", justifyContent: "space-around" }}
-          >
+          <Row justify="space-between">
             {products &&
               products.length > 0 &&
               products.map((item, index) => (
                 <Link key={index} to={routes.product(item._id)}>
-                  <Col lg={8} md={12} xs={24}>
-                    <Card>
-                      <Img src={item.images[0]} />
+                  <Col>
+                    <Card theme={theme}>
+                      <Img theme={theme} src={item.images[0]} />
                       <Title>{item.name}</Title>
                       <Address>{item.address || item.region}</Address>
                       <Likes>
-                        {/* <Icon>
-                          <AiFillHeart
-                            style={{ color: "red", marginRight: "0.1rem" }}
-                          />{" "}
-                          {item.likes}
-                        </Icon> */}
                         <Icon>
                           <AiFillEye
                             style={{ color: "gray", marginRight: "0.1rem" }}
