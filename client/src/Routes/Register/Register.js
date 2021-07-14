@@ -10,12 +10,12 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60vh;
 `
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  padding-top: 10vh;
 `
 
 const Input = styled.input`

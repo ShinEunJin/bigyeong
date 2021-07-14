@@ -1,8 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, withRouter } from "react-router-dom"
 import styled from "styled-components"
-import { Dropdown, Menu } from "antd"
+import { Dropdown, Menu, Drawer } from "antd"
 import { MdAddAPhoto, MdMenu } from "react-icons/md"
 import { FaSearch, FaClipboardList, FaUser } from "react-icons/fa"
 import { AiOutlineUser } from "react-icons/ai"
@@ -36,7 +36,6 @@ const HeaderBar = styled.header`
 `
 
 const SLink = styled(Link)`
-  font-size: 1em;
   font-weight: 600;
   &:hover {
     color: wheat;
@@ -60,10 +59,24 @@ const IconSection = styled.section`
   justify-content: center;
 `
 
+const List = styled.div`
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  width: 20vw;
+  color: black;
+`
+
+const ListMenu = styled.div`
+  font-weight: 600;
+  padding: 0.5em 0;
+`
+
 function Header(props) {
   const user = useSelector((state) => state.user)
 
   const dispatch = useDispatch()
+
+  const [visible, setVisible] = useState(false) // draw
 
   const onLogoutHandler = () => {
     dispatch(logout()).then((res) => {
@@ -114,22 +127,22 @@ function Header(props) {
   const loginAndRegister = (
     <Menu>
       <Menu.Item>
-        <SLink to="/login">로그인</SLink>
+        <SLink to={routes.login}>로그인</SLink>
       </Menu.Item>
       <Menu.Item>
-        <SLink to="/register">회원가입</SLink>
+        <SLink to={routes.register}>회원가입</SLink>
       </Menu.Item>
     </Menu>
   )
 
   // 모바일 전용
-  const menu = (
-    <Menu>
-      <Menu.Item>
-        <FaSearch style={{ fontSize: "1.4em" }} />
-      </Menu.Item>
-    </Menu>
-  )
+
+  const showDrawer = () => {
+    setVisible(true)
+  }
+  const onClose = () => {
+    setVisible(false)
+  }
 
   const isLaptopOrDesktop = useMediaQuery({ query: theme.laptop })
 
@@ -151,9 +164,62 @@ function Header(props) {
       </div>
       {/* 아이콘 부분 */}
       {isLaptopOrDesktop ? (
-        <Dropdown overlay={menu} trigger={["click"]}>
-          <MdMenu style={{ fontSize: "2rem" }} placement="bottomRight" />
-        </Dropdown>
+        <>
+          <MdMenu style={{ fontSize: "2rem" }} onClick={showDrawer} />
+          <Drawer
+            title="Menu"
+            width={"30vw"}
+            closable={false}
+            placement="right"
+            onClose={onClose}
+            visible={visible}
+          >
+            <List>
+              <FaSearch style={{ fontSize: "1.4em" }} />
+              <SLink to={routes.findBySearch}>
+                <ListMenu>검색</ListMenu>
+              </SLink>
+              <SLink to={routes.findByMap}>
+                <ListMenu>지도</ListMenu>
+              </SLink>
+            </List>
+            <List>
+              <MdAddAPhoto style={{ fontSize: "1.4em" }} />
+              <SLink to={routes.upload}>
+                <ListMenu>업로드</ListMenu>
+              </SLink>
+            </List>
+            <List>
+              <FaClipboardList style={{ fontSize: "1.4em" }} />
+              <SLink to={routes.board}>
+                <ListMenu>게시판</ListMenu>
+              </SLink>
+            </List>
+            <List>
+              <FaUser style={{ fontSize: "1.5em" }} />
+              {user.userData && user.userData.isAuth ? (
+                <>
+                  <SLink to={routes.userCart}>
+                    <ListMenu>찜목록</ListMenu>
+                  </SLink>
+                  <SLink to={routes.userMyProfile}>
+                    <ListMenu>프로필</ListMenu>
+                  </SLink>
+                  <ListMenu onClick={onLogoutHandler}>Logout</ListMenu>
+                </>
+              ) : (
+                <>
+                  <SLink to={routes.login}>
+                    <ListMenu>로그인</ListMenu>
+                  </SLink>
+                  <SLink to={routes.register}>
+                    <ListMenu>회원가입</ListMenu>
+                  </SLink>
+                </>
+              )}
+            </List>
+          </Drawer>
+        </>
       ) : (
         <IconSection>
           {/* 찾기 */}
@@ -177,7 +243,7 @@ function Header(props) {
           )}
           {/* 업로드 */}
           <OnPage current={props.location.pathname === "/upload"}>
-            <SLink to="/upload">
+            <SLink to={routes.upload}>
               <Dropdown overlay={upload} placement="bottomRight" arrow>
                 <MdAddAPhoto style={{ fontSize: "1.4em" }} />
               </Dropdown>
@@ -185,7 +251,7 @@ function Header(props) {
           </OnPage>
           {/* 자유게시판 */}
           <OnPage current={props.location.pathname === "/board"}>
-            <SLink to="/board">
+            <SLink to={routes.board}>
               <Dropdown overlay={board} placement="bottomRight" arrow>
                 <FaClipboardList style={{ fontSize: "1.4em" }} />
               </Dropdown>

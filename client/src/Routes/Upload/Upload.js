@@ -141,10 +141,6 @@ function Upload(props) {
     }
   }
 
-  useEffect(() => {
-    console.log("hi")
-  })
-
   return (
     <Container>
       <FileUpload refreshFunction={updateImages} />

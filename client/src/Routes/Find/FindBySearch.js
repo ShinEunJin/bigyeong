@@ -61,7 +61,13 @@ const Label = styled.label`
   font-size: 1.1em;
 `
 
-const ProductSection = styled.div``
+const ProductSection = styled.div`
+  @media ${(props) => props.theme.tablet} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`
 
 const RepCard = styled.div`
   width: 28vw;
@@ -72,7 +78,9 @@ const RepCard = styled.div`
   color: black;
   @media ${(props) => props.theme.tablet} {
     width: 80vw;
-    height: 45vh;
+    height: 47vh;
+    margin: 0 auto;
+    margin-bottom: 3rem;
   }
 `
 
@@ -88,6 +96,7 @@ const Card = styled.div`
   }
   @media ${(props) => props.theme.tablet} {
     height: 47vh;
+    width: 80vw;
   }
 `
 
@@ -325,11 +334,11 @@ function Begin() {
           )}
         </RepColumn>
       </SearchSection>
-      <ProductSection>
+      <ProductSection theme={theme}>
         {loading ? (
           <Loading />
         ) : (
-          <Row justify="space-between">
+          <Row justify="space-between" gutter={[16, 48]}>
             {products &&
               products.length > 0 &&
               products.map((item, index) => (
