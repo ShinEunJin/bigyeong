@@ -7,11 +7,19 @@ import Write from "./Write"
 import { Pagination } from "antd"
 import List from "./List"
 import { FaPen } from "react-icons/fa"
+import theme from "../../hoc/theme"
+import { useMediaQuery } from "react-responsive"
 
 const Container = styled.div`
   width: 60%;
   margin: 0 auto;
   position: relative; // Fade Write 위한 코드
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+    background-color: white;
+    color: black;
+    padding-top: 2vh;
+  }
 `
 
 const Header = styled.header`
@@ -21,11 +29,17 @@ const Header = styled.header`
   font-size: 1.5em;
   display: flex;
   align-items: center;
+  @media ${(props) => props.theme.tablet} {
+    height: 7vh;
+    margin: auto;
+    width: 50vw;
+  }
 `
 
 const Content = styled.div`
   border-top: 2px solid white;
   border-bottom: 2px solid white;
+  margin-bottom: 2rem;
 `
 
 const Button = styled.button`
@@ -35,6 +49,11 @@ const Button = styled.button`
   background-color: #39655f;
   padding: 0.5em;
   width: 10vw;
+  @media ${(props) => props.theme.tablet} {
+    background-color: wheat;
+    position: absolute;
+    top: 2vh;
+  }
 `
 
 function Board() {
@@ -84,9 +103,11 @@ function Board() {
     getPosts((page - 1) * LIMIT, LIMIT)
   }
 
+  const isTabletOrLaptop = useMediaQuery({ query: theme.tablet })
+
   return (
-    <Container>
-      <Header>자유 게시판 ({length})</Header>
+    <Container theme={theme}>
+      <Header theme={theme}>자유 게시판 ({length})</Header>
 
       <Fade bottom distance="2rem" duration={300} when={reveal}>
         {reveal && (
@@ -101,6 +122,7 @@ function Board() {
         style={{
           display: "flex",
           justifyContent: "center",
+          paddingBottom: "2vh",
         }}
         current={currentPage}
         defaultCurrent={1}
@@ -108,9 +130,9 @@ function Board() {
         onChange={(page) => onChangePage(page)}
         total={length}
       />
-      <Button onClick={onRevealWrite}>
+      <Button theme={theme} onClick={onRevealWrite}>
         <FaPen />
-        글쓰기
+        {isTabletOrLaptop ? "" : "글쓰기"}
       </Button>
     </Container>
   )

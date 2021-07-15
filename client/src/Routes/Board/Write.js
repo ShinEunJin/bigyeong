@@ -4,6 +4,8 @@ import { Input } from "antd"
 import { FaTimes } from "react-icons/fa"
 import axios from "axios"
 import routes from "../../routes"
+import theme from "../../hoc/theme"
+import { useMediaQuery } from "react-responsive"
 
 const Container = styled.div`
   width: 120%;
@@ -15,6 +17,13 @@ const Container = styled.div`
   position: absolute;
   left: -10%;
   z-index: 10;
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+    margin: 0;
+    position: unset;
+    border-radius: unset;
+    height: 100vh;
+  }
 `
 
 const Form = styled.form`
@@ -31,18 +40,27 @@ const Header = styled.div`
   margin: 0 auto;
   width: 80%;
   margin-bottom: 2px;
+  @media ${(props) => props.theme.tablet} {
+    flex-wrap: wrap;
+  }
 `
 
 const Title = styled(Input.TextArea)`
   width: 75%;
   border-radius: 5px;
   margin-right: 2px;
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+  }
 `
 
 const Password = styled(Input.Password)`
   width: 20%;
   border-radius: 5px;
   margin-right: 2px;
+  @media ${(props) => props.theme.tablet} {
+    width: 80%;
+  }
 `
 
 const Text = styled(Input.TextArea)`
@@ -59,6 +77,10 @@ const Submit = styled.input`
   cursor: pointer;
   color: black;
   font-weight: 600;
+  @media ${(props) => props.theme.tablet} {
+    width: 19%;
+    font-size: 0.8em;
+  }
 `
 
 function Write({ takeReveal, refreshBoard }) {
@@ -108,11 +130,14 @@ function Write({ takeReveal, refreshBoard }) {
     }
   }
 
+  const isTabletOrLaptop = useMediaQuery({ query: theme.tablet })
+
   return (
-    <Container>
+    <Container theme={theme}>
       <Form onSubmit={onSubmitHandler}>
-        <Header>
+        <Header theme={theme}>
           <Title
+            theme={theme}
             type="text"
             placeholder="제목"
             maxLength={80}
@@ -121,12 +146,13 @@ function Write({ takeReveal, refreshBoard }) {
             onChange={onTitleChange}
           />
           <Password
+            theme={theme}
             placeholder="비밀번호"
             maxLength={20}
             value={password}
             onChange={onPasswordChange}
           />
-          <Submit type="submit" value="확인" />
+          <Submit theme={theme} type="submit" value="확인" />
         </Header>
         <Text
           placeholder="내용을 자유롭게 써주시기 바랍니다."
@@ -136,17 +162,19 @@ function Write({ takeReveal, refreshBoard }) {
           onChange={onTextChange}
         />
       </Form>
-      <FaTimes
-        onClick={onClickX}
-        style={{
-          color: "black",
-          cursor: "pointer",
-          fontSize: "1.5em",
-          position: "absolute",
-          top: "2rem",
-          right: "2rem",
-        }}
-      />
+      {!isTabletOrLaptop && (
+        <FaTimes
+          onClick={onClickX}
+          style={{
+            color: "black",
+            cursor: "pointer",
+            fontSize: "1.5em",
+            position: "absolute",
+            top: "2rem",
+            right: "2rem",
+          }}
+        />
+      )}
     </Container>
   )
 }

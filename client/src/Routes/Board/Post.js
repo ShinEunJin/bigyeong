@@ -3,9 +3,12 @@ import axios from "axios"
 import routes from "../../routes"
 import { withRouter } from "react-router-dom"
 import styled from "styled-components"
-import { FaTimes } from "react-icons/fa"
+import { FaTrashAlt, FaTimes } from "react-icons/fa"
 import { Input } from "antd"
 import Report from "../../Components/utils/Report"
+import { Descriptions } from "antd"
+import theme from "../../hoc/theme"
+import { useMediaQuery } from "react-responsive"
 
 const Container = styled.div`
   width: 70%;
@@ -13,6 +16,12 @@ const Container = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+    background-color: white;
+    color: black;
+    padding: unset;
+  }
 `
 
 const Table = styled.table`
@@ -58,6 +67,9 @@ const Form = styled.form`
   position: absolute;
   right: 20%;
   width: 20vw;
+  @media ${(props) => props.theme.tablet} {
+    width: 60%;
+  }
 `
 
 const Submit = styled.input`
@@ -122,32 +134,25 @@ function Post(props) {
     getPost()
   }, [postId])
 
+  //mobile
+
+  const isTabletOrLaptop = useMediaQuery({ query: theme.tablet })
+
   return (
-    <Container>
-      <Table>
-        <thead>
-          <Tr>
-            <Th>제목</Th>
-            <Th>작성일</Th>
-            <Th>조회수</Th>
-            <Th>삭제</Th>
-            <Th>신고</Th>
-          </Tr>
-        </thead>
-        <tbody>
-          <Tr>
-            <Td>
-              <Title>{post.title}</Title>
-            </Td>
-            <Td style={{ width: "14%", textAlign: "center" }}>
-              <Date>{post.date}</Date>
-            </Td>
-            <Td style={{ width: "10%", textAlign: "center" }}>
-              <Views>{post.views}</Views>
-            </Td>
-            <Td style={{ width: "8%", textAlign: "center" }}>
-              {display ? (
-                <Form onSubmit={onDeletePost}>
+    <Container theme={theme}>
+      {isTabletOrLaptop ? (
+        <>
+          <Descriptions bordered>
+            <Descriptions.Item label="제목">{post.title}</Descriptions.Item>
+            <Descriptions.Item label="작성일">{post.date}</Descriptions.Item>
+            <Descriptions.Item label="조회수">{post.views}</Descriptions.Item>
+            <Descriptions.Item style={{ padding: "1vh 0" }}>
+              <FaTrashAlt
+                onClick={onToggleBtn}
+                style={{ marginRight: "2rem" }}
+              />
+              {display && (
+                <Form theme={theme} onSubmit={onDeletePost}>
                   <Input
                     type="password"
                     placeholder="비밀번호"
@@ -165,17 +170,71 @@ function Post(props) {
                     }
                   />
                 </Form>
-              ) : (
-                <FaTimes style={{ cursor: "pointer" }} onClick={onToggleBtn} />
               )}
-            </Td>
-            <Td style={{ width: "8%", textAlign: "center" }}>
               <Report report={{ category: "post", id: postId }} />
-            </Td>
-          </Tr>
-        </tbody>
-      </Table>
-      <Text>{post.text}</Text>
+            </Descriptions.Item>
+          </Descriptions>
+          <Text>{post.text}</Text>
+        </>
+      ) : (
+        <>
+          <Table>
+            <thead>
+              <Tr>
+                <Th>제목</Th>
+                <Th>작성일</Th>
+                <Th>조회수</Th>
+                <Th>삭제</Th>
+                <Th>신고</Th>
+              </Tr>
+            </thead>
+            <tbody>
+              <Tr>
+                <Td>
+                  <Title>{post.title}</Title>
+                </Td>
+                <Td style={{ width: "14%", textAlign: "center" }}>
+                  <Date>{post.date}</Date>
+                </Td>
+                <Td style={{ width: "10%", textAlign: "center" }}>
+                  <Views>{post.views}</Views>
+                </Td>
+                <Td style={{ width: "8%", textAlign: "center" }}>
+                  {display ? (
+                    <Form theme={theme} onSubmit={onDeletePost}>
+                      <Input
+                        type="password"
+                        placeholder="비밀번호"
+                        maxLength={20}
+                        value={password}
+                        onChange={onPasswordChange}
+                        suffix={
+                          <>
+                            <Submit type="submit" value="확인" />
+                            <FaTimes
+                              style={{ cursor: "pointer", color: "black" }}
+                              onClick={onToggleBtn}
+                            />
+                          </>
+                        }
+                      />
+                    </Form>
+                  ) : (
+                    <FaTrashAlt
+                      style={{ cursor: "pointer" }}
+                      onClick={onToggleBtn}
+                    />
+                  )}
+                </Td>
+                <Td style={{ width: "8%", textAlign: "center" }}>
+                  <Report report={{ category: "post", id: postId }} />
+                </Td>
+              </Tr>
+            </tbody>
+          </Table>
+          <Text>{post.text}</Text>
+        </>
+      )}
     </Container>
   )
 }
