@@ -4,6 +4,7 @@ import AvatarUpload from "../../Components/utils/AvatarUpload"
 import { useDispatch, useSelector } from "react-redux"
 import { withRouter } from "react-router-dom"
 import { updateProfile } from "../../_actions/user_action"
+import theme from "../../hoc/theme"
 
 const Container = styled.div`
   padding-top: 100px;
@@ -31,6 +32,9 @@ const Profile = styled.div`
   align-items: center;
   padding: 20px;
   box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.3);
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+  }
 `
 
 const NameColumn = styled.div`
@@ -114,9 +118,9 @@ function UpdateProfile(props) {
   return (
     <Container>
       <ProfleColumn>
-        <Profile>
+        <Profile theme={theme}>
           <AvatarUpload refreshFunction={updateAvatar} />
-          <NameColumn>
+          <NameColumn theme={theme}>
             <input
               type="text"
               placeholder="이름"
@@ -125,7 +129,7 @@ function UpdateProfile(props) {
               maxLength={20}
             />
           </NameColumn>
-          <EmailColumn>
+          <EmailColumn theme={theme}>
             <input
               type="email"
               placeholder="이메일"

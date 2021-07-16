@@ -9,6 +9,7 @@ import dotenv from "dotenv"
 import { FaPlus } from "react-icons/fa"
 import axios from "axios"
 import routes from "../../routes"
+import theme from "../../hoc/theme"
 
 dotenv.config()
 
@@ -41,6 +42,9 @@ const Profile = styled.div`
   align-items: center;
   padding: 20px;
   box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.3);
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+  }
 `
 
 const NameColumn = styled.div`
@@ -203,7 +207,7 @@ function MyProfile(props) {
   return (
     <Container>
       <ProfleColumn>
-        <Profile>
+        <Profile theme={theme}>
           {user && user.avatar ? (
             <RealAvatar
               src={

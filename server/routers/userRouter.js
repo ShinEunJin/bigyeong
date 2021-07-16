@@ -28,7 +28,7 @@ userRouter.get(routes.userAuth, middleAuth, auth)
 userRouter.get(routes.userLogout, middleAuth, logout)
 
 userRouter.get(routes.userTake, getUserTake)
-userRouter.patch(routes.userTake, updateUserTake)
+userRouter.patch(routes.userTake, middleAuth, updateUserTake)
 
 userRouter.get(routes.userProfile, middleAuth, getMyProfile) // 자기가 올린 사진들 올라옴
 userRouter.patch(routes.userProfile, middleAuth, updateProfile)

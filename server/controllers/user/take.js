@@ -1,5 +1,4 @@
 import User from "../../models/User"
-import bcrypt from "bcrypt"
 import Product from "../../models/Product"
 import "@babel/polyfill"
 

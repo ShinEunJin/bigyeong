@@ -10,6 +10,7 @@ import routes from "../../routes"
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  padding-top: 20vh;
 `
 
 const TextColumn = styled.div`

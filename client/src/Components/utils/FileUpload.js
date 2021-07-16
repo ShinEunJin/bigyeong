@@ -4,6 +4,7 @@ import { MdAddToPhotos } from "react-icons/md"
 import Dropzone from "react-dropzone"
 import axios from "axios"
 import Loader from "react-loader-spinner"
+import theme from "../../hoc/theme"
 import dotenv from "dotenv"
 
 dotenv.config()
@@ -15,6 +16,10 @@ const Container = styled.div`
   justify-content: space-around;
   margin-bottom: 50px;
   color: white;
+  @media ${(props) => props.theme.tablet} {
+    flex-direction: column;
+    margin: unset;
+  }
 `
 
 const StyleDropZone = styled.div`
@@ -25,6 +30,7 @@ const StyleDropZone = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  margin-bottom: 2rem;
 `
 
 const SMdAddToPhotos = styled(MdAddToPhotos)`
@@ -47,6 +53,9 @@ const ImageZone = styled.div`
     border: 1px solid white;
     border-radius: 10px;
   }
+  @media ${(props) => props.theme.tablet} {
+    width: 80vw;
+  }
 `
 
 const Img = styled.img`
@@ -55,6 +64,9 @@ const Img = styled.img`
   width: 30vw;
   object-position: center;
   cursor: pointer;
+  @media ${(props) => props.theme.tablet} {
+    width: 75vw;
+  }
 `
 
 const EmptyImg = styled.div`
@@ -109,7 +121,8 @@ function FileUpload(props) {
   }
 
   return (
-    <Container>
+    <Container theme={theme}>
+      {/* 업로드 버튼 */}
       <Dropzone onDrop={onDropHandler}>
         {({ getRootProps, getInputProps }) => (
           <section>
@@ -121,6 +134,7 @@ function FileUpload(props) {
         )}
       </Dropzone>
       {loading ? (
+        /* 사진 로딩 중 */
         <EmptyImg>
           사진을 업로드 중입니다. 잠시만 기다려 주십시오.
           <Loader
@@ -133,11 +147,13 @@ function FileUpload(props) {
         </EmptyImg>
       ) : (
         <>
+          {/* 업데이트에 사용하기 위한 부분 */}
           {props.getImages && props.getImages.length > 0 ? (
-            <ImageZone>
+            <ImageZone theme={theme}>
               {props.getImages.map((image, index) => (
                 <div onClick={() => deleteHandler(image)} key={index}>
                   <Img
+                    theme={theme}
                     src={
                       process.env.NODE_ENV === "development"
                         ? `http://localhost:5000/${image}`
@@ -148,7 +164,8 @@ function FileUpload(props) {
               ))}
             </ImageZone>
           ) : (
-            <ImageZone>
+            /* 이미지 없을 때 */
+            <ImageZone theme={theme}>
               {images.length === 0 ? (
                 <EmptyImg>
                   이미지를 업로드 하기 위해 옆에{" "}
@@ -156,9 +173,11 @@ function FileUpload(props) {
                   눌러주십시오.
                 </EmptyImg>
               ) : (
+                /* 업로드에 사용하는 부분 */
                 images.map((image, index) => (
                   <div onClick={() => deleteHandler(image)} key={index}>
                     <Img
+                      theme={theme}
                       src={
                         process.env.NODE_ENV === "development"
                           ? `http://localhost:5000/${image}`
