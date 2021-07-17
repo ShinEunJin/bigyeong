@@ -66,7 +66,7 @@ function Login(props) {
     if (payload.success) {
       props.history.push("/")
     } else {
-      alert(res.payload.message)
+      alert(payload.message)
     }
   }
 

@@ -5,12 +5,17 @@ import axios from "axios"
 import { withRouter } from "react-router"
 import { FaPen, FaTrashAlt } from "react-icons/fa"
 import { Link } from "react-router-dom"
+import theme from "../../hoc/theme"
 
 const ButtonColumn = styled.div`
   position: absolute;
   bottom: 1rem;
   left: 1rem;
   display: flex;
+  @media ${(props) => props.theme.tablet} {
+    position: unset;
+    padding-top: 5vh;
+  }
 `
 
 const Button = styled.button`
@@ -46,7 +51,7 @@ function DetailDelete(props) {
   }
 
   return (
-    <ButtonColumn>
+    <ButtonColumn theme={theme}>
       <Link to={`/product/${product._id}/update`}>
         <Button style={{ marginRight: "1rem", backgroundColor: "#80bfff" }}>
           <FaPen
