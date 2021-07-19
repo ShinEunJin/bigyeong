@@ -1,6 +1,9 @@
 import React, { useState } from "react"
 import { Checkbox, Collapse } from "antd"
 
+//FindByMap 컴포넌트에서 사용
+//category 분류
+
 const { Panel } = Collapse
 
 const region = [

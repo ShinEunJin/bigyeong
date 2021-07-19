@@ -9,6 +9,8 @@ import { useSelector } from "react-redux"
 import dotenv from "dotenv"
 
 dotenv.config()
+// 아바타 업로드
+// FileUpload와 저장위치가 다름
 
 const StyleDropZone = styled.div`
   height: 96px;

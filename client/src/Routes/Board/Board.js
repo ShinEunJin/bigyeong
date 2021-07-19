@@ -107,6 +107,7 @@ function Board() {
 
   return (
     <Container theme={theme}>
+      {/* length는 게시판 목록 갯수 */}
       <Header theme={theme}>자유 게시판 ({length})</Header>
 
       <Fade bottom distance="2rem" duration={300} when={reveal}>

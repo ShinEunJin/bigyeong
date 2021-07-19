@@ -36,6 +36,7 @@ export const registerCheck = async (req, res) => {
   }
 }
 
+//이메일 인증
 export const registerEmail = async (req, res) => {
   const {
     body: { email, randomNum },

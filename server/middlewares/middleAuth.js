@@ -3,6 +3,7 @@ import User from "../models/User"
 import dotenv from "dotenv"
 dotenv.config()
 
+// json web token으로 유저 확인 미들웨어 생성
 export default async (req, res, next) => {
   const token = req.cookies.x_auth
   try {

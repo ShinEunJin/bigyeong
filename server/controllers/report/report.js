@@ -1,10 +1,13 @@
 import Report from "../../models/Report"
 
+//신고 하기 기능
 export const report = async (req, res) => {
   const {
     body: { category, id },
   } = req
   try {
+    //category는 신고 된 항목의 종류 (댓글인지, 컨텐츠인지 등등 확인)
+    //id는 ObjectId를 표시
     let report = await Report.findOne({ [category]: id })
     if (report) {
       report.number++

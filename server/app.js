@@ -22,11 +22,12 @@ app.use(cookieParser())
 app.use("/logo", express.static("logo"))
 app.use("/uploads", express.static("uploads"))
 
+//routers에서 미들웨어로 사용
 app.use(routes.apiProduct, productRouter)
 app.use(routes.apiUser, userRouter)
 app.use(routes.apiComment, commentRouter)
 app.use(routes.apiPost, postRouter)
-app.post(routes.apiReport, report)
+app.post(routes.apiReport, report) // 따로 라우터를 안넣고 바로 컨트롤러 사용
 
 if (prod) {
   app.use(express.static(path.join(__dirname, "../client/build")))

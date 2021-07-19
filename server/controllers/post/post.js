@@ -7,6 +7,8 @@ export const createPost = async (req, res) => {
   const { body } = req
   try {
     const post = new Post(body)
+    //counter는 게시판 목록 번호를 나타냄
+    //counter를 따로 db에 포함
     let counter = await Counter.findOne({ category: "post" })
     if (!counter) {
       counter = new Counter({ category: "post", number: 1 })
@@ -48,16 +50,17 @@ export const getPosts = async (req, res) => {
   skip = parseInt(skip, 10)
   limit = parseInt(limit, 10)
   try {
-    const [posts, postsLength, index] = await Promise.all([
+    const [posts, postsLength] = await Promise.all([
       Post.find().sort({ createdAt: -1 }).skip(skip).limit(limit),
-      Post.estimatedDocumentCount(),
+      Post.estimatedDocumentCount(), // 포스트 갯수 구하기
     ])
-    return res.status(200).json({ success: true, posts, postsLength, index })
+    return res.status(200).json({ success: true, posts, postsLength })
   } catch (error) {
     return res.status(400).json({ success: false })
   }
 }
 
+//아직 사용하지는 않고 있음
 export const updatePost = async (req, res) => {
   const {
     body: { postId, title, text },

@@ -1,6 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 
+// 미사용 중
+
 const Background = styled.div`
   width: 100%;
   background-color: #faf3f3;

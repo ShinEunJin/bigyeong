@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import moment from "moment"
 
+// 신고 DB
 const ReportSchema = new mongoose.Schema(
   {
     category: {

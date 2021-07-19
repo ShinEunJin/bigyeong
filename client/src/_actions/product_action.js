@@ -12,6 +12,7 @@ import {
 } from "./types"
 import { asyncThunk } from "./utils"
 
+//여러 사진들을 불러올 때 사용
 export const getProducts = asyncThunk(
   GET_PRODUCTS,
   ({ sortBy, skip, limit, region, searchTerm }) =>
@@ -21,6 +22,8 @@ export const getProducts = asyncThunk(
   PRODUCTS
 )
 
+// 무한 스크롤 작동 할 때 사용
+// thunk를 쓰면 부드럽지가 않아 그냥 일반 promise만 사용
 export const getProductsMore = async ({
   sortBy,
   skip,
@@ -37,12 +40,14 @@ export const getProductsMore = async ({
   }
 }
 
+// DetailProduct에 사용
 export const getProduct = asyncThunk(
   GET_PRODUCT,
   ({ id }) => axios.get(`${routes.apiProduct}?id=${id}`),
   PRODUCT
 )
 
+//좋아요 기능을 위해 만들었지만 일단 사용하지 않고 있음
 export const updateProductLike = async (dataToSubmit) => {
   const {
     data: { likeNum },
@@ -53,6 +58,7 @@ export const updateProductLike = async (dataToSubmit) => {
   }
 }
 
+//홈 화면에 사진 불러오는데 사용
 export const getRepProduct = asyncThunk(
   GET_REP_PRODUCT,
   () => axios.get(`/api/product/represent`),

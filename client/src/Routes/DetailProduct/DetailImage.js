@@ -54,6 +54,7 @@ function DetailImage() {
 
   return (
     <>
+      {/* 1, 2, 3, 4, 5장 일 때마다 모두 모서리 각이 달라서 직접 style 주기 */}
       {product && product.images && product.images.length === 1 && (
         <Container>
           <SLink

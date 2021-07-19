@@ -76,7 +76,7 @@ function Header(props) {
 
   const dispatch = useDispatch()
 
-  const [visible, setVisible] = useState(false) // draw
+  const [visible, setVisible] = useState(false) // 모바일용 drawer에 사용
 
   const onLogoutHandler = () => {
     dispatch(logout()).then((res) => {
@@ -135,8 +135,7 @@ function Header(props) {
     </Menu>
   )
 
-  // 모바일 전용
-
+  // 모바일 drawer 이벤트 함수
   const showDrawer = () => {
     setVisible(true)
   }

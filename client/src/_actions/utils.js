@@ -6,7 +6,7 @@ export const asyncThunk = (type, request, key) => {
       const { data } = await request(param)
       dispatch({
         type: SUCCESS,
-        payload: data[key],
+        payload: data[key], //키는 데이터 종류 구분 (product, products, user)
       })
     } catch (error) {
       dispatch({

@@ -10,6 +10,7 @@ import styled from "styled-components"
 import routes from "../../routes"
 
 dotenv.config()
+//이미지를 눌렀을 때 react-image-gallery 사용
 
 const Container = styled.div`
   width: 100%;
@@ -49,6 +50,7 @@ function DetailGallery() {
       ) : (
         <>
           {isTabletOrLaptop ? (
+            /* 모바일 모드 일 때는 갤러리 사용하지 않고 그냥 사진 세로로 나열 */
             <>
               {product.images &&
                 product.images.length > 0 &&
@@ -65,6 +67,7 @@ function DetailGallery() {
                 ))}
             </>
           ) : (
+            /* 컴퓨터 모드에서 이미지 갤러리 사용 */
             <ImageGallery thumbnailPosition="left" items={images} lazyLoad />
           )}
         </>

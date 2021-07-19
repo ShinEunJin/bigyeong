@@ -60,7 +60,6 @@ const Title = styled.div`
 `
 
 // mobile
-
 const MobileTitle = styled.div`
   font-weight: 600;
 `
@@ -75,6 +74,7 @@ function List({ posts }) {
   return (
     <Container>
       {isTabletOrLaptop ? (
+        /* 모바일 모드 일 때 */
         <>
           {posts &&
             posts.length > 0 &&

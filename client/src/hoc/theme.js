@@ -1,3 +1,4 @@
+//반응형 media point
 const size = {
   mobile: "576px",
   tablet: "768px",

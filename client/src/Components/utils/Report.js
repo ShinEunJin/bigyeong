@@ -5,7 +5,7 @@ import axios from "axios"
 import routes from "../../routes"
 
 function Report({ report }) {
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false) //모달 창 보이기 유무
 
   const showModal = () => {
     setIsModalVisible(true)

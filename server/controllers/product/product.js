@@ -89,6 +89,7 @@ export const updateProduct = async (req, res) => {
   }
 }
 
+//홈 화면에 쓰이는 대표 사진 불러오기
 export const getRepProduct = async (req, res) => {
   try {
     const product = await Product.find({ isRepresent: true })
@@ -99,6 +100,7 @@ export const getRepProduct = async (req, res) => {
   }
 }
 
+//관리자 권한으로 대표 사진 설정 가능
 export const chooseRepProduct = async (req, res) => {
   const {
     body: { productId },

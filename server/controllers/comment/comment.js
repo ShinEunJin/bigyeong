@@ -3,6 +3,7 @@ import Comment from "../../models/Comment"
 import bcrypt from "bcrypt"
 import "@babel/polyfill"
 
+//댓글 불러오기
 export const getComments = async (req, res) => {
   let {
     query: { productId, skip, limit },
@@ -15,7 +16,7 @@ export const getComments = async (req, res) => {
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit),
-      Comment.find({ product: productId }),
+      Comment.find({ product: productId }), //댓글 총 갯수를 나타내기
     ])
     return res
       .status(200)
@@ -25,6 +26,7 @@ export const getComments = async (req, res) => {
   }
 }
 
+//댓글 쓰기
 export const writeComment = async (req, res) => {
   const {
     body: { text, productId, name, password },
@@ -52,13 +54,14 @@ export const writeComment = async (req, res) => {
   }
 }
 
+//댓글 삭제
 export const removeComment = async (req, res) => {
   const {
     query: { commentId, productId, password },
   } = req
   try {
     const comment = await Comment.findOne({ _id: commentId })
-    const match = await bcrypt.compare(password, comment.password)
+    const match = await bcrypt.compare(password, comment.password) //비밀번호 매칭
     if (!match)
       return res.json({ success: false, message: "비밀번호가 맞지 않습니다." })
     else {

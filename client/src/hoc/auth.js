@@ -4,6 +4,8 @@ import { auth } from "../_actions/user_action"
 import { withRouter } from "react-router-dom"
 import theme from "./theme"
 
+//App에서 유저 접근 권한을 위한 hoc
+//true는 로그인 된 유저만, false는 로그인 되지 않은 유저만, null은 상관없이 모두 가능
 export default (SpecificComponent, option, adminRoute = null) => {
   function AuthenticationCheck(props) {
     const user = useSelector((state) => state.user)

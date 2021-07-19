@@ -17,7 +17,7 @@ function SearchProduct(props) {
   const [searchTerm, setSearchTerm] = useState("")
 
   const handleSearch = (e) => {
-    props.handleSearchFilter(e.target.value)
+    props.handleSearchFilter(e.target.value) // 부모컴포넌트로 상태 전달
     setSearchTerm(e.target.value)
   }
 

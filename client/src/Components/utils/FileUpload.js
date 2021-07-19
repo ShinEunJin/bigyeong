@@ -103,7 +103,7 @@ function FileUpload(props) {
       } = await axios.post("/api/product/image", formData, config)
       if (filePath) {
         setImages([...images, filePath])
-        props.refreshFunction([...images, filePath])
+        props.refreshFunction([...images, filePath]) // 부모컴포넌트로 상태 전달
       }
     } catch (error) {
       alert("이미지를 업로드 하는데 실패 하였습니다.")
@@ -117,7 +117,7 @@ function FileUpload(props) {
     let newImages = [...images]
     newImages.splice(currentIndex, 1)
     setImages(newImages)
-    props.refreshFunction(newImages)
+    props.refreshFunction(newImages) // 부모컴포넌트로 상태 전달
   }
 
   return (

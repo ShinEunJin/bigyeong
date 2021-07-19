@@ -141,6 +141,7 @@ function Post(props) {
   return (
     <Container theme={theme}>
       {isTabletOrLaptop ? (
+        /* 모바일 모드 일 때 */
         <>
           <Descriptions bordered>
             <Descriptions.Item label="제목">{post.title}</Descriptions.Item>
@@ -177,6 +178,7 @@ function Post(props) {
           <Text>{post.text}</Text>
         </>
       ) : (
+        /* 컴퓨터 모드 */
         <>
           <Table>
             <thead>

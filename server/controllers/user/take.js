@@ -2,6 +2,7 @@ import User from "../../models/User"
 import Product from "../../models/Product"
 import "@babel/polyfill"
 
+//찜하기 목록 관리
 export const getUserTake = async (req, res) => {
   const {
     query: { productId },

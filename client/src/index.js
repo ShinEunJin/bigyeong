@@ -21,7 +21,7 @@ const store = createStoreWithMiddleware(
   Reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
-const persistor = persistStore(store)
+const persistor = persistStore(store) //redux persist
 
 ReactDOM.render(
   <Provider store={store}>

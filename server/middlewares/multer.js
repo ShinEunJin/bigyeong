@@ -10,6 +10,7 @@ const dev = process.env.NODE_ENV === "development"
 let mp
 let ma
 
+// 개발환경에서는 root폴더에 uploads에 저장
 if (dev) {
   let multerProductImage = multer({ dest: "uploads/images/" })
   let multerAvatar = multer({ dest: "uploads/avatars/" })
@@ -17,6 +18,7 @@ if (dev) {
   ma = multerAvatar
 }
 
+// 운영환경에서는 AWS S3 사용
 if (prod) {
   const s3 = new aws.S3({
     accessKeyId: process.env.AWS_KEY,

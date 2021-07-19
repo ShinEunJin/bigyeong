@@ -32,6 +32,7 @@ export const logout = async () => {
   }
 }
 
+//유저 정보를 가져옴
 export const auth = async () => {
   const { data } = await axios.get("/api/user/auth")
   return {
@@ -48,6 +49,7 @@ export const updateProfile = async (dataToSubmit) => {
   }
 }
 
+// 유저 찜목록 업데이트
 export const updateUserTake = async (dataToSubmit) => {
   const {
     data: { take },

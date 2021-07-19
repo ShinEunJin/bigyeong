@@ -52,6 +52,7 @@ function DetailProduct(props) {
           <Container>
             {product && (
               <>
+                {/* 모바일 및 데스크탑 반응형 구분 */}
                 {isTabletOrLaptop ? (
                   <>
                     <DetailMobileImage trigger={height} />

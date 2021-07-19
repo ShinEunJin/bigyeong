@@ -43,14 +43,15 @@ export default (state = initialState, action) => {
     case GET_PRODUCT_SUCCESS:
     case GET_PRODUCT_FAILURE:
       return handleAsyncActions(GET_PRODUCT, PRODUCT)(state, action)
-    case UPDATE_PRODUCT_LIKE:
+    //사용하지 않아 일단 보류
+    /* case UPDATE_PRODUCT_LIKE:
       return {
         ...state,
         product: {
           ...state.product,
           likes: action.payload,
         },
-      }
+      } */
     default:
       return state
   }

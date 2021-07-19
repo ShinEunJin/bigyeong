@@ -5,7 +5,6 @@ import { Input } from "antd"
 import axios from "axios"
 import { withRouter } from "react-router-dom"
 import theme from "../../hoc/theme"
-import { useMediaQuery } from "react-responsive"
 import routes from "../../routes"
 import Report from "../utils/Report"
 

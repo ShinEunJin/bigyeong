@@ -103,6 +103,7 @@ const ShowMoreBtn = styled.button`
   background-color: black;
 `
 
+//디테일 부분에서 사진 그리고 댓글 제외 중간에 해당하는 부분
 function DetailInfo({ trigger }) {
   const dispatch = useDispatch()
 
@@ -110,8 +111,8 @@ function DetailInfo({ trigger }) {
 
   const { userData } = useSelector((state) => state.user)
 
-  const [alreadyTake, setAlreadyTake] = useState(false)
-  const [showMore, setShowMore] = useState(235)
+  const [alreadyTake, setAlreadyTake] = useState(false) // alreadyTake가 true면 찜하기 목록에 파란 불 들어오게 설정
+  const [showMore, setShowMore] = useState(235) // Description 더보기 상태
 
   const showMoreBtn = useRef()
 
@@ -119,6 +120,7 @@ function DetailInfo({ trigger }) {
     if (userData.take && userData.take.length > 0) {
       for (let take of userData.take) {
         if (take === product._id) {
+          /* 이미 찜목록에 들어가있는 컨텐츠인지 확인 */
           setAlreadyTake(true)
           break
         }
@@ -126,7 +128,7 @@ function DetailInfo({ trigger }) {
     }
   }, [])
 
-  const onClickTakeBtn = async () => {
+  const onClickTakeBtn = () => {
     if (!userData.isAuth) {
       alert("로그인이 필요한 서비스입니다.")
     } else {
@@ -139,11 +141,13 @@ function DetailInfo({ trigger }) {
           add: true,
         }
         dispatch(updateUserTake(body))
+        setAlreadyTake(true)
         alert("찜목록에 등록하였습니다.")
       }
     }
   }
 
+  //관리자 아이디만 대표 사진 설정 할 수 있도록 해주는 함수
   const pushRepProduct = async () => {
     let body = { productId: product._id }
     try {
@@ -154,6 +158,7 @@ function DetailInfo({ trigger }) {
     }
   }
 
+  //Description 더보기
   const onClickShowMore = () => {
     setShowMore(720)
     showMoreBtn.current.innerText = ""
