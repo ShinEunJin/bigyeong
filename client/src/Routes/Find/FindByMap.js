@@ -226,7 +226,7 @@ function Find(props) {
         }
       }
     } catch (error) {
-      console.log(error)
+      alert("지도에 마커를 표시할 수 없습니다.")
     }
   }
 

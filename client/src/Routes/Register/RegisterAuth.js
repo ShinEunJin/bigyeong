@@ -128,6 +128,7 @@ function RegisterAuth(props) {
         }
       } catch (error) {
         alert("특정 오류로 인해 회원가입 하는데 실패하였습니다.")
+        props.history.push("/")
       }
     } else {
       alert("인증번호가 맞지 않습니다.")

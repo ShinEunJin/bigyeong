@@ -42,7 +42,9 @@
   },
   "homepage": "https://shineunjin.github.io/kibitz-room",
   "devDependencies": {
+    "@babel/preset-typescript": "^7.14.5",
     "eslint": "^7.22.0",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "typescript": "^4.3.5"
   }
 }

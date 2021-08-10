@@ -6,7 +6,7 @@ import Fade from "react-reveal/Fade"
 import Category from "./Category"
 import Loader from "../../Components/Loading"
 import routes from "../../routes"
-import device from "../../hoc/theme"
+import device from "../../hoc/theme" //theme가 중복되어서 device로 사용
 import { useMediaQuery } from "react-responsive"
 
 const Container = styled.div`
@@ -60,6 +60,7 @@ const Img = styled.img`
   object-position: center;
   @media ${(props) => props.theme.laptop} {
     object-fit: cover;
+    object-position: center;
     width: 80%;
     height: 90vh;
   }

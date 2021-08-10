@@ -92,32 +92,52 @@ function Post(props) {
   const [password, setPassword] = useState("")
 
   const getPost = async () => {
-    const { data } = await axios.get(`${routes.apiPost}?postId=${postId}`)
-    if (data.success) {
-      setPost(data.post)
-    } else {
-      alert("게시글을 불러오는데 실패하였습니다.")
+    try {
+      const { data } = await axios.get(`${routes.apiPost}?postId=${postId}`)
+      if (data.success) {
+        setPost(data.post)
+      } else {
+        alert("서버 오류로 인해 데이터를 불러올 수 없습니다")
+        props.history.push(routes.board)
+      }
+    } catch (error) {
+      if (error.message === "Request failed with status code 404") {
+        alert("해당하는 게시글을 불러올 수 없습니다")
+        props.history.push(routes.board)
+      } else {
+        alert("게시글을 불러오는데 실패하였습니다")
+        props.history.push(routes.board)
+      }
     }
   }
 
   const onToggleBtn = () => {
-    if (display) return setDisplay(false)
-    else return setDisplay(true)
+    return setDisplay(display ? false : true)
   }
 
   const onDeletePost = async (e) => {
     e.preventDefault()
     if (password.trim() === "") return alert("비밀번호를 입력해 주십시오.")
-    const { data } = await axios.delete(
-      `${routes.apiPost}?postId=${postId}&password=${password}`
-    )
-    if (data.success) {
-      props.history.push(routes.board)
-      setTimeout(() => {
+    try {
+      const { data } = await axios.delete(
+        `${routes.apiPost}?postId=${postId}&password=${password}`
+      )
+      if (data.success) {
+        props.history.push(routes.board)
+        setTimeout(() => {
+          alert(data.message)
+        }, 700)
+      } else {
         alert(data.message)
-      }, 700)
-    } else {
-      alert(data.message)
+      }
+    } catch (error) {
+      if (error.message === "Request failed with status code 400") {
+        alert("해당 게시글을 이미 삭제되었습니다")
+        props.history.push(routes.board)
+      } else {
+        alert("해당 게시글을 삭제하는데 실패하였습니다")
+        props.history.push(routes.board)
+      }
     }
   }
 

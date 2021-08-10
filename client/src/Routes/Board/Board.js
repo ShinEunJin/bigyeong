@@ -9,6 +9,7 @@ import List from "./List"
 import { FaPen } from "react-icons/fa"
 import theme from "../../hoc/theme"
 import { useMediaQuery } from "react-responsive"
+import { withRouter } from "react-router-dom"
 
 const Container = styled.div`
   width: 60%;
@@ -56,7 +57,7 @@ const Button = styled.button`
   }
 `
 
-function Board() {
+function Board(props) {
   const LIMIT = 10
 
   const [reveal, setReveal] = useState(false) // 글쓰기란 트리거
@@ -66,14 +67,25 @@ function Board() {
   const [refresh, setRefresh] = useState(0) // 게시판 새로고침
 
   const getPosts = async (skip, limit) => {
-    const { data } = await axios.get(
-      `${routes.apiPosts}?skip=${skip}&limit=${limit}`
-    )
-    if (data.success) {
-      setPosts(data.posts)
-      setLength(data.postsLength)
-    } else {
-      alert("게시글을 불러오는데 실패하였습니다.")
+    try {
+      const { data } = await axios.get(
+        `${routes.apiPosts}?skip=${skip}&limit=${limit}`
+      )
+      if (data.success) {
+        setPosts(data.posts)
+        setLength(data.postsLength)
+      } else {
+        alert("게시판을 불러오는데 실패하였습니다")
+        props.history.goBack()
+      }
+    } catch (error) {
+      if (error.message === "Request failed with status code 404") {
+        alert("게시판을 불러올 수 없습니다")
+        props.history.goBack()
+      } else {
+        alert("서버에서 데이터를 받아 올 수 없습니다")
+        props.history.goBack()
+      }
     }
   }
 
@@ -139,4 +151,4 @@ function Board() {
   )
 }
 
-export default Board
+export default withRouter(Board)

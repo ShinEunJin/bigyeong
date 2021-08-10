@@ -39,7 +39,7 @@ export const getPost = async (req, res) => {
     )
     return res.status(200).json({ success: true, post })
   } catch (error) {
-    return res.status(400).json({ success: false })
+    return res.status(404).json({ success: false })
   }
 }
 
@@ -56,7 +56,7 @@ export const getPosts = async (req, res) => {
     ])
     return res.status(200).json({ success: true, posts, postsLength })
   } catch (error) {
-    return res.status(400).json({ success: false })
+    return res.status(404).json({ success: false })
   }
 }
 
@@ -90,9 +90,11 @@ export const deletePost = async (req, res) => {
       await post.remove()
       return res
         .status(200)
-        .json({ success: true, message: "해당 댓글을 삭제하였습니다." })
+        .json({ success: true, message: "해당 게시글을 삭제하였습니다." })
     }
   } catch (error) {
-    return res.status(400).json({ success: false, error })
+    if (error.message === "Cannot read property 'password' of null")
+      return res.status(400).json({ success: false, error })
+    return res.status(404).json({ success: false, error })
   }
 }

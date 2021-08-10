@@ -8,8 +8,8 @@ export const getComments = async (req, res) => {
   let {
     query: { productId, skip, limit },
   } = req
-  skip = parseInt(skip, 10)
-  limit = parseInt(limit, 10)
+  skip = Number(skip)
+  limit = Number(limit)
   try {
     const [comments, commentsLength] = await Promise.all([
       Comment.find({ product: productId })

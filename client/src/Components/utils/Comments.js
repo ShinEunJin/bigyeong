@@ -299,7 +299,7 @@ function Comments(props) {
       {comments &&
         comments.length > 0 &&
         comments.map((item, index) => (
-          <CommentsList key={index}>
+          <CommentsList theme={theme} key={index}>
             <TextColumn theme={theme}>
               <div style={{ display: "flex" }}>
                 <CommentName>{item.name}</CommentName>
