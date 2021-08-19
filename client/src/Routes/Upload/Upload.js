@@ -85,6 +85,7 @@ function Upload(props) {
   const [images, setImages] = useState([])
   const [address, setAddress] = useState("")
   const [coord, setCoord] = useState({})
+  const [canPushBtn, setCanPushBtn] = useState(true) // 업로드 두 번 누르는거 방지
 
   const nameChangeHandler = (e) => {
     setName(e.target.value)
@@ -128,16 +129,30 @@ function Upload(props) {
       coord: { lat: coord.Ma, lng: coord.La },
       writer: user.userData._id,
     }
-    const {
-      data: { success },
-    } = await axios.post("/api/product", body)
-    if (success) {
-      props.history.push("/")
-      setTimeout(() => {
-        alert("컨텐츠 업로드에 성공 했습니다.")
-      }, 500)
-    } else {
-      alert("컨텐츠 업로드에 실패 했습니다.")
+    try {
+      // 버튼 두번 누르는거 방지
+      setCanPushBtn(false)
+      const {
+        data: { success },
+      } = await axios.post("/api/product", body)
+      if (success) {
+        props.history.push("/")
+        setTimeout(() => {
+          alert("컨텐츠 업로드에 성공 했습니다.")
+        }, 500)
+      }
+    } catch (error) {
+      if (error.response.status === 500)
+        return alert(error.response.data.message)
+      else if (error.response.status === 504) {
+        alert("업로드 시간 초과: 네트워크 상태를 확인해 주십시오")
+        return props.history.goBack()
+      } else {
+        alert("불특정 에러로 인해 컨텐츠를 업로드 하는데 실패하였습니다")
+        return props.history.push("/")
+      }
+    } finally {
+      setCanPushBtn(true)
     }
   }
 
@@ -194,7 +209,9 @@ function Upload(props) {
           onChange={descriptionChangeHandler}
         ></TEXTAREA>
         <br />
-        <Button type="submit">확인</Button>
+        <Button disabled={!canPushBtn && false} type="submit">
+          확인
+        </Button>
       </Form>
     </Container>
   )

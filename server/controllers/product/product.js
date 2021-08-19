@@ -17,9 +17,12 @@ export const uploadProduct = async (req, res) => {
       },
       { new: true }
     )
-    return res.status(200).json({ success: true, product })
+    return res.status(201).json({ success: true })
   } catch (error) {
-    return res.status(400).json({ success: false, error })
+    return res.status(500).json({
+      success: false,
+      message: "서버에서 컨텐츠를 업로드하는데 실패하였습니다",
+    })
   }
 }
 
@@ -28,6 +31,10 @@ export const getProduct = async (req, res) => {
     query: { id },
   } = req
   try {
+    if (!id) {
+      res.status(404).json({ message: "존재하지 않는 컨텐츠입니다" })
+      return props.history.goBack()
+    }
     const product = await Product.findOneAndUpdate(
       { _id: id },
       { $inc: { views: 1 } },
@@ -35,7 +42,7 @@ export const getProduct = async (req, res) => {
     ).populate("writer", "-password -token")
     return res.status(200).json({ success: true, product })
   } catch (error) {
-    return res.status(400).json({ success: false, error })
+    return res.status(500).json({ success: false, error })
   }
 }
 

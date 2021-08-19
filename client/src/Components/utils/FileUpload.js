@@ -93,6 +93,9 @@ function FileUpload(props) {
   const onDropHandler = async (imageFile) => {
     try {
       setLoading(true)
+      // 이미지 파일 체크
+      if (imageFile[0].type.split("/")[0] !== "image")
+        return alert("이미지 파일만 업로드 할 수 있습니다")
       let formData = new FormData()
       const config = {
         header: { "content-type": "multipart/form-data" },
@@ -106,7 +109,7 @@ function FileUpload(props) {
         props.refreshFunction([...images, filePath]) // 부모컴포넌트로 상태 전달
       }
     } catch (error) {
-      alert("이미지를 업로드 하는데 실패 하였습니다.")
+      alert("이미지를 업로드 하는데 실패 하였습니다")
     } finally {
       setLoading(false)
     }
@@ -127,7 +130,7 @@ function FileUpload(props) {
         {({ getRootProps, getInputProps }) => (
           <section>
             <StyleDropZone {...getRootProps()}>
-              <input {...getInputProps()} />
+              <input {...getInputProps()} accept="image/*" />
               <SMdAddToPhotos />
             </StyleDropZone>
           </section>

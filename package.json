@@ -8,7 +8,7 @@
     "server": "nodemon server/index.js --exec babel-node --delay 1",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run start --prefix client\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "babel server --out-dir build",
     "build:server": "babel server --out-dir build"
   },
@@ -44,6 +44,7 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.14.5",
     "eslint": "^7.22.0",
+    "node-mocks-http": "^1.10.1",
     "nodemon": "^2.0.7",
     "typescript": "^4.3.5"
   }

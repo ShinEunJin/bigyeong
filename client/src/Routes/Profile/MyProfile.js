@@ -259,7 +259,7 @@ function MyProfile(props) {
                   title={item.name}
                   description={
                     item.address.length >= 20
-                      ? `${item.address.substring(0, 20)}...`
+                      ? `${item.address.substring(0, 15)}...`
                       : item.address
                   }
                 />
