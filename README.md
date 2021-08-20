@@ -12,8 +12,5 @@ AWS EC2, AWS S3, ES6, REST API
 
 redux, redux-thunk, antd, styled-component
 
-### 진행 중
-
-코드 리팩토링 및 타입 스크립트 적용
-
-docker 사용
+2021/08/20
+에러 처리가 너무 조잡하다.
